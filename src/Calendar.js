@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import './App.css'
 import BigCalendar from 'react-big-calendar'
-
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import moment from 'moment'
 
 
 const localizer = BigCalendar.momentLocalizer(moment)
-const url = 'http://127.0.0.1:8000/getEvents'
+const url = 'https://whatsroaring-api.herokuapp.com/getEvents'
 
 class Calendar extends Component {
   constructor(...args) {
