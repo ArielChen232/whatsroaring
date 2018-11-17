@@ -1,0 +1,39 @@
+:root {
+  --blue: #3174ad;
+  --pink: #ad3173;
+  --orange: #fb8c00;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: var(--orange);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.MainPaper {
+  padding-right: 10vw;
+  padding-bottom: 10vh;
+  padding-top: 10vh;
+  padding-left: 10vw;
+}
+
+.Page {
+  padding-right: 5vw;
+  padding-bottom: 5vh;
+  padding-top: 3vh;
+  padding-left: 5vw;
+}

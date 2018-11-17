@@ -1,7 +1,10 @@
 :root {
   --blue: #3174ad;
   --pink: #ad3173;
-  --orange: #f49b42;
+  --orange: #fb8c00;
+  --dark-orange: #e0762f;
+  --light-orange: #ef9628;
+  --light-blue: #61dafb;
 }
 
 .App {
@@ -14,7 +17,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: var(--dark-orange);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -25,7 +28,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: var(--light-blue);
 }
 
 @keyframes App-logo-spin {
@@ -41,8 +44,14 @@
   height: 100vh;
 }
 
-.jumbotron {
+.Jumbotron {
   background-color: var(--orange);
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
   color: white;
   text-align: center;
 
@@ -50,8 +59,4 @@
     font-size: 85%;
     color: darken(white, 10%);
   }
-}
-
-h1 {
-  margin-top: 0;
 }

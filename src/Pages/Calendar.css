@@ -1,0 +1,10 @@
+:root {
+  --blue: #3174ad;
+  --pink: #ad3173;
+  --orange: #fb8c00;
+}
+
+.Calendar {
+  margin-top: 30px;
+  height: 100vh;
+}
