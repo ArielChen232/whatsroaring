@@ -3,9 +3,8 @@ const initialEventState = {
   start: null, 
   end: null,
   desc: '',
-  location: '',
+  loc: '',
   website: '',
-  org: '',
   is_free: false
 }
 
@@ -14,6 +13,7 @@ const eventReducer = (state = initialEventState, action) => {
     case 'changeToDetails':
       console.log('Reduced event')
       console.log('Event title: ' + action.payload.title)
+      console.log('Event location: ' + action.payload.loc)
       return action.payload
     default:
       return state

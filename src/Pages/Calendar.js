@@ -2,20 +2,24 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import './Calendar.css'
-import BigCalendar from 'react-big-calendar'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
 import moment from 'moment'
+import BigCalendar from 'react-big-calendar'
+
+// Styling
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import './Calendar.css'
 
 
 const localizer = BigCalendar.momentLocalizer(moment)
 const url = 'https://whatsroaring-api.herokuapp.com/getEvents'
 const orange = '#fb8c00'
 
+
 class Calendar extends Component {
   constructor(...args) {
     super(...args)
-    this.state = { events:[] }
+    this.state = { events: [] }
+    this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
   }
 
@@ -29,18 +33,19 @@ class Calendar extends Component {
           start: new Date(post.fields.start_datetime), 
           end: new Date(post.fields.end_datetime),
           desc: post.fields.description,
-          location: post.fields.location,
+          loc: post.fields.location,
           website: post.fields.website,
           org: post.fields.org,
           is_free: post.fields.is_free
         });
       });
-      console.log(posts)
       this.setState({events})
+      this._isMounted = true
     })
   }
 
   seeDetails = (event) => {
+    this.props.changeToDetails(event);
     this.props.history.push('/details')
   }
 
@@ -68,13 +73,42 @@ class Calendar extends Component {
           onSelectEvent={this.seeDetails}
           views={['month', 'week', 'day']}
           eventPropGetter={(this.eventStyleGetter)}
-          // titleAccessor="fields.name"
-          // startAccessor="fields.start_datetime"
-          // endAccessor="fields.end_datetime"
         />
       </div>
     )
   }
 }
 
-export default withRouter(Calendar)
+const mapStateToProps = state => {
+  return {
+    /*title: state.eventReducer.title,
+    start: state.eventReducer.start,
+    end: state.eventReducer.end,
+    desc: state.eventReducer.desc,
+    location: state.eventReducer.location,
+    website: state.eventReducer.website,
+    org: state.eventReducer.org,
+    is_free: state.eventReducer.is_free*/
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeToDetails: (event) => dispatch({
+      type: 'changeToDetails', 
+      payload: {
+        title: event.title, 
+        start: event.start,
+        end: event.end,
+        desc: event.desc,
+        loc: event.loc,
+        website: event.website,
+        org: event.org,
+        is_free: event.is_free
+      }
+    })
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Calendar))
