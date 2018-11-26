@@ -2,11 +2,72 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Calendar from './Pages/Calendar'
+import DropdownMultiple from './Pages/DropdownMultiple'
 import Details from './Pages/Details'
 
 import './App.css';
 
 class App extends Component {
+
+  constructor(){
+    super()
+    this.state = {
+      location: [
+        {
+          id: 0,
+          title: 'Richardson Auditorium',
+          selected: false,
+          key: 'location'
+        },
+        {
+          id: 1,
+          title: 'Baker Rink',
+          selected: false,
+          key: 'location'
+        },
+        {
+          id: 6,
+          title: 'McCarter Theater',
+          selected: false,
+          key: 'location'
+        }
+      ],
+      eventtype: [
+        {
+          id: 0,
+          title: 'Music',
+          selected: false,
+          key: 'eventtype'
+        },
+        {
+          id: 1,
+          title: 'Arts',
+          selected: false,
+          key: 'eventtype'
+        },
+        {
+          id: 2,
+          title: 'Sports',
+          selected: false,
+          key: 'eventtype'
+        },
+        {
+          id: 3,
+          title: 'Theater',
+          selected: false,
+          key: 'eventtype'
+        }
+      ]
+    }
+  }
+
+  toggleSelected = (id, key) => {
+    let temp = JSON.parse(JSON.stringify(this.state[key]))
+    temp[id].selected = !temp[id].selected
+    this.setState({
+      [key]: temp
+    })
+  }
 
   render() {
     return (
@@ -18,6 +79,20 @@ class App extends Component {
               <div className="Jumbotron">
                 <h2>WhatsRoaring</h2>
                 <h5>Here's what's roaring around Princeton.</h5>
+              </div>
+              <div className="wrapper">
+                <DropdownMultiple
+                  titleHelper="location"
+                  title="Select location"
+                  list={this.state.location}
+                  toggleItem={this.toggleSelected}
+                />
+                <DropdownMultiple
+                  titleHelper="event type"
+                  title="Select event type"
+                  list={this.state.eventtype}
+                  toggleItem={this.toggleSelected}
+                />
               </div>
               <Calendar />
             </div>
@@ -32,7 +107,7 @@ class App extends Component {
           )} />
         </Switch>
       </Router>
-      
+
     );
   }
 }
