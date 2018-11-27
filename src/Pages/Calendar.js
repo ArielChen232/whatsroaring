@@ -163,7 +163,6 @@ class Calendar extends Component {
             toggleItem={this.toggleSelected}
           />
         </div>
-        <div> <FilterForm /> </div>
         <div className='Calendar'>
           <BigCalendar
             localizer={localizer}
