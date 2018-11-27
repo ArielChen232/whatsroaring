@@ -73,6 +73,12 @@ class Details extends Component {
       location = 'unknown'
     }
 
+    // Get event is_free.
+    var freeText = ''
+    if (this.props.is_free) {
+      freeText = 'Free Event'
+    }
+
     return (
       <MuiThemeProvider theme={Theme}>
         <div className="Page">
@@ -113,6 +119,9 @@ class Details extends Component {
                 </Typography>
                 <Typography variant="h5" component="h3" color="default">
                   <a href={website}>{website}</a>
+                </Typography>
+                <Typography variant="h5" component="h3" color="primary">
+                  {freeText}
                 </Typography>
               </Paper>
             </Grid>

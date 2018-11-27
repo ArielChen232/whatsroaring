@@ -11,9 +11,19 @@ import './Calendar.css'
 
 
 const localizer = BigCalendar.momentLocalizer(moment)
-const url = 'https://whatsroaring-api.herokuapp.com/getEvents'
+//const url = 'https://whatsroaring-api.herokuapp.com/'
+const url = 'http://127.0.0.1:8001/'
 const orange = '#fb8c00'
 
+function getOrgName(orgPk) {
+  const url_orgName = url + 'getOrgName/' + orgPk
+  axios.get(url_orgName).then(res => {
+    const posts = JSON.parse(res.data.data)
+    if (posts.length >= 1) {
+      return posts[0].fields.name
+    }
+  })
+}
 
 class Calendar extends Component {
   constructor(...args) {
@@ -24,7 +34,8 @@ class Calendar extends Component {
   }
 
   componentDidMount() {
-    axios.get(url).then(res => {
+    const url_getEvents = url + 'getEvents'
+    axios.get(url_getEvents).then(res => {
       const posts = JSON.parse(res.data.Events_JSON)
       const events = [];
       posts.forEach(function(post){
@@ -35,16 +46,17 @@ class Calendar extends Component {
           desc: post.fields.description,
           loc: post.fields.location,
           website: post.fields.website,
-          org: post.fields.org,
+          org: getOrgName(post.fields.org),
           is_free: post.fields.is_free
-        });
-      });
+        })
+      })
       this.setState({events})
       this._isMounted = true
     })
   }
 
   seeDetails = (event) => {
+    console.log('Org: ' + event.org)
     this.props.changeToDetails(event);
     this.props.history.push('/details')
   }
