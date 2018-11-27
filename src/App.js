@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Calendar from './Pages/Calendar'
-import DropdownMultiple from './Pages/DropdownMultiple'
+import DropdownMultiple from './Pages/Components/DropdownMultiple'
 import Details from './Pages/Details'
 
 import './App.css';
@@ -26,7 +26,7 @@ class App extends Component {
           key: 'location'
         },
         {
-          id: 6,
+          id: 2,
           title: 'McCarter Theater',
           selected: false,
           key: 'location'
@@ -80,20 +80,10 @@ class App extends Component {
                 <h2>WhatsRoaring</h2>
                 <h5>Here's what's roaring around Princeton.</h5>
               </div>
-              <div className="wrapper">
-                <DropdownMultiple
-                  titleHelper="location"
-                  title="Select location"
-                  list={this.state.location}
-                  toggleItem={this.toggleSelected}
-                />
-                <DropdownMultiple
-                  titleHelper="event type"
-                  title="Select event type"
-                  list={this.state.eventtype}
-                  toggleItem={this.toggleSelected}
-                />
-              </div>
+              <br>
+
+              </br>
+              
               <Calendar />
             </div>
           )} />

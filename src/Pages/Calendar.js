@@ -8,11 +8,11 @@ import BigCalendar from 'react-big-calendar'
 // Styling
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
-
+import DropdownMultiple from './Components/DropdownMultiple'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-//const url = 'https://whatsroaring-api.herokuapp.com/'
-const url = 'http://127.0.0.1:8001/'
+const url = 'https://whatsroaring-api.herokuapp.com/'
+// const url = 'http://127.0.0.1:8001/'
 const orange = '#fb8c00'
 
 function getOrgName(orgPk) {
@@ -28,9 +28,65 @@ function getOrgName(orgPk) {
 class Calendar extends Component {
   constructor(...args) {
     super(...args)
-    this.state = { events: [] }
+    this.state = {
+      events: [],
+      location: [
+        {
+          id: 0,
+          title: 'Richardson Auditorium',
+          selected: false,
+          key: 'location'
+        },
+        {
+          id: 1,
+          title: 'Baker Rink',
+          selected: false,
+          key: 'location'
+        },
+        {
+          id: 2,
+          title: 'McCarter Theater',
+          selected: false,
+          key: 'location'
+        }
+      ],
+      eventtype: [
+        {
+          id: 0,
+          title: 'Music',
+          selected: false,
+          key: 'eventtype'
+        },
+        {
+          id: 1,
+          title: 'Arts',
+          selected: false,
+          key: 'eventtype'
+        },
+        {
+          id: 2,
+          title: 'Sports',
+          selected: false,
+          key: 'eventtype'
+        },
+        {
+          id: 3,
+          title: 'Theater',
+          selected: false,
+          key: 'eventtype'
+        }
+      ]
+     }
     this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
+  }
+
+  toggleSelected = (id, key) => {
+    let temp = JSON.parse(JSON.stringify(this.state[key]))
+    temp[id].selected = !temp[id].selected
+    this.setState({
+      [key]: temp
+    })
   }
 
   componentDidMount() {
@@ -40,8 +96,8 @@ class Calendar extends Component {
       const events = [];
       posts.forEach(function(post){
         events.push({
-          title: post.fields.name, 
-          start: new Date(post.fields.start_datetime), 
+          title: post.fields.name,
+          start: new Date(post.fields.start_datetime),
           end: new Date(post.fields.end_datetime),
           desc: post.fields.description,
           loc: post.fields.location,
@@ -77,15 +133,31 @@ class Calendar extends Component {
 
   render() {
     return (
-      <div className='Calendar'>
-        <BigCalendar
-          localizer={localizer}
-          events={this.state.events}
-          defaultView={BigCalendar.Views.MONTH}
-          onSelectEvent={this.seeDetails}
-          views={['month', 'week', 'day']}
-          eventPropGetter={(this.eventStyleGetter)}
-        />
+      <div>
+        <div className="wrapper">
+          <DropdownMultiple
+            titleHelper="location"
+            title="Select location"
+            list={this.state.location}
+            toggleItem={this.toggleSelected}
+          />
+          <DropdownMultiple
+            titleHelper="event type"
+            title="Select event type"
+            list={this.state.eventtype}
+            toggleItem={this.toggleSelected}
+          />
+        </div>
+        <div className='Calendar'>
+          <BigCalendar
+            localizer={localizer}
+            events={this.state.events}
+            defaultView={BigCalendar.Views.MONTH}
+            onSelectEvent={this.seeDetails}
+            views={['month', 'week', 'day']}
+            eventPropGetter={(this.eventStyleGetter)}
+          />
+        </div>
       </div>
     )
   }
@@ -107,9 +179,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     changeToDetails: (event) => dispatch({
-      type: 'changeToDetails', 
+      type: 'changeToDetails',
       payload: {
-        title: event.title, 
+        title: event.title,
         start: event.start,
         end: event.end,
         desc: event.desc,
