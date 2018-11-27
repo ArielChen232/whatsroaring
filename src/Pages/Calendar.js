@@ -12,8 +12,8 @@ import DropdownMultiple from './Components/DropdownMultiple'
 import FilterForm from './Components/FilterForm'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-const url = 'https://whatsroaring-api.herokuapp.com/'
-// const url = 'http://127.0.0.1:8001/'
+// const url = 'https://whatsroaring-api.herokuapp.com/'
+const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
 function getOrgName(orgPk) {
@@ -99,8 +99,36 @@ class Calendar extends Component {
   }
 
   componentDidMount() {
-    const url_getEvents = url + 'getEvents'
-    axios.get(url_getEvents).then(res => {
+    // THIS IS WHAT I ADDED
+    var i;
+    var location;
+    var eventtype;
+    var freeornot;
+
+    for (i = 0; i < this.state.location.length; i++) {
+      if (this.state.location[i].selected = true) {
+        location = this.state.location[i].title;
+      }
+    }
+    for (i = 0; i < this.state.eventtype.length; i++) {
+      if (this.state.eventtype[i].selected = true) {
+        location = this.state.eventtype[i].title;
+      }
+    }
+    for (i = 0; i < this.state.freeOrNot.length; i++) {
+      if (this.state.freeOrNot[i].selected = true) {
+        location = this.state.freeOrNot[i].title;
+      }
+    }
+
+    const url_getEvents = url + 'getEventsFilter'
+    axios.get(url_getEvents, {
+      params: {
+        location: location,
+        eventtype: eventtype,
+        freeOrNot: freeornot
+      }
+    }).then(res => {
       const posts = JSON.parse(res.data.Events_JSON)
       const events = [];
       posts.forEach(function(post){
