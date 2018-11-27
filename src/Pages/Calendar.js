@@ -9,6 +9,7 @@ import BigCalendar from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
 import DropdownMultiple from './Components/DropdownMultiple'
+import FilterForm from './Components/FilterForm'
 
 const localizer = BigCalendar.momentLocalizer(moment)
 const url = 'https://whatsroaring-api.herokuapp.com/'
@@ -162,6 +163,7 @@ class Calendar extends Component {
             toggleItem={this.toggleSelected}
           />
         </div>
+        <div> <FilterForm /> </div>
         <div className='Calendar'>
           <BigCalendar
             localizer={localizer}
