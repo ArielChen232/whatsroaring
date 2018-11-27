@@ -75,6 +75,14 @@ class Calendar extends Component {
           selected: false,
           key: 'eventtype'
         }
+      ],
+      freeOrNot: [
+        {
+          id: 0,
+          title: 'Free events only',
+          selected: false,
+          key: 'freeOrNot'
+        }
       ]
      }
     this._isMounted = false
@@ -145,6 +153,12 @@ class Calendar extends Component {
             titleHelper="event type"
             title="Select event type"
             list={this.state.eventtype}
+            toggleItem={this.toggleSelected}
+          />
+          <DropdownMultiple
+            titleHelper="free only"
+            title="Free events only?"
+            list={this.state.freeOrNot}
             toggleItem={this.toggleSelected}
           />
         </div>

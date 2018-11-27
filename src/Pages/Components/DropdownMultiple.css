@@ -49,10 +49,8 @@ p {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  width: 460px;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
 }
 .dd-wrapper {
   -webkit-user-select: none;

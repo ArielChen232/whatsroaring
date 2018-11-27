@@ -9,66 +9,6 @@ import './App.css';
 
 class App extends Component {
 
-  constructor(){
-    super()
-    this.state = {
-      location: [
-        {
-          id: 0,
-          title: 'Richardson Auditorium',
-          selected: false,
-          key: 'location'
-        },
-        {
-          id: 1,
-          title: 'Baker Rink',
-          selected: false,
-          key: 'location'
-        },
-        {
-          id: 2,
-          title: 'McCarter Theater',
-          selected: false,
-          key: 'location'
-        }
-      ],
-      eventtype: [
-        {
-          id: 0,
-          title: 'Music',
-          selected: false,
-          key: 'eventtype'
-        },
-        {
-          id: 1,
-          title: 'Arts',
-          selected: false,
-          key: 'eventtype'
-        },
-        {
-          id: 2,
-          title: 'Sports',
-          selected: false,
-          key: 'eventtype'
-        },
-        {
-          id: 3,
-          title: 'Theater',
-          selected: false,
-          key: 'eventtype'
-        }
-      ]
-    }
-  }
-
-  toggleSelected = (id, key) => {
-    let temp = JSON.parse(JSON.stringify(this.state[key]))
-    temp[id].selected = !temp[id].selected
-    this.setState({
-      [key]: temp
-    })
-  }
-
   render() {
     return (
 
@@ -83,7 +23,7 @@ class App extends Component {
               <br>
 
               </br>
-              
+
               <Calendar />
             </div>
           )} />
