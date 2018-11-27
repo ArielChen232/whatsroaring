@@ -104,31 +104,24 @@ class Calendar extends Component {
     var location;
     var eventtype;
     var freeornot;
-
     for (i = 0; i < this.state.location.length; i++) {
-      if (this.state.location[i].selected = true) {
+      if (this.state.location[i].selected == true) {
         location = this.state.location[i].title;
       }
     }
     for (i = 0; i < this.state.eventtype.length; i++) {
-      if (this.state.eventtype[i].selected = true) {
+      if (this.state.eventtype[i].selected == true) {
         location = this.state.eventtype[i].title;
       }
     }
     for (i = 0; i < this.state.freeOrNot.length; i++) {
-      if (this.state.freeOrNot[i].selected = true) {
+      if (this.state.freeOrNot[i].selected == true) {
         location = this.state.freeOrNot[i].title;
       }
     }
 
     const url_getEvents = url + 'getEventsFilter'
-    axios.get(url_getEvents, {
-      params: {
-        location: location,
-        eventtype: eventtype,
-        freeOrNot: freeornot
-      }
-    }).then(res => {
+    axios.get(url_getEvents, location, eventtype, freeornot).then(res => {
       const posts = JSON.parse(res.data.Events_JSON)
       const events = [];
       posts.forEach(function(post){
