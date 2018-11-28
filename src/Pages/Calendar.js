@@ -34,7 +34,7 @@ class Calendar extends Component {
       location: [
         {
           id: 0,
-          title: 'Richardson Auditorium',
+          title: 'Richardson',
           selected: false,
           key: 'location'
         },
@@ -96,32 +96,33 @@ class Calendar extends Component {
     this.setState({
       [key]: temp
     })
-  }
-
-  componentDidMount() {
     // THIS IS WHAT I ADDED
     var i;
-    var location;
-    var eventtype;
-    var freeornot;
+    var locations = "";
+    var freeornot = "";
     for (i = 0; i < this.state.location.length; i++) {
       if (this.state.location[i].selected == true) {
-        location = this.state.location[i].title;
-      }
-    }
-    for (i = 0; i < this.state.eventtype.length; i++) {
-      if (this.state.eventtype[i].selected == true) {
-        location = this.state.eventtype[i].title;
+        locations += (this.state.location[i].title + ',');
       }
     }
     for (i = 0; i < this.state.freeOrNot.length; i++) {
-      if (this.state.freeOrNot[i].selected == true) {
-        location = this.state.freeOrNot[i].title;
+      if (this.state.freeOrNot[i].selected = true) {
+        freeornot = this.state.freeOrNot[i].selected;
       }
     }
-
+    console.log(locations)
+    console.log(freeornot)
     const url_getEvents = url + 'getEventsFilter'
-    axios.get(url_getEvents, location, eventtype, freeornot).then(res => {
+    console.log(url_getEvents)
+    // Repopulate calendar when things are toggled
+    axios.get(url_getEvents, {
+      params: {
+        // CHANGE THIS BACK ONCE DROPDOWN IS FIXED
+        // locations: locations
+        locations: 'Richardson,McCarter Theater'
+    }})
+    .then(res => {
+      console.log("reached this point")
       const posts = JSON.parse(res.data.Events_JSON)
       const events = [];
       posts.forEach(function(post){
@@ -138,6 +139,37 @@ class Calendar extends Component {
       })
       this.setState({events})
       this._isMounted = true
+    })
+    .catch(function(error) {
+      console.log(error);
+      console.log(error.response.data);
+    })
+  }
+
+  componentDidMount() {
+    const url_getEvents = url + 'getEvents'
+    axios.get(url_getEvents)
+    .then(res => {
+      const posts = JSON.parse(res.data.Events_JSON)
+      const events = [];
+      posts.forEach(function(post){
+        events.push({
+          title: post.fields.name,
+          start: new Date(post.fields.start_datetime),
+          end: new Date(post.fields.end_datetime),
+          desc: post.fields.description,
+          loc: post.fields.location,
+          website: post.fields.website,
+          org: getOrgName(post.fields.org),
+          is_free: post.fields.is_free
+        })
+      })
+      this.setState({events})
+      this._isMounted = true
+    })
+    .catch(function(error) {
+      console.log(error);
+      console.log(error.response.data);
     })
   }
 
