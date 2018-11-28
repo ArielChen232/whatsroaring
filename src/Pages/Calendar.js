@@ -127,28 +127,23 @@ class Calendar extends Component {
       const posts = JSON.parse(res.data.Events_JSON)
       const events = [];
       posts.forEach((post) => {
-        const url_orgName = url + 'getOrgName/' + post.fields.org
-        axios.get(url_orgName).then(res => {
-          const posts = JSON.parse(res.data.data)
-          if (posts.length >= 1) {
-            console.log('Org name: ' + posts[0].fields.name)
-            var orgName = posts[0].fields.name
-            console.log('orgName: ' + orgName)
-            events.push({
-              title: post.fields.name,
-              start: new Date(post.fields.start_datetime),
-              end: new Date(post.fields.end_datetime),
-              desc: post.fields.description,
-              loc: post.fields.location,
-              website: post.fields.website,
-              org: orgName,
-              is_free: post.fields.is_free
-            })
-          }
+  events.push({
+          title: post.fields.name,
+          start: new Date(post.fields.start_datetime),
+          end: new Date(post.fields.end_datetime),
+          desc: post.fields.description,
+          loc: post.fields.location,
+          website: post.fields.website,
+          org: getOrgName(post.fields.org),
+          is_free: post.fields.is_free
         })
       })
       this.setState({events})
       this._isMounted = true
+    })
+    .catch(function(error) {
+      console.log(error);
+      console.log(error.response.data);
     })
   }
 
@@ -158,25 +153,16 @@ class Calendar extends Component {
     .then(res => {
       const posts = JSON.parse(res.data.Events_JSON)
       const events = [];
-      posts.forEach((post) => {
-        const url_orgName = url + 'getOrgName/' + post.fields.org
-        axios.get(url_orgName).then(res => {
-          const posts = JSON.parse(res.data.data)
-          if (posts.length >= 1) {
-            console.log('Org name: ' + posts[0].fields.name)
-            var orgName = posts[0].fields.name
-            console.log('orgName: ' + orgName)
-            events.push({
-              title: post.fields.name,
-              start: new Date(post.fields.start_datetime),
-              end: new Date(post.fields.end_datetime),
-              desc: post.fields.description,
-              loc: post.fields.location,
-              website: post.fields.website,
-              org: orgName,
-              is_free: post.fields.is_free
-            })
-          }
+      posts.forEach(function(post){
+        events.push({
+          title: post.fields.name,
+          start: new Date(post.fields.start_datetime),
+          end: new Date(post.fields.end_datetime),
+          desc: post.fields.description,
+          loc: post.fields.location,
+          website: post.fields.website,
+          org: getOrgName(post.fields.org),
+          is_free: post.fields.is_free
         })
       })
       this.setState({events})
