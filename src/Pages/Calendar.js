@@ -10,10 +10,12 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
 import DropdownMultiple from './Components/DropdownMultiple'
 import FilterForm from './Components/FilterForm'
+import LogInButton from './Components/LogInButton'
+import AddEventButton from './Components/AddEventButton'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-//const url = 'https://whatsroaring-api.herokuapp.com/'
-const url = 'http://127.0.0.1:8000/'
+const url = 'https://whatsroaring-api.herokuapp.com/'
+// const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
 function getOrgName(orgPk) {
@@ -204,6 +206,10 @@ class Calendar extends Component {
   render() {
     return (
       <div>
+        <div className="right-wrapper">
+          <LogInButton/>
+          <AddEventButton/>
+        </div>
         <div className="wrapper">
           <DropdownMultiple
             titleHelper="location"
