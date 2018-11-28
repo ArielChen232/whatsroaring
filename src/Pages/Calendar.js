@@ -100,27 +100,34 @@ class Calendar extends Component {
     // THIS IS WHAT I ADDED
     var i;
     var locations = "";
+    var eventtypes = "";
     var freeornot = "";
     for (i = 0; i < this.state.location.length; i++) {
       if (this.state.location[i].selected == true) {
         locations += (this.state.location[i].title + ',');
       }
     }
+    for (i = 0; i < this.state.eventtype.length; i++) {
+      if (this.state.eventtype[i].selected == true) {
+        eventtypes += (this.state.eventtype[i].title + ',');
+      }
+    }
     for (i = 0; i < this.state.freeOrNot.length; i++) {
-      if (this.state.freeOrNot[i].selected = true) {
+      if (this.state.freeOrNot[i].selected == true) {
         freeornot = this.state.freeOrNot[i].selected;
       }
     }
     console.log(locations)
+    console.log(eventtypes)
     console.log(freeornot)
     const url_getEvents = url + 'getEventsFilter'
     console.log(url_getEvents)
     // Repopulate calendar when things are toggled
     axios.get(url_getEvents, {
       params: {
-        // CHANGE THIS BACK ONCE DROPDOWN IS FIXED
-        // locations: locations
-        locations: 'Richardson,McCarter Theater'
+        locations: locations,
+        eventtypes: eventtypes,
+        is_free: freeornot
     }})
     .then(res => {
       console.log("reached this point")
