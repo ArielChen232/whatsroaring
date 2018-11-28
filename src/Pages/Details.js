@@ -79,6 +79,9 @@ class Details extends Component {
       freeText = 'Free Event'
     }
 
+    // Get event organization.
+    var organization = this.props.org
+
     return (
       <MuiThemeProvider theme={Theme}>
         <div className="Page">
@@ -113,6 +116,12 @@ class Details extends Component {
                 </Typography>
                 <Typography variant="h5" component="h3" color="default">
                   {location}
+                </Typography>
+                <Typography variant="h5" component="h3" color="primary">
+                  Organization:
+                </Typography>
+                <Typography variant="h5" component="h3" color="default">
+                  {organization}
                 </Typography>
                 <Typography variant="h5" component="h3" color="primary">
                   {websiteTitle}

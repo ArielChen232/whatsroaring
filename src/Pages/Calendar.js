@@ -12,7 +12,7 @@ import DropdownMultiple from './Components/DropdownMultiple'
 import FilterForm from './Components/FilterForm'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-// const url = 'https://whatsroaring-api.herokuapp.com/'
+//const url = 'https://whatsroaring-api.herokuapp.com/'
 const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
@@ -21,6 +21,7 @@ function getOrgName(orgPk) {
   axios.get(url_orgName).then(res => {
     const posts = JSON.parse(res.data.data)
     if (posts.length >= 1) {
+      console.log('Org name: ' + posts[0].fields.name)
       return posts[0].fields.name
     }
   })
