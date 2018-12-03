@@ -54,38 +54,38 @@ class Calendar extends Component {
           key: 'location'
         }
       ],
-      eventtype: [
+      category: [
         {
           id: 0,
           title: 'Music',
           selected: false,
-          key: 'eventtype'
+          key: 'category'
         },
         {
           id: 1,
           title: 'Arts',
           selected: false,
-          key: 'eventtype'
+          key: 'category'
         },
         {
           id: 2,
           title: 'Sports',
           selected: false,
-          key: 'eventtype'
+          key: 'category'
         },
         {
           id: 3,
           title: 'Theater',
           selected: false,
-          key: 'eventtype'
+          key: 'category'
         }
       ],
-      freeOrNot: [
+      freeOnly: [
         {
           id: 0,
           title: 'Free events only',
           selected: false,
-          key: 'freeOrNot'
+          key: 'freeOnly'
         }
       ]
      }
@@ -99,37 +99,38 @@ class Calendar extends Component {
     this.setState({
       [key]: temp
     })
-    // THIS IS WHAT I ADDED
     var i;
     var locations = "";
-    var eventtypes = "";
-    var freeornot = "";
+    var categories = "";
+    var freeonly = "";
     for (i = 0; i < this.state.location.length; i++) {
       if (this.state.location[i].selected == true) {
         locations += (this.state.location[i].title + ',');
       }
     }
-    for (i = 0; i < this.state.eventtype.length; i++) {
-      if (this.state.eventtype[i].selected == true) {
-        eventtypes += (this.state.eventtype[i].title + ',');
+    for (i = 0; i < this.state.category.length; i++) {
+      if (this.state.category[i].selected == true) {
+        categories += (this.state.category[i].title + ',');
       }
     }
-    for (i = 0; i < this.state.freeOrNot.length; i++) {
-      if (this.state.freeOrNot[i].selected == true) {
-        freeornot = this.state.freeOrNot[i].selected;
-      }
+    if (this.state.freeOnly[0].selected == true) {
+      freeonly = "true"
     }
+    // remove trailing commas from strings
+    locations = locations.substr(0, locations.length-1);
+    categories = categories.substr(0, categories.length-1);
+
     console.log(locations)
-    console.log(eventtypes)
-    console.log(freeornot)
-    const url_getEvents = url + 'getEventsFilter'
+    console.log(categories)
+    console.log(freeonly)
+    const url_getEvents = url + 'getEvents'
     console.log(url_getEvents)
     // Repopulate calendar when things are toggled
     axios.get(url_getEvents, {
       params: {
         locations: locations,
-        eventtypes: eventtypes,
-        is_free: freeornot
+        categories: categories,
+        is_free: freeonly
     }})
     .then(res => {
       console.log("reached this point")
@@ -220,13 +221,13 @@ class Calendar extends Component {
           <DropdownMultiple
             titleHelper="event type"
             title="Select event type"
-            list={this.state.eventtype}
+            list={this.state.category}
             toggleItem={this.toggleSelected}
           />
           <DropdownMultiple
             titleHelper="free only"
             title="Free events only?"
-            list={this.state.freeOrNot}
+            list={this.state.freeOnly}
             toggleItem={this.toggleSelected}
           />
         </div>
