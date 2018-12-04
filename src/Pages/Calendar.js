@@ -14,8 +14,8 @@ import LogInButton from './Components/LogInButton'
 import AddEventButton from './Components/AddEventButton'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-const url = 'https://whatsroaring-api.herokuapp.com/'
-// const url = 'http://127.0.0.1:8000/'
+// const url = 'https://whatsroaring-api.herokuapp.com/'
+const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
 function getOrgName(orgPk) {
