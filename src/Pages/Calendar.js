@@ -222,7 +222,7 @@ class Calendar extends Component {
 
   render() {
     var addEvent
-    const adminList = ['rachelsc']
+    const adminList = ['rachelsc', '-']
     this.validate()
     const isAdmin = adminList.includes(this.state.netid)
     if (isAdmin) {
