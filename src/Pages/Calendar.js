@@ -14,8 +14,8 @@ import LogInButton from './Components/LogInButton'
 import AddEventButton from './Components/AddEventButton'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-// const url = 'https://whatsroaring-api.herokuapp.com/'
-const url = 'http://127.0.0.1:8000/'
+const url = 'https://whatsroaring-api.herokuapp.com/'
+// const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
 function getOrgName(orgPk) {
@@ -34,6 +34,7 @@ class Calendar extends Component {
     super(...args)
     this.state = {
       events: [],
+      netid: '',
       location: [
         {
           id: 0,
@@ -204,12 +205,37 @@ class Calendar extends Component {
     }
   }
 
+  validate() {
+    const query = new URLSearchParams(this.props.location.search)
+    var ticket = query.get('ticket')
+    if (ticket) {
+      const url_netid = url + "netid?ticket=" + ticket
+      axios.get(url_netid)
+      .then(res => {
+        this.setState({netid: res['data']})
+      })
+      .catch(function(error) {
+        console.log(error);
+      })
+    }
+  }
+
   render() {
+    var addEvent
+    const adminList = ['rachelsc', '-']
+    this.validate()
+    const isAdmin = adminList.includes(this.state.netid)
+    if (isAdmin) {
+      addEvent = <AddEventButton/>
+    }
+    else {
+      addEvent = <div></div>
+    }
     return (
       <div>
         <div className="right-wrapper">
           <LogInButton/>
-          <AddEventButton/>
+          {addEvent}
         </div>
         <div className="wrapper">
           <DropdownMultiple
