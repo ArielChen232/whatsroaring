@@ -15,7 +15,7 @@ export default class AddEventButton extends Component {
     render () {
         return (
             <button class='LogInButton' onClick={this.handleClick}>
-               Add Event
+               add event
             </button>
         );
     }

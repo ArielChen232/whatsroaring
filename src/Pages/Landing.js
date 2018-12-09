@@ -23,6 +23,7 @@ import AddEventButton from './Components/AddEventButton'
 import Background from './homepage_background.png'
 
 import axios from 'axios'
+import './Landing.css'
 
 let imgUrl = 'homepage_background.png';
 

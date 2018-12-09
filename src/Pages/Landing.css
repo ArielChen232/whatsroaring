@@ -1,0 +1,17 @@
+:root {
+  --blue: #3174ad;
+  --pink: #ad3173;
+  --orange: #fb8c00;
+  --dark-orange: #e0762f;
+  --light-orange: #ef9628;
+  --light-blue: #61dafb;
+}
+
+body {
+  width: 100%;
+  height: 400px;
+  background-image: url("homepage_background.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}

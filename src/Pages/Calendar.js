@@ -270,8 +270,6 @@ class Calendar extends Component {
             list={this.state.organizations}
             toggleItem={this.toggleSelected}
           />
-          <LogInButton/>
-          {addEvent}
         </div>
         <div className='Calendar'>
           <BigCalendar
