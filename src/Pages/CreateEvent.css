@@ -1,0 +1,16 @@
+.ReturnButton {
+    align-items: baseline;
+}
+
+.EventPaper {
+    background-color: white;
+    padding-left: 20vw;
+    padding-right: 20vw;
+}
+
+.EventPaperInner {
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-bottom: 2vh;
+    padding-top: 2vh;
+}

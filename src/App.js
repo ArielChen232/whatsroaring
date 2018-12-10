@@ -5,7 +5,7 @@ import Calendar from './Pages/Calendar'
 import Landing from './Pages/Landing'
 import DropdownMultiple from './Pages/Components/DropdownMultiple'
 import Details from './Pages/Details'
-import CreateEventForm from './Pages/CreateEventForm'
+import CreateEvent from './Pages/CreateEvent'
 
 import './App.css';
 
@@ -49,7 +49,7 @@ class App extends Component {
               <div className="Jumbotron">
                 <h2>WhatsRoaring</h2>
               </div>
-              <CreateEventForm />
+              <CreateEvent />
             </div>
           )} />
         </Switch>

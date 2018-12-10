@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import './LogInButton.css'
 
-export default class AddEventButton extends Component {
+class AddEventButton extends Component {
 
     constructor() {
         super()
@@ -9,7 +10,8 @@ export default class AddEventButton extends Component {
     }
 
     handleClick() {
-        window.open("http://whatsroaring-api.herokuapp.com/addevent", "_blank")
+        //window.open("http://whatsroaring-api.herokuapp.com/addevent", "_blank")
+        this.props.history.push('/submitEvent')
 
     }
     render () {
@@ -20,3 +22,5 @@ export default class AddEventButton extends Component {
         );
     }
 }
+
+export default withRouter(AddEventButton)
