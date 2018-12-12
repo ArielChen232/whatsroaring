@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
+import Grade from '@material-ui/icons/Grade'
 import Done from '@material-ui/icons/Done'
 import Clear from '@material-ui/icons/Clear'
 
@@ -14,6 +15,8 @@ import Divider from '@material-ui/core/Divider'
 import Theme from '../Assets/Theme'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import './Details.css'
+// import Favorite from './Components/Favorite'
+import axios from 'axios'
 
 class Details extends Component {
   constructor(props) {
@@ -32,6 +35,15 @@ class Details extends Component {
 
   goToCalendar = () => {
     this.props.history.push('/')
+  }
+
+  favorite = () => {
+    var url = 'http://whatsroaring-api.herokuapp.com/addFavorite'
+    // var url = 'http://127.0.0.1:8000/addFavorite'
+    axios.post(url, {
+      netid: this.props.netid,
+      event: this.props.event
+    })
   }
 
   render() {
@@ -88,6 +100,11 @@ class Details extends Component {
           <Grid item xs={1}>
             <IconButton color="primary" onClick={this.goToCalendar}>
               <ArrowBack />
+            </IconButton>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton color="primary" onClick={this.favorite}>
+              <Grade />
             </IconButton>
           </Grid>
           <Grid container>
