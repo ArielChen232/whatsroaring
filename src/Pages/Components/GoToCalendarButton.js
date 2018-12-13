@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import './LogInButton.css'
 
-export default class GoToCalendarButton extends Component {
+class GoToCalendarButton extends Component {
 
     constructor() {
         super()
         this.handleClick = this.handleClick.bind(this)
     }
 
-
     handleClick() {
-      window.open("localhost:3000/calendar", "_blank")
+      // window.open("localhost:3000/calendar", "_blank")
+      this.props.history.push('/calendar')
     }
+
     render () {
         return (
             <button class='LogInButton' onClick={this.handleClick}>
@@ -20,3 +22,5 @@ export default class GoToCalendarButton extends Component {
         );
     }
 }
+
+export default withRouter(GoToCalendarButton)

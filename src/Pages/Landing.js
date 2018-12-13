@@ -49,8 +49,10 @@ class Landing extends Component {
     return (
       <div className="wrapper">
         <section style={ sectionStyle }>
-          <GoToCalendarButton/>
-          <AddEventButton/>
+        <br>
+
+        </br>
+          <GoToCalendarButton/> <AddEventButton/>
         </section>
       </div>
       )

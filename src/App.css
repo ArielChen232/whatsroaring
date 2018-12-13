@@ -45,7 +45,7 @@
 }
 
 .Jumbotron {
-  background-color: var(--orange);
+  /* background-color: var(--orange); */
   min-height: 20vh;
   display: flex;
   flex-direction: column;
