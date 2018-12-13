@@ -12,6 +12,17 @@ import DropdownMultiple from './Components/DropdownMultiple'
 import FilterForm from './Components/FilterForm'
 import LogInButton from './Components/LogInButton'
 import AddEventButton from './Components/AddEventButton'
+import CheckboxLabels from './Components/Checkbox'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import green from '@material-ui/core/colors/green';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
 const localizer = BigCalendar.momentLocalizer(moment)
 // const url = 'https://whatsroaring-api.herokuapp.com/'
@@ -62,7 +73,7 @@ function getCategoryObjects() {
         id: i,
         title: cats[i],
         selected: false,
-        key: 'locations'
+        key: 'categories'
       });
     }
   })
@@ -97,7 +108,9 @@ class Calendar extends Component {
       categories: [],
       organizations: [],
       freeOnly: false,
-      favorites: false
+      favorites: false,
+      checkedFree: false,
+      checkedFav: false
     }
     this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
@@ -106,9 +119,47 @@ class Calendar extends Component {
   toggleSelected = (id, key) => {
     let temp = JSON.parse(JSON.stringify(this.state[key]))
     temp[id].selected = !temp[id].selected
+    console.log("toggled")
     this.setState({
       [key]: temp
+    }, () => this.filterEvents())
+  }
+
+  updateCalendar(locations="", categories="", organizations="") {
+    // empty string for parameters indicates select all of them
+    // Repopulate calendar
+    const url_getEvents = url + 'getEvents'
+    axios.get(url_getEvents, {
+      params: {
+        locations: locations,
+        categories: categories,
+        organizations: organizations,
+    }})
+    .then(res => {
+      console.log("reached this point")
+      const posts = JSON.parse(res.data.Events_JSON)
+      const events = [];
+      posts.forEach((post) => {
+        events.push({
+          title: post.fields.name,
+          start: new Date(post.fields.start_datetime),
+          end: new Date(post.fields.end_datetime),
+          desc: post.fields.description,
+          loc: post.fields.location,
+          website: post.fields.website,
+          org: getOrgName(post.fields.org),
+          is_free: post.fields.is_free
+        })
+      })
+      this.setState({events}, () => this._isMounted = true)
     })
+    .catch(function(error) {
+      console.log(error);
+      console.log(error.response.data);
+    })
+  }
+
+  filterEvents() {
     var i;
     var locations = "";
     var categories = "";
@@ -125,7 +176,7 @@ class Calendar extends Component {
     }
     for (i = 0; i < this.state.organizations.length; i++) {
       if (this.state.organizations[i].selected == true) {
-        categories += (this.state.organizations[i].title + ',');
+        organizations += (this.state.organizations[i].title + ',');
       }
     }
     // remove trailing commas from strings
@@ -135,68 +186,16 @@ class Calendar extends Component {
     console.log(locations)
     console.log(categories)
     console.log(organizations)
-    const url_getEvents = url + 'getEvents'
-    console.log(url_getEvents)
-    // Repopulate calendar when things are toggled
-    axios.get(url_getEvents, {
-      params: {
-        locations: locations,
-        categories: categories,
-        organizations: organizations,
-    }})
-    .then(res => {
-      console.log("reached this point")
-      const posts = JSON.parse(res.data.Events_JSON)
-      const events = [];
-      posts.forEach((post) => {
-  events.push({
-          title: post.fields.name,
-          start: new Date(post.fields.start_datetime),
-          end: new Date(post.fields.end_datetime),
-          desc: post.fields.description,
-          loc: post.fields.location,
-          website: post.fields.website,
-          org: getOrgName(post.fields.org),
-          is_free: post.fields.is_free
-        })
-      })
-      this.setState({events})
-      this._isMounted = true
-    })
-    .catch(function(error) {
-      console.log(error);
-      console.log(error.response.data);
-    })
+    this.updateCalendar(locations=locations,
+                        categories=categories,
+                        organizations=organizations)
   }
 
   componentDidMount() {
-    this.setState({locations:getLocationObjects()})
-    this.setState({categories:getCategoryObjects()})
-    this.setState({organizations:getOrganizationObjects()})
-    const url_getEvents = url + 'getEvents'
-    axios.get(url_getEvents)
-    .then(res => {
-      const posts = JSON.parse(res.data.Events_JSON)
-      const events = [];
-      posts.forEach(function(post){
-        events.push({
-          title: post.fields.name,
-          start: new Date(post.fields.start_datetime),
-          end: new Date(post.fields.end_datetime),
-          desc: post.fields.description,
-          loc: post.fields.location,
-          website: post.fields.website,
-          org: getOrgName(post.fields.org),
-          is_free: post.fields.is_free
-        })
-      })
-      this.setState({events})
-      this._isMounted = true
-    })
-    .catch(function(error) {
-      console.log(error);
-      console.log(error.response.data);
-    })
+    this.setState({locations:getLocationObjects(),
+                   categories:getCategoryObjects(),
+                   organizations:getOrganizationObjects()},
+                 () => this.updateCalendar())
   }
 
   seeDetails = (event) => {

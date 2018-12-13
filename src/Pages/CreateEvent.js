@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import AsyncSelect from 'react-select/lib/Async'
+import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
@@ -22,6 +23,8 @@ import Button from '@material-ui/core/Button'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormHelperText from '@material-ui/core/FormHelperText'
+import Checkbox from '@material-ui/core/Checkbox'
+import ListItemText from '@material-ui/core/ListItemText'
 
 import theme from '../Assets/Theme'
 
@@ -29,7 +32,27 @@ import DateTimePicker from 'react-datetime-picker'
 import './CreateEvent.css'
 
 const axios = require('axios')
-const url = 'whatsroaring-api.herokuapp.com'
+//const url = 'whatsroaring-api.herokuapp.com'
+const url = 'http://127.0.0.1:8000/'
+const categories = [
+  'music',
+  'sports',
+  'theater',
+]
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+}
+
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -37,15 +60,49 @@ class CreateEvent extends Component {
     this.state = {
       name: '',
       org: '',
-      category: '',
+      category: [],
       description: '',
       location: '',
-      isFree: null,
+      isFree: 'no',
       website:'',
-      startTime: null,
-      endTime: null,
-      displayError: []
+      startTime: '',
+      endTime: '',
+      displayError: [],
+      categories: [],
+      organizations: []
     }
+  }
+
+  componentDidMount() {
+    // Fill categories menu
+    var url_cats = url + 'getCategories'
+    var cats_arr = []
+    axios.get(url_cats).then(res => {
+      var cats = res.data.cats
+      for (var i = 0; i < cats.length; i++) {
+        cats_arr.push(cats[i])
+      }
+      this.setState({categories: cats_arr})
+      console.log(this.state.categories)
+    }).catch(err => {
+      console.log(err)
+    })
+
+    // Fill organizations menu
+    var url_orgs = url + 'getOrganizations'
+    var orgs_arr = []
+    axios.get(url_orgs).then(res => {
+      var orgs = res.data.orgs
+      for (var i = 0; i < orgs.length; i++) {
+        orgs_arr.push(orgs[i])
+      }
+      orgs_arr.sort()
+      this.setState({organizations: orgs_arr})
+      console.log(this.state.organizations)
+    }).catch(err => {
+      console.log(err)
+    })
+
   }
 
   goBack = () => {
@@ -53,20 +110,28 @@ class CreateEvent extends Component {
   }
 
   handleChange = name => event => {
-    console.log(name)
     this.setState({
       [name]: event.target.value,
     })
   }
 
   handleDateChange = name => date => {
-    console.log(name)
     this.setState({
       [name]: date
     })
   }
 
   submitEvent = () => {
+    var url_event = url + 'createEvent'
+    console.log('Name: ' + this.state.name)
+    console.log('Org: ' + this.state.org)
+    console.log('Category: ' + this.state.category)
+    console.log('Start time: ' + this.state.startTime)
+    console.log('End time: ' + this.state.endTime)
+    console.log('Website: ' + this.state.website)
+    console.log('Description: ' + this.state.description)
+    console.log('Is free: ' + this.state.isFree)
+
     var errors = []
     if (this.state.name == '') {
       errors.push('Enter a name for your event.')
@@ -86,7 +151,7 @@ class CreateEvent extends Component {
     this.setState({ displayError: errors })
 
     if (errors.length == 0) {
-      axios.post('${url}/createEvent', {
+      axios.post(url_event, {
         params: {
           name: this.state.name,
           org: this.state.org,
@@ -97,6 +162,9 @@ class CreateEvent extends Component {
           website: this.state.website,
           description: this.state.description,
           is_free: this.state.isFree
+        },
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
         }
       }).then((response) => {
         if (response.data == 'Done') {
@@ -207,23 +275,30 @@ class CreateEvent extends Component {
                   value={this.state.org}
                   onChange={this.handleChange('org')}
                 >
-                  <MenuItem value={'PUFSC'}>PUFSC</MenuItem>
-                  <MenuItem value={'Department of Music'}>Department of Music</MenuItem>
-                  <MenuItem value={'Princeton Triangle Club'}>Princeton Triangle Club</MenuItem>
+                  {this.state.organizations.map(organization => (
+                    <MenuItem key={organization} value={organization}>
+                      {organization}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
 
               <FormControl>
-                <InputLabel htmlFor="outlined-category-simple">
-                  Category
-                </InputLabel>
+                <InputLabel htmlFor="select-multiple-checkbox">Category</InputLabel>
                 <Select
+                  multiple
                   value={this.state.category}
                   onChange={this.handleChange('category')}
+                  input={<Input id="select-multiple-checkbox" />}
+                  renderValue={selected => selected.join(', ')}
+                  MenuProps={MenuProps}
                 >
-                  <MenuItem value={'music'}>music</MenuItem>
-                  <MenuItem value={'theater'}>theater</MenuItem>
-                  <MenuItem value={'academic'}>academic</MenuItem>
+                  {this.state.categories.map(category => (
+                    <MenuItem key={category} value={category}>
+                      <Checkbox checked={this.state.category.indexOf(category) > -1} />
+                      <ListItemText primary={category} />
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Paper>
