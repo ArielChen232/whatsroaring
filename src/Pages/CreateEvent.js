@@ -51,8 +51,34 @@ const MenuProps = {
   },
 }
 
-axios.defaults.xsrfCookieName = 'csrftoken'
-axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 350,
+  },
+  dateTimePicker: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 350,
+  },
+  select: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
+  dense: {
+    marginTop: 19,
+  },
+  menu: {
+    width: 200,
+  },
+})
+
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -179,6 +205,8 @@ class CreateEvent extends Component {
   }
 
   render() {
+    const { classes } = this.props
+
     return (
       <div>
         <h1> Create Event </h1>
@@ -198,6 +226,7 @@ class CreateEvent extends Component {
                 <TextField
                   id='event-name'
                   label='Event Name'
+                  className={classes.textField}
                   value={this.state.name}
                   onChange={this.handleChange('name')}
                   margin='normal'
@@ -207,6 +236,7 @@ class CreateEvent extends Component {
                 <TextField
                   id='event-description'
                   label='Description'
+                  className={classes.textField}
                   value={this.state.description}
                   onChange={this.handleChange('description')}
                   margin='normal'
@@ -216,6 +246,7 @@ class CreateEvent extends Component {
                 <TextField
                   id='event-location'
                   label='Event Location'
+                  className={classes.textField}
                   value={this.state.location}
                   onChange={this.handleChange('location')}
                   margin='normal'
@@ -225,6 +256,7 @@ class CreateEvent extends Component {
                 <TextField
                   id='event-website'
                   label='Event Website'
+                  className={classes.textField}
                   value={this.state.website}
                   onChange={this.handleChange('website')}
                   margin='normal'
@@ -244,6 +276,7 @@ class CreateEvent extends Component {
                 </Typography>
                 <DateTimePicker 
                   value={this.state.endTime}
+                  className={classes.dateTimePicker}
                   onChange={this.handleDateChange('endTime')}
                 />
 
@@ -251,22 +284,7 @@ class CreateEvent extends Component {
 
             </Paper>
 
-            <Divider />
-
             <Paper className='EventPaperInner'>
-              <FormControl>
-                <InputLabel htmlFor="outlined-isfree-simple">
-                  Free?
-                </InputLabel>
-                <Select
-                  value={this.state.isFree}
-                  onChange={this.handleChange('isFree')}
-                >
-                  <MenuItem value={true}>Yes</MenuItem>
-                  <MenuItem value={false}>No</MenuItem>
-                </Select>
-              </FormControl>
-
               <FormControl>
                 <InputLabel htmlFor="outlined-org-simple">
                   Organization
@@ -274,6 +292,7 @@ class CreateEvent extends Component {
                 <Select
                   value={this.state.org}
                   onChange={this.handleChange('org')}
+                  className={classes.select}
                 >
                   {this.state.organizations.map(organization => (
                     <MenuItem key={organization} value={organization}>
@@ -291,6 +310,7 @@ class CreateEvent extends Component {
                   onChange={this.handleChange('category')}
                   input={<Input id="select-multiple-checkbox" />}
                   renderValue={selected => selected.join(', ')}
+                  className={classes.select}
                   MenuProps={MenuProps}
                 >
                   {this.state.categories.map(category => (
@@ -301,14 +321,26 @@ class CreateEvent extends Component {
                   ))}
                 </Select>
               </FormControl>
-            </Paper>
 
-            <Paper className='EventPaperInner'>
-              <Button variant="contained" color="primary" onClick={this.submitEvent}>
-                Submit Event
-              </Button>
+              <FormControl>
+                <InputLabel htmlFor="outlined-isfree-simple">
+                  Free?
+                </InputLabel>
+                <Select
+                  value={this.state.isFree}
+                  onChange={this.handleChange('isFree')}
+                  className={classes.select}
+                >
+                  <MenuItem value={true}>Yes</MenuItem>
+                  <MenuItem value={false}>No</MenuItem>
+                </Select>
+              </FormControl>
+              <div className='Button'>
+                <Button variant="contained" color="primary" onClick={this.submitEvent}>
+                  Submit Event
+                </Button>
+              </div>
             </Paper>
-
           </div>
         </MuiThemeProvider>
       </div>
@@ -317,4 +349,4 @@ class CreateEvent extends Component {
 }
 
 
-export default withRouter(CreateEvent)
+export default withStyles(styles)(withRouter(CreateEvent))

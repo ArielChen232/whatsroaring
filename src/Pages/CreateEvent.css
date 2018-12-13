@@ -14,3 +14,9 @@
     padding-bottom: 2vh;
     padding-top: 2vh;
 }
+
+.Button {
+    align-items: baseline;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+}
