@@ -12,6 +12,17 @@ import DropdownMultiple from './Components/DropdownMultiple'
 import FilterForm from './Components/FilterForm'
 import LogInButton from './Components/LogInButton'
 import AddEventButton from './Components/AddEventButton'
+import CheckboxLabels from './Components/Checkbox'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import green from '@material-ui/core/colors/green';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
 const localizer = BigCalendar.momentLocalizer(moment)
 // const url = 'https://whatsroaring-api.herokuapp.com/'
@@ -62,7 +73,7 @@ function getCategoryObjects() {
         id: i,
         title: cats[i],
         selected: false,
-        key: 'locations'
+        key: 'categories'
       });
     }
   })
@@ -97,7 +108,9 @@ class Calendar extends Component {
       categories: [],
       organizations: [],
       freeOnly: false,
-      favorites: false
+      favorites: false,
+      checkedFree: false,
+      checkedFav: false
     }
     this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
