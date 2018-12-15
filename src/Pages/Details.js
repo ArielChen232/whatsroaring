@@ -34,7 +34,7 @@ class Details extends Component {
   }
 
   goToCalendar = () => {
-    this.props.history.push('/')
+    this.props.history.push('/calendar')
   }
 
   favorite = () => {
@@ -95,18 +95,25 @@ class Details extends Component {
     var organization = this.props.org
 
     return (
+
+
       <MuiThemeProvider theme={Theme}>
         <div className="Page">
-          <Grid item xs={1}>
-            <IconButton color="primary" onClick={this.goToCalendar}>
-              <ArrowBack />
-            </IconButton>
-          </Grid>
-          <Grid item xs={1}>
-            <IconButton color="primary" onClick={this.favorite}>
-              <Grade />
-            </IconButton>
-          </Grid>
+
+          <div class="buttons">
+            <div class="backbutton">
+
+              <IconButton color="primary" onClick={this.goToCalendar}>
+                <ArrowBack />
+              </IconButton>
+            </div>
+            <div class="fav">
+              <IconButton color="primary" onClick={this.favorite}>
+                <Grade />
+              </IconButton>
+            </div>
+          </div>
+
           <Grid container>
             <Grid item xs={11} className="MainPaper">
               <Paper elevation={1} >

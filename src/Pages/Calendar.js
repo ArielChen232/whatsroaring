@@ -245,31 +245,48 @@ class Calendar extends Component {
       addEvent = <div></div>
     }
     return (
-      <div>
-        <div className="right-wrapper">
-          <LogInButton/>
-          {addEvent}
-        </div>
-        <div className="wrapper">
+    <div>
+      <div class = "full-width">
+
+        <div class = "alignleft">
           <DropdownMultiple
             titleHelper="location"
             title="Select location"
             list={this.state.locations}
             toggleItem={this.toggleSelected}
           />
-          <DropdownMultiple
-            titleHelper="event type"
-            title="Select event type"
-            list={this.state.categories}
-            toggleItem={this.toggleSelected}
-          />
-          <DropdownMultiple
-            titleHelper="organization"
-            title="Select organization"
-            list={this.state.organizations}
-            toggleItem={this.toggleSelected}
-          />
+          </div>
+
+
+          <div class = "alignleft">
+            <DropdownMultiple
+              titleHelper="event type"
+              title="Select event type"
+              list={this.state.categories}
+              toggleItem={this.toggleSelected}
+            />
+          </div>
+
+          <div class = "alignleft">
+            <DropdownMultiple
+              titleHelper="organization"
+              title="Select organization"
+              list={this.state.organizations}
+              toggleItem={this.toggleSelected}
+            />   
+          </div>
+
+          <div class = "alignright">
+            <LogInButton/>
+          </div>
+
+          <div class = "alignright">
+            <AddEventButton/>
+          </div>
+
+
         </div>
+
         <div className='Calendar'>
           <BigCalendar
             localizer={localizer}
@@ -280,6 +297,7 @@ class Calendar extends Component {
             eventPropGetter={(this.eventStyleGetter)}
           />
         </div>
+
       </div>
     )
   }

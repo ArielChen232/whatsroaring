@@ -37,3 +37,30 @@
   padding-top: 3vh;
   padding-left: 5vw;
 }
+
+.buttons {
+  display: inline-block; 
+  width: 100%;
+}
+
+.backbutton {
+  float: left;
+}
+.fav {
+  float: right;
+}
+
+/* Style buttons */
+.btn {
+  background-color: DodgerBlue; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 12px 16px; /* Some padding */
+  font-size: 16px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}

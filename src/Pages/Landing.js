@@ -52,7 +52,7 @@ class Landing extends Component {
         <br>
 
         </br>
-          <GoToCalendarButton/> <AddEventButton/>
+          <GoToCalendarButton/>
         </section>
       </div>
       )

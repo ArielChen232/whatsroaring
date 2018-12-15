@@ -8,3 +8,15 @@
   margin-top: 30px;
   height: 100vh;
 }
+
+.full-width {
+  display: inline-block; 
+  width: 100%;
+}
+
+.alignleft {
+	float: left;
+}
+.alignright {
+	float: right;
+}
