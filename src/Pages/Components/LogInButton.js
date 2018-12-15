@@ -24,7 +24,7 @@ export default class LogInButton extends Component {
     render () {
         return (
             <button class='LogInButton' onClick={this.handleClick}>
-               Log In
+               log in
             </button>
         );
     }

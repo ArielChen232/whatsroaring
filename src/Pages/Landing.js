@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import GoToCalendarButton from './Components/GoToCalendarButton'
+import LogInButton from './Components/LogInButton'
 import AddEventButton from './Components/AddEventButton'
 import Background from './homepage_background.png'
 
@@ -52,7 +53,7 @@ class Landing extends Component {
         <br>
 
         </br>
-          <GoToCalendarButton/>
+          <GoToCalendarButton/> <LogInButton/>
         </section>
       </div>
       )

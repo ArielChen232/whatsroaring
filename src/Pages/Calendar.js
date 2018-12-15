@@ -275,11 +275,6 @@ class Calendar extends Component {
               toggleItem={this.toggleSelected}
             />   
           </div>
-
-          <div class = "alignright">
-            <LogInButton/>
-          </div>
-
           <div class = "alignright">
             <AddEventButton/>
           </div>
