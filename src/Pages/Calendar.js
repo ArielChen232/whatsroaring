@@ -29,6 +29,17 @@ const localizer = BigCalendar.momentLocalizer(moment)
 const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
+let imgUrl = 'homepage_background.png';
+
+var sectionStyle = {
+  width: "100%",
+  height: "100%",
+  backgroundImage: 'url(' + imgUrl + ')',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
+};
+
 function getOrgName(orgPk) {
   const url_orgName = url + 'getOrgName/' + orgPk;
   var orgname;
@@ -245,10 +256,17 @@ class Calendar extends Component {
       addEvent = <div></div>
     }
     return (
-    <div>
-      <div class = "full-width">
+    <div className='CalendarPage'>
 
+      <div class = "full-width">
+      <div className="Jumbotron">
+      </div>
+      <br>
+
+
+      </br>
         <div class = "alignleft">
+
           <DropdownMultiple
             titleHelper="location"
             title="Select location"
@@ -273,7 +291,7 @@ class Calendar extends Component {
               title="Select organization"
               list={this.state.organizations}
               toggleItem={this.toggleSelected}
-            />   
+            />
           </div>
           <div class = "alignright">
             <AddEventButton/>
@@ -292,7 +310,6 @@ class Calendar extends Component {
             eventPropGetter={(this.eventStyleGetter)}
           />
         </div>
-
       </div>
     )
   }

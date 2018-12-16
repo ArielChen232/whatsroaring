@@ -30,7 +30,7 @@ let imgUrl = 'homepage_background.png';
 
 var sectionStyle = {
   width: "100%",
-  height: "400px",
+  height: "600px",
   backgroundImage: 'url(' + imgUrl + ')',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
@@ -48,13 +48,17 @@ class Landing extends Component {
 
   render() {
     return (
-      <div className="wrapper">
-        <section style={ sectionStyle }>
-        <br>
+      <div className="landing">
+        <div className="Jumbotron">
+        </div>
+        <div className="wrapper">
+          <section style={ sectionStyle }>
+          <br>
 
-        </br>
-          <GoToCalendarButton/> <LogInButton/>
-        </section>
+          </br>
+            <GoToCalendarButton/> <LogInButton/>
+          </section>
+        </div>
       </div>
       )
     }

@@ -18,28 +18,17 @@ class App extends Component {
         <Switch>
         <Route exact={true} path='/' render={() => (
           <div className="App">
-            <div className="Jumbotron">
-            </div>
             <Landing />
           </div>
         )} />
           <Route exact={true} path='/calendar' render={() => (
             <div className="App">
-              <div className="Jumbotron">
-                <h2>WhatsRoaring</h2>
-                <h5>Here's what's roaring around Princeton.</h5>
-              </div>
-              <br>
-
-              </br>
-
               <Calendar />
             </div>
           )} />
           <Route exact={true} path='/details' render={() => (
             <div className="App">
               <div className="Jumbotron">
-                <h2>WhatsRoaring</h2>
               </div>
               <Details />
             </div>
