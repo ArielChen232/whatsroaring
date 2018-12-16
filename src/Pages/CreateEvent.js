@@ -209,7 +209,6 @@ class CreateEvent extends Component {
 
     return (
       <div classname="createEvent">
-        <div>
           <h1> Create Event </h1>
 
           <MuiThemeProvider theme={theme}>
@@ -344,7 +343,6 @@ class CreateEvent extends Component {
               </Paper>
             </div>
           </MuiThemeProvider>
-        </div>
       </div>
     )
   }
