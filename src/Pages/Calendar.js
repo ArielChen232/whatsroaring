@@ -306,18 +306,20 @@ class Calendar extends Component {
   }
 
   validate() {
-    const query = new URLSearchParams(this.props.location.search)
-    if (this.state.netid === '') {
-      const url_netid = url + "netid"
-      axios.get(url_netid)
-      .then(res => {
-        this.setState({netid: res['data']})
-        // this.setState({netid: query.get('netid')})
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
-    }
+    // const query = new URLSearchParams(this.props.location.search)
+    // if (this.state.netid === '') {
+    //   const url_netid = url + "netid"
+    //   axios.get(url_netid)
+    //   .then(res => {
+    //     this.setState({netid: res['data']})
+    //     // this.setState({netid: query.get('netid')})
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   })
+    // }
+    this.state.netid = 'rachelsc'
+    sessionStorage.setItem('netid', 'rachelsc')
   }
 
   render() {

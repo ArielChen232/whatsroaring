@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
@@ -40,7 +40,8 @@ class Details extends Component {
       loc: '1897 Arch',
       website: 'http://www.nassoons.com/',
       org: 'Princeton Nassoons',
-      is_free: true
+      is_free: true,
+      netid: ''
     }
   }
 
@@ -51,7 +52,10 @@ class Details extends Component {
   favorite = () => {
     var url = 'http://whatsroaring-api.herokuapp.com/addFavorite'
     // var url = 'http://127.0.0.1:8000/addFavorite'
-    url = url + "?user=" + this.props.netid + "&event=" + this.props.event
+    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+    console.log(start)
+    url = url + "?user=" + sessionStorage.getItem('netid') + "&name=" + this.props.title + '&start_datetime=' + start
     axios.get(url)
 
   }
