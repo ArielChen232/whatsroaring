@@ -18,6 +18,17 @@ import './Details.css'
 // import Favorite from './Components/Favorite'
 import axios from 'axios'
 
+let imgUrl = 'sideways_background.png';
+
+var sectionStyle = {
+  width: "100%",
+  height: "600px",
+  backgroundImage: 'url(' + imgUrl + ')',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
+};
+
 class Details extends Component {
   constructor(props) {
     super(props)
@@ -92,72 +103,76 @@ class Details extends Component {
     var organization = this.props.org
 
     return (
+      <div className="DetailsPage">
+        <MuiThemeProvider theme={Theme}>
 
+          <section style={ sectionStyle }>
+          <div className="Page">
 
-      <MuiThemeProvider theme={Theme}>
-        <div className="Page">
+            <div class="buttons">
+              <div class="backbutton">
 
-          <div class="buttons">
-            <div class="backbutton">
-
-              <IconButton color="primary" onClick={this.goToCalendar}>
-                <ArrowBack />
-              </IconButton>
+                <IconButton color="primary" onClick={this.goToCalendar}>
+                  <ArrowBack />
+                </IconButton>
+              </div>
+              <div class="fav">
+                <IconButton color="primary" onClick={this.favorite}>
+                  <Grade />
+                </IconButton>
+              </div>
             </div>
-            <div class="fav">
-              <IconButton color="primary" onClick={this.favorite}>
-                <Grade />
-              </IconButton>
-            </div>
-          </div>
 
-          <Grid container>
-            <Grid item xs={11} className="MainPaper">
-              <Paper elevation={1} >
-                <div className="InnerPaperUpper">
-                  <Typography variant="h4" component="h3" color="primary">
-                    {title}
+            <Grid container>
+              <Grid item xs={11} className="MainPaper">
+                <Paper elevation={1} >
+                  <div className="InnerPaperUpper">
+                    <Typography variant="h4" component="h3" color="primary">
+                      {title}
+                    </Typography>
+                    <Typography variant="h5" component="h3" color="default">
+                      {desc}
+                    </Typography>
+                  </div>
+                  <div className="InnerPaperDivider">
+                    <Divider />
+                    <Divider />
+                  </div>
+                  <Typography variant="h5" component="h3" color="primary">
+                    Time:
                   </Typography>
                   <Typography variant="h5" component="h3" color="default">
-                    {desc}
+                    {timeString}
                   </Typography>
-                </div>
-                <div className="InnerPaperDivider">
-                  <Divider />
-                  <Divider />
-                </div>
-                <Typography variant="h5" component="h3" color="primary">
-                  Time:
-                </Typography>
-                <Typography variant="h5" component="h3" color="default">
-                  {timeString}
-                </Typography>
-                <Typography variant="h5" component="h3" color="primary">
-                  {locationTitle}
-                </Typography>
-                <Typography variant="h5" component="h3" color="default">
-                  {location}
-                </Typography>
-                <Typography variant="h5" component="h3" color="primary">
-                  Organization:
-                </Typography>
-                <Typography variant="h5" component="h3" color="default">
-                  {organization}
-                </Typography>
-                <Typography variant="h5" component="h3" color="primary">
-                  {websiteTitle}
-                </Typography>
-                <Typography variant="h5" component="h3" color="default">
-                  <a href={website}>{website}</a>
-                </Typography>
-                <Typography variant="h5" component="h3" color="primary">
-                  {freeText}
-                </Typography>
-              </Paper>
+                  <Typography variant="h5" component="h3" color="primary">
+                    {locationTitle}
+                  </Typography>
+                  <Typography variant="h5" component="h3" color="default">
+                    {location}
+                  </Typography>
+                  <Typography variant="h5" component="h3" color="primary">
+                    Organization:
+                  </Typography>
+                  <Typography variant="h5" component="h3" color="default">
+                    {organization}
+                  </Typography>
+                  <Typography variant="h5" component="h3" color="primary">
+                    {websiteTitle}
+                  </Typography>
+                  <Typography variant="h5" component="h3" color="default">
+                    <a href={website}>{website}</a>
+                  </Typography>
+                  <Typography variant="h5" component="h3" color="primary">
+                    {freeText}
+                  </Typography>
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
-        </div>
-      </MuiThemeProvider>
+          </div>
+
+        </section>
+        </MuiThemeProvider>
+      </div>
     )
   }
 }

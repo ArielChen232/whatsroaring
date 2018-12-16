@@ -2,8 +2,15 @@
     align-items: baseline;
 }
 
+.createEvent {
+  background-image: url("sideways_background.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 .EventPaper {
-    background-color: white;
     padding-left: 20vw;
     padding-right: 20vw;
 }

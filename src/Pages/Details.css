@@ -31,6 +31,14 @@
   padding-left: 10vw;
 }
 
+.DetailsPage {
+  background-image: url("sideways_background.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 .Page {
   padding-right: 5vw;
   padding-bottom: 5vh;
@@ -39,7 +47,7 @@
 }
 
 .buttons {
-  display: inline-block; 
+  display: inline-block;
   width: 100%;
 }
 

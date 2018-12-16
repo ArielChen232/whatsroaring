@@ -59,7 +59,7 @@ class DropdownMultiple extends Component{
        {listOpen && <ul className="dd-list">
          {list.map((item) => (
            <li className="dd-list-item" key={item.title} onClick={() => toggleItem(item.id, item.key)}>
-             {item.title} {item.selected && "*"}
+            {item.selected && "*"} {item.title}
            </li>
           ))}
         </ul>}
