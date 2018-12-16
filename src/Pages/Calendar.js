@@ -50,6 +50,7 @@ function getLocationObjects() {
   var locs_arr = [];
   axios.get(url_locs).then(res => {
     var locs = res.data.locs
+    locs.sort(compareDropdown)
     for (var i = 0; i < locs.length; i++) {
       locs_arr.push({
         id: i,
@@ -68,6 +69,7 @@ function getCategoryObjects() {
   var cats_arr = [];
   axios.get(url_cats).then(res => {
     var cats = res.data.cats
+    cats.sort(compareDropdown)
     for (var i = 0; i < cats.length; i++) {
       cats_arr.push({
         id: i,
@@ -86,6 +88,7 @@ function getOrganizationObjects() {
   var orgs_arr = [];
   axios.get(url_orgs).then(res => {
     var orgs = res.data.orgs
+    orgs.sort(compareDropdown)
     for (var i = 0; i < orgs.length; i++) {
       orgs_arr.push({
         id: i,
@@ -96,6 +99,15 @@ function getOrganizationObjects() {
     }
   })
   return orgs_arr
+}
+
+// function to sort dropdown components
+function compareDropdown(a, b) {
+  var compA = a.toUpperCase();
+  var compB = b.toUpperCase();
+  if (compA < compB) return -1;
+  if (compA > compB) return 1;
+  return 0;
 }
 
 class Calendar extends Component {
@@ -197,7 +209,6 @@ class Calendar extends Component {
                    organizations:getOrganizationObjects()},
                  () => this.updateCalendar())
   }
-
   seeDetails = (event) => {
     console.log('Org: ' + event.org)
     this.props.changeToDetails(event);
@@ -273,7 +284,7 @@ class Calendar extends Component {
               title="Select organization"
               list={this.state.organizations}
               toggleItem={this.toggleSelected}
-            />   
+            />
           </div>
           <div class = "alignright">
             <AddEventButton/>

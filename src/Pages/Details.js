@@ -22,8 +22,8 @@ class Details extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: 'Arch Sing', 
-      start: new Date(2018, 10, 18, 13, 0, 0), 
+      title: 'Arch Sing',
+      start: new Date(2018, 10, 18, 13, 0, 0),
       end: new Date(2018, 10, 18, 15, 0, 0),
       desc: 'Arch sing by the Princeton Nassoons',
       loc: '1897 Arch',
@@ -77,10 +77,7 @@ class Details extends Component {
 
     // Get event location.
     var location = this.props.loc
-    var locationTitle = ''
-    if (location != null) {
-      locationTitle = 'Location:'
-    }
+    var locationTitle = 'Location'
     if (location == null || location == '') {
       location = 'unknown'
     }
@@ -181,9 +178,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     /*changeToDetails: (event) => dispatch({
-      type: 'changeToDetails', 
+      type: 'changeToDetails',
       payload: {
-        title: event.title, 
+        title: event.title,
         start: event.start,
         end: event.end,
         desc: event.desc,
