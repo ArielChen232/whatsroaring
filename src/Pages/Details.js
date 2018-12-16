@@ -51,10 +51,9 @@ class Details extends Component {
   favorite = () => {
     var url = 'http://whatsroaring-api.herokuapp.com/addFavorite'
     // var url = 'http://127.0.0.1:8000/addFavorite'
-    axios.post(url, {
-      netid: this.props.netid,
-      event: this.props.event
-    })
+    url = url + "?user=" + this.props.netid + "&event=" + this.props.event
+    axios.get(url)
+
   }
 
   render() {

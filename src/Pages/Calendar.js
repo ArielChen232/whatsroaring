@@ -242,12 +242,12 @@ class Calendar extends Component {
 
   validate() {
     const query = new URLSearchParams(this.props.location.search)
-    var ticket = query.get('ticket')
-    if (ticket) {
-      const url_netid = url + "netid?ticket=" + ticket
+    if (this.state.netid === '') {
+      const url_netid = url + "netid"
       axios.get(url_netid)
       .then(res => {
         this.setState({netid: res['data']})
+        // this.setState({netid: query.get('netid')})
       })
       .catch(function(error) {
         console.log(error);
