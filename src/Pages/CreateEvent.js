@@ -32,8 +32,8 @@ import DateTimePicker from 'react-datetime-picker'
 import './CreateEvent.css'
 
 const axios = require('axios')
-//const url = 'whatsroaring-api.herokuapp.com'
-const url = 'http://127.0.0.1:8000/'
+const url = 'whatsroaring-api.herokuapp.com'
+// const url = 'http://127.0.0.1:8000/'
 const categories = [
   'music',
   'sports',
