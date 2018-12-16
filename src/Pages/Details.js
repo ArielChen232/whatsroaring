@@ -104,6 +104,10 @@ class Details extends Component {
 
     // Get event organization.
     var organization = this.props.org
+    var organizationTitle = "Organization"
+    if (organization == null || organization == '') {
+      organization = 'unknown'
+    }
 
     return (
       <div className="DetailsPage">
@@ -154,7 +158,7 @@ class Details extends Component {
                     {location}
                   </Typography>
                   <Typography variant="h5" component="h3" color="primary">
-                    Organization:
+                    {organizationTitle}
                   </Typography>
                   <Typography variant="h5" component="h3" color="default">
                     {organization}

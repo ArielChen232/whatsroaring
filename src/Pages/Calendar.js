@@ -57,19 +57,19 @@ const styles = theme => ({
   },
 })
 
-function getOrgName(orgPk) {
+function getOrgName(orgPk, callback) {
   const url_orgName = url + 'getOrgName/' + orgPk;
   var orgname;
   axios.get(url_orgName).then(res => {
     const posts = JSON.parse(res.data.data)
     if (posts.length >= 1) {
       orgname = posts[0].fields.name;
-      // console.log('Org name: ' + orgname)
+      callback(orgname)
     }
   })
   // this isn't updated because asynchronous?
   // console.log('org name' + orgname)
-  return orgname
+  // return orgname
 }
 
 // return array of location objects to populate dropdown
@@ -187,11 +187,58 @@ class Calendar extends Component {
     }, () => this.filterEvents())
   }
 
+  componentDidMount() {
+    this.setState({locations:getLocationObjects(),
+                   categories:getCategoryObjects(),
+                   organizations:getOrganizationObjects(),
+                 },
+                 () => this.updateCalendar())
+  }
+  seeDetails = (event) => {
+    console.log('Org: ' + event.org);
+    this.props.changeToDetails(event);
+    this.props.history.push('/details')
+  }
+
+  getStateFromStorage(callback) {
+    console.log('state gotten')
+    var state = {}
+    for (let key in this.state) {
+      console.log(key)
+      // if the key exists in sessionStorage
+      if (sessionStorage.hasOwnProperty(key)) {
+        // get the key's value from sessionStorage
+        let value = sessionStorage.getItem(key);
+        console.log(value)
+        // parse the sessionStorage string and setState
+        try {
+          value = JSON.parse(value);
+          state[key] = value;
+        } catch (e) {
+          // handle empty string
+        }
+      }
+    }
+    console.log(state)
+    return state
+  }
+
+  saveStateToStorage() {
+    // save state to local storage so it can be loaded
+    console.log('state saved')
+    for (let key in this.state) {
+      if (key != 'events') {
+        sessionStorage.setItem(key, JSON.stringify(this.state[key]));
+      }
+    }
+  }
+
   updateCalendar(locations="", categories="", organizations="", is_free="",
   start_date = "", end_date = "", netid = "", favorites = "") {
     // empty string for parameters indicates select all of them
     // Repopulate calendar
     const url_getEvents = url + 'getEvents'
+    const events = [];
     axios.get(url_getEvents, {
       params: {
         locations: locations,
@@ -202,9 +249,8 @@ class Calendar extends Component {
         favorites: favorites
     }})
     .then(res => {
-      console.log("reached this point")
       const posts = JSON.parse(res.data.Events_JSON)
-      const events = [];
+
       posts.forEach((post) => {
         events.push({
           title: post.fields.name,
@@ -213,10 +259,27 @@ class Calendar extends Component {
           desc: post.fields.description,
           loc: post.fields.location,
           website: post.fields.website,
-          org: getOrgName(post.fields.org),
+          org: '',
           is_free: post.fields.is_free
         })
       })
+      // posts.forEach((post) => {
+      //   getOrgName(post.fields.org, function(orgname) {
+      //     console.log(orgname)
+      //     events.push({
+      //       title: post.fields.name,
+      //       start: new Date(post.fields.start_datetime),
+      //       end: new Date(post.fields.end_datetime),
+      //       desc: post.fields.description,
+      //       loc: post.fields.location,
+      //       website: post.fields.website,
+      //       org: orgname,
+      //       is_free: post.fields.is_free
+      //     })
+      //   })
+    })
+    .then(res => {
+      // console.log(events)
       this.setState({events}, () => this._isMounted = true)
     })
     .catch(function(error) {
@@ -272,23 +335,6 @@ class Calendar extends Component {
                         netid=netid,
                         favorites=favorites
                       )
-  }
-
-  componentDidMount() {
-    this.setState({locations:getLocationObjects(),
-                   categories:getCategoryObjects(),
-                   organizations:getOrganizationObjects(),
-                   is_free: this.state.checkedFree,
-                   netid: this.state.netid,
-                   user: this.state.netid,
-                   favorites: this.state.checkedFav
-                 },
-                 () => this.updateCalendar())
-  }
-  seeDetails = (event) => {
-    console.log('Org: ' + event.org)
-    this.props.changeToDetails(event);
-    this.props.history.push('/details')
   }
 
   eventStyleGetter(event) {
