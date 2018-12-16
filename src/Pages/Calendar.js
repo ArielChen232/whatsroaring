@@ -434,6 +434,10 @@ class Calendar extends Component {
             />
           </div>
 
+          <div class = "alignright">
+            {addEvent}
+          </div>
+
           <div class = "alignleft">
 
           <FormGroup row>
