@@ -24,56 +24,17 @@ const styles = {
 };
 
 class CheckboxLabels extends React.Component {
-  state = {
-    checkedA: false,
-    checkedB: false,
-  };
-
-  handleCheckFree = name => {
-    this.setState({ [name]: !this.state.checkedFree });
-    var send_free = this.state.checkedFree;
-    console.log(send_free)
-    const url_getEvents = url + 'getEvents'
-    console.log(url_getEvents)
-  };
-
-  handleCheckFav = name => {
-    this.setState({ [name]: !this.state.checkedFav });
-    var send_free = this.state.checkedFree;
-    console.log(send_free)
-    const url_getEvents = url + 'getEvents'
-    console.log(url_getEvents)
-  };
+  constructor(props){
+    super(props)
+    this.state = {
+    }
+  }
 
   render() {
     const { classes } = this.props;
 
     return (
-      <FormGroup row>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={this.state.checkedA}
-              onChange={this.handleCheckFree('checkedA')}
-              value="checkedA"
-              color="primary"
-            />
-          }
-          label="Free events only"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={this.state.checkedB}
-              onChange={this.handleCheckFree('checkedB')}
-              value="checkedB"
-              color="primary"
-            />
-          }
-          label="Favorites"
-        />
-
-      </FormGroup>
+      <Checkbox/>
     );
   }
 }

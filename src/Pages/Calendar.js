@@ -23,6 +23,11 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import Paper from '@material-ui/core/Paper'
+import FormControl from '@material-ui/core/FormControl'
+
+import Typography from '@material-ui/core/Typography'
+import DateTimePicker from 'react-datetime-picker'
 
 const localizer = BigCalendar.momentLocalizer(moment)
 // const url = 'https://whatsroaring-api.herokuapp.com/'
@@ -39,6 +44,18 @@ var sectionStyle = {
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
 };
+
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  dateTimePicker: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 350,
+  },
+})
 
 function getOrgName(orgPk) {
   const url_orgName = url + 'getOrgName/' + orgPk;
@@ -118,14 +135,28 @@ class Calendar extends Component {
       locations: [],
       categories: [],
       organizations: [],
-      freeOnly: false,
-      favorites: false,
       checkedFree: false,
-      checkedFav: false
+      checkedFav: false,
+      start_datetime: '',
+      end_datetime: ''
     }
     this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
   }
+
+  handleCheckFree = name => {
+    console.log("free_selected")
+    this.setState({
+      checkedFree: !this.state.checkedFree
+    }, () => this.filterEvents());
+  };
+
+  handleCheckFav = name => {
+    console.log("fav_selected")
+    this.setState({
+      checkedFav: !this.state.checkedFav
+    }, () => this.filterEvents());
+  };
 
   toggleSelected = (id, key) => {
     let temp = JSON.parse(JSON.stringify(this.state[key]))
@@ -136,7 +167,8 @@ class Calendar extends Component {
     }, () => this.filterEvents())
   }
 
-  updateCalendar(locations="", categories="", organizations="") {
+  updateCalendar(locations="", categories="", organizations="", is_free="",
+  start_date = "", end_date = "", netid = "", favorites = "") {
     // empty string for parameters indicates select all of them
     // Repopulate calendar
     const url_getEvents = url + 'getEvents'
@@ -145,6 +177,9 @@ class Calendar extends Component {
         locations: locations,
         categories: categories,
         organizations: organizations,
+        is_free: is_free,
+        netid: netid,
+        favorites: favorites
     }})
     .then(res => {
       console.log("reached this point")
@@ -175,6 +210,9 @@ class Calendar extends Component {
     var locations = "";
     var categories = "";
     var organizations = "";
+    var is_free = "";
+    var netid = "";
+    var favorites = "";
     for (i = 0; i < this.state.locations.length; i++) {
       if (this.state.locations[i].selected == true) {
         locations += (this.state.locations[i].title + ',');
@@ -194,18 +232,37 @@ class Calendar extends Component {
     locations = locations.substr(0, locations.length-1);
     categories = categories.substr(0, categories.length-1);
     organizations = organizations.substr(0, organizations.length-1);
+    if (this.state.checkedFree == true) {
+      is_free = "true"
+    }
+    if (this.state.checkedFav == true) {
+      favorites = "true"
+    }
+    netid = this.state.netid;
     console.log(locations)
     console.log(categories)
     console.log(organizations)
+    console.log(is_free)
+    console.log(netid)
+    console.log(favorites)
     this.updateCalendar(locations=locations,
                         categories=categories,
-                        organizations=organizations)
+                        organizations=organizations,
+                        is_free=is_free,
+                        netid=netid,
+                        favorites=favorites
+                      )
   }
 
   componentDidMount() {
     this.setState({locations:getLocationObjects(),
                    categories:getCategoryObjects(),
-                   organizations:getOrganizationObjects()},
+                   organizations:getOrganizationObjects(),
+                   is_free: this.state.checkedFree,
+                   netid: this.state.netid,
+                   user: this.state.netid,
+                   favorites: this.state.checkedFav
+                 },
                  () => this.updateCalendar())
   }
 
@@ -293,6 +350,54 @@ class Calendar extends Component {
               toggleItem={this.toggleSelected}
             />
           </div>
+
+          <div class = "alignleft">
+
+          <FormGroup row>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={this.state.checkedA}
+                  onChange={this.handleCheckFree}
+                  value="checkedA"
+                  color="primary"
+                />
+              }
+              label="Free events only"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={this.state.checkedB}
+                  onChange={this.handleCheckFav}
+                  value="checkedB"
+                  color="primary"
+                />
+              }
+              label="Favorites"
+            />
+
+            <FormControl>
+              <Typography variant="h5" component="h3" color="primary">
+                Start date/time
+              </Typography>
+              <DateTimePicker
+                value={this.state.startTime}
+                onChange={this.handleStartDateChange}
+              />
+
+              <Typography variant="h5" component="h3" color="primary">
+                End date/time
+              </Typography>
+              <DateTimePicker
+                value={this.state.endTime}
+                onChange={this.handleEndDateChange}
+              />
+            </FormControl>
+
+          </FormGroup>
+          </div>
+
           <div class = "alignright">
             <AddEventButton/>
           </div>
