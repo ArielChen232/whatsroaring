@@ -28,16 +28,11 @@ class App extends Component {
           )} />
           <Route exact={true} path='/details' render={() => (
             <div className="App">
-              <div className="Jumbotron">
-              </div>
               <Details />
             </div>
           )} />
           <Route exact={true} path='/submitEvent' render={() => (
             <div className="App">
-              <div className="Jumbotron">
-                <h2>WhatsRoaring</h2>
-              </div>
               <CreateEvent />
             </div>
           )} />
