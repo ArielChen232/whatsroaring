@@ -143,7 +143,7 @@ class Calendar extends Component {
     super(...args)
     this.state = {
       events: [],
-      netid: '',
+      netid: 'rachelsc',
       locations: [],
       categories: [],
       organizations: [],
@@ -188,7 +188,7 @@ class Calendar extends Component {
   }
 
   updateCalendar(locations="", categories="", organizations="", is_free="",
-  start_date = "", end_date = "", netid = "", favorites = "") {
+  start_date = "", end_date = "", netid = "rachelsc", favorites = "") {
     // empty string for parameters indicates select all of them
     // Repopulate calendar
     const url_getEvents = url + 'getEvents'
@@ -231,7 +231,7 @@ class Calendar extends Component {
     var categories = "";
     var organizations = "";
     var is_free = "";
-    var netid = "";
+    var netid = "rachelsc";
     var favorites = "";
     for (i = 0; i < this.state.locations.length; i++) {
       if (this.state.locations[i].selected == true) {
@@ -258,7 +258,6 @@ class Calendar extends Component {
     if (this.state.checkedFav == true) {
       favorites = "true"
     }
-    netid = this.state.netid;
     console.log(locations)
     console.log(categories)
     console.log(organizations)
@@ -280,7 +279,6 @@ class Calendar extends Component {
                    organizations:getOrganizationObjects(),
                    is_free: this.state.checkedFree,
                    netid: this.state.netid,
-                   user: this.state.netid,
                    favorites: this.state.checkedFav
                  },
                  () => this.updateCalendar())
@@ -390,9 +388,9 @@ class Calendar extends Component {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={this.state.checkedB}
+                  checked={this.state.checkedA}
                   onChange={this.handleCheckFav}
-                  value="checkedB"
+                  value="checkedA"
                   color="primary"
                 />
               }
@@ -401,30 +399,6 @@ class Calendar extends Component {
 
           </FormGroup>
           </div>
-
-          <FormGroup row>
-          <Typography variant="h5" component="h3" color="primary">
-            Start date/time
-          </Typography>
-          <DateTimePicker
-            onChange={this.onStartChange}
-            value={this.state.startTime}
-          />
-
-          <Typography variant="h5" component="h3" color="primary">
-            End date/time
-          </Typography>
-          <DateTimePicker
-            onChange={this.onEndChange}
-            value={this.state.endTime}
-          />
-          </FormGroup>
-
-          <div class = "alignright">
-            <AddEventButton/>
-          </div>
-
-
         </div>
 
         <div className='Calendar'>
