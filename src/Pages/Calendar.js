@@ -78,6 +78,7 @@ function getLocationObjects() {
   var locs_arr = [];
   axios.get(url_locs).then(res => {
     var locs = res.data.locs
+    locs.sort(compareDropdown)
     for (var i = 0; i < locs.length; i++) {
       locs_arr.push({
         id: i,
@@ -96,6 +97,7 @@ function getCategoryObjects() {
   var cats_arr = [];
   axios.get(url_cats).then(res => {
     var cats = res.data.cats
+    cats.sort(compareDropdown)
     for (var i = 0; i < cats.length; i++) {
       cats_arr.push({
         id: i,
@@ -114,6 +116,7 @@ function getOrganizationObjects() {
   var orgs_arr = [];
   axios.get(url_orgs).then(res => {
     var orgs = res.data.orgs
+    orgs.sort(compareDropdown)
     for (var i = 0; i < orgs.length; i++) {
       orgs_arr.push({
         id: i,
@@ -124,6 +127,15 @@ function getOrganizationObjects() {
     }
   })
   return orgs_arr
+}
+
+// function to sort dropdown components
+function compareDropdown(a, b) {
+  var compA = a.toUpperCase();
+  var compB = b.toUpperCase();
+  if (compA < compB) return -1;
+  if (compA > compB) return 1;
+  return 0;
 }
 
 class Calendar extends Component {
@@ -265,7 +277,6 @@ class Calendar extends Component {
                  },
                  () => this.updateCalendar())
   }
-
   seeDetails = (event) => {
     console.log('Org: ' + event.org)
     this.props.changeToDetails(event);
@@ -288,12 +299,12 @@ class Calendar extends Component {
 
   validate() {
     const query = new URLSearchParams(this.props.location.search)
-    var ticket = query.get('ticket')
-    if (ticket) {
-      const url_netid = url + "netid?ticket=" + ticket
+    if (this.state.netid === '') {
+      const url_netid = url + "netid"
       axios.get(url_netid)
       .then(res => {
         this.setState({netid: res['data']})
+        // this.setState({netid: query.get('netid')})
       })
       .catch(function(error) {
         console.log(error);
