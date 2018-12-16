@@ -149,8 +149,8 @@ class Calendar extends Component {
       organizations: [],
       checkedFree: false,
       checkedFav: false,
-      start_datetime: '',
-      end_datetime: ''
+      start_datetime: new Date(),
+      end_datetime: new Date()
     }
     this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
@@ -169,6 +169,14 @@ class Calendar extends Component {
       checkedFav: !this.state.checkedFav
     }, () => this.filterEvents());
   };
+
+  onStartChange = date => {
+    this.setState({
+      start_datetime: date })};
+
+  onEndChange = date => {
+    this.setState({
+      end_datetime: date })};
 
   toggleSelected = (id, key) => {
     let temp = JSON.parse(JSON.stringify(this.state[key]))
@@ -376,6 +384,7 @@ class Calendar extends Component {
               }
               label="Free events only"
             />
+
             <FormControlLabel
               control={
                 <Checkbox
@@ -388,26 +397,26 @@ class Calendar extends Component {
               label="Favorites"
             />
 
-            <FormControl>
-              <Typography variant="h5" component="h3" color="primary">
-                Start date/time
-              </Typography>
-              <DateTimePicker
-                value={this.state.startTime}
-                onChange={this.handleStartDateChange}
-              />
-
-              <Typography variant="h5" component="h3" color="primary">
-                End date/time
-              </Typography>
-              <DateTimePicker
-                value={this.state.endTime}
-                onChange={this.handleEndDateChange}
-              />
-            </FormControl>
-
           </FormGroup>
           </div>
+
+          <FormGroup row>
+          <Typography variant="h5" component="h3" color="primary">
+            Start date/time
+          </Typography>
+          <DateTimePicker
+            onChange={this.onStartChange}
+            value={this.state.startTime}
+          />
+
+          <Typography variant="h5" component="h3" color="primary">
+            End date/time
+          </Typography>
+          <DateTimePicker
+            onChange={this.onEndChange}
+            value={this.state.endTime}
+          />
+          </FormGroup>
 
           <div class = "alignright">
             <AddEventButton/>
