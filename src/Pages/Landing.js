@@ -56,7 +56,7 @@ class Landing extends Component {
           <br>
 
           </br>
-            <GoToCalendarButton/> <LogInButton/>
+            <LogInButton/>
           </section>
         </div>
       </div>
