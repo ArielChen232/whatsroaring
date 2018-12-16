@@ -380,7 +380,7 @@ class Calendar extends Component {
     //   })
     // }
     // this.state.netid = 'rachelsc'
-    this.setState({netid: 'rachelsc'})
+    if (this.state.netid === '') this.setState({netid: 'rachelsc'})
     sessionStorage.setItem('netid', 'rachelsc')
   }
 
