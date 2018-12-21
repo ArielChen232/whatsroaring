@@ -398,14 +398,14 @@ class Calendar extends Component {
     return (
     <div className='CalendarPage'>
 
-      <div class = "full-width">
+      <div className = "full-width">
       <div className="Jumbotron">
       </div>
       <br>
 
 
       </br>
-        <div class = "alignleft">
+        <div className = "alignleft">
 
           <DropdownMultiple
             titleHelper="location"
@@ -416,7 +416,7 @@ class Calendar extends Component {
           </div>
 
 
-          <div class = "alignleft">
+          <div className = "alignleft">
             <DropdownMultiple
               titleHelper="event type"
               title="Select event type"
@@ -425,7 +425,7 @@ class Calendar extends Component {
             />
           </div>
 
-          <div class = "alignleft">
+          <div className = "alignleft">
             <DropdownMultiple
               titleHelper="organization"
               title="Select organization"
@@ -434,11 +434,11 @@ class Calendar extends Component {
             />
           </div>
 
-          <div class = "alignright">
+          <div className = "alignright">
             {addEvent}
           </div>
 
-          <div class = "alignleft">
+          <div className = "alignleft">
 
           <FormGroup row>
             <FormControlLabel
