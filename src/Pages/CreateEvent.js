@@ -32,8 +32,8 @@ import DateTimePicker from 'react-datetime-picker'
 import './CreateEvent.css'
 
 const axios = require('axios')
-const url = 'whatsroaring-api.herokuapp.com'
-// const url = 'http://127.0.0.1:8000/'
+//const url = 'whatsroaring-api.herokuapp.com'
+const url = 'http://127.0.0.1:8000/'
 const categories = [
   'music',
   'sports',
@@ -188,12 +188,9 @@ class CreateEvent extends Component {
           website: this.state.website,
           description: this.state.description,
           is_free: this.state.isFree
-        },
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
         }
       }).then((response) => {
-        if (response.data == 'Done') {
+        if (response.data == 'Created event') {
           this.goBack()
         } else {
           console.log('error')
@@ -208,7 +205,7 @@ class CreateEvent extends Component {
     const { classes } = this.props
 
     return (
-      <div classname="createEvent">
+      <div className="createEvent">
           <h1> Create Event </h1>
 
           <MuiThemeProvider theme={theme}>
