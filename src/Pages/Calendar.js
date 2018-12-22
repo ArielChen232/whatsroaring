@@ -35,7 +35,7 @@ const orange = '#fb8c00'
 };*/
 
 
-/*function getOrgName(orgPk, callback) {
+function getOrgName(orgPk, callback) {
   const url_orgName = url + 'getOrgName/' + orgPk;
   var orgname;
   axios.get(url_orgName).then(res => {
@@ -45,7 +45,7 @@ const orange = '#fb8c00'
       callback(orgname)
     }
   })
-}*/
+}
 
 // return array of location objects to populate dropdown
 function getLocationObjects() {
@@ -128,18 +128,6 @@ class Calendar extends Component {
       end_datetime: new Date()
     }
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
-  }
-
-  componentDidMount() {
-    this.setState({
-      locations: getLocationObjects(),
-      categories: getCategoryObjects(),
-      organizations: getOrganizationObjects(),
-      is_free: this.state.checkedFree,
-      netid: this.state.netid,
-      favorites: this.state.checkedFav
-    },
-    () => this.updateCalendar())
   }
 
   handleCheckFree = name => {
@@ -244,7 +232,7 @@ class Calendar extends Component {
       //   })
       // })
 
-      // UNCOMMENT THIS BLOCK TO FIX
+      // COMMENT THIS BLOCK TO FIX
       posts.forEach((post) => {
         getOrgName(post.fields.org, function(orgname) {
           events.push({
@@ -309,12 +297,12 @@ class Calendar extends Component {
     console.log(is_free)
     console.log(netid)
     console.log(favorites)
-    this.updateCalendar(locations=locations,
-                        categories=categories,
-                        organizations=organizations,
-                        is_free=is_free,
-                        netid=netid,
-                        favorites=favorites)
+    this.updateCalendar(locations,
+                        categories,
+                        organizations,
+                        is_free,
+                        netid,
+                        favorites)
   }
 
   componentDidMount() {
