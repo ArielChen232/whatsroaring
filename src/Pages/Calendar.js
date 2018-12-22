@@ -19,8 +19,8 @@ import './Calendar.css'
 
 
 const localizer = BigCalendar.momentLocalizer(moment)
-//const url = 'https://whatsroaring-api.herokuapp.com/'
-const url = 'http://127.0.0.1:8000/'
+const url = 'https://whatsroaring-api.herokuapp.com/'
+//const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
 //let imgUrl = 'homepage_background.png'
