@@ -7,8 +7,6 @@ import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Grade from '@material-ui/icons/Grade'
-import Done from '@material-ui/icons/Done'
-import Clear from '@material-ui/icons/Clear'
 
 import Paper from '@material-ui/core/Paper'
 import Divider from '@material-ui/core/Divider'
@@ -65,7 +63,7 @@ class Details extends Component {
 
     // Get event title.
     var title = this.props.title
-    if (title == null || title == '') {
+    if (title === null || title === '') {
       title = 'Untitled Event'
     }
 
@@ -85,14 +83,14 @@ class Details extends Component {
     // Get event website.
     var website = this.props.website
     var websiteTitle = ''
-    if (website != null && website != '') {
+    if (website !== null && website !== '') {
       websiteTitle = 'Website:'
     }
 
     // Get event location.
     var location = this.props.loc
     var locationTitle = 'Location'
-    if (location == null || location == '') {
+    if (location === null || location === '') {
       location = 'unknown'
     }
 
@@ -105,7 +103,7 @@ class Details extends Component {
     // Get event organization.
     var organization = this.props.org
     var organizationTitle = "Organization"
-    if (organization == null || organization == '') {
+    if (organization === null || organization === '') {
       organization = 'unknown'
     }
 

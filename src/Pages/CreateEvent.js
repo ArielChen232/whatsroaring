@@ -1,45 +1,27 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import AsyncSelect from 'react-select/lib/Async'
 import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
-import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormHelperText from '@material-ui/core/FormHelperText'
 import Checkbox from '@material-ui/core/Checkbox'
 import ListItemText from '@material-ui/core/ListItemText'
 
 import theme from '../Assets/Theme'
 
-//import DateTimePicker from 'react-datetime-picker'
 import './CreateEvent.css'
 
 const axios = require('axios')
 const url = 'http://whatsroaring-api.herokuapp.com/'
 //const url = 'http://127.0.0.1:8000/'
-const categories = [
-  'music',
-  'sports',
-  'theater',
-]
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -154,24 +136,24 @@ class CreateEvent extends Component {
     console.log('Is free: ' + this.state.isFree)
 
     var errors = []
-    if (this.state.name == '') {
+    if (this.state.name === '') {
       errors.push('Enter a name for your event.')
     }
-    if (this.state.organization == '') {
+    if (this.state.organization === '') {
       errors.push('Enter an organization for your event.')
     }
-    if (this.state.location == '') {
+    if (this.state.location === '') {
       errors.push('Enter a location for your event.')
     }
-    if (this.state.startTime == null) {
+    if (this.state.startTime === null) {
       errors.push('Enter a start time for your event.')
     }
-    if (this.state.endTime == null) {
+    if (this.state.endTime === null) {
       errors.push('Enter an end time for your event.')
     }
     this.setState({ displayError: errors })
 
-    if (errors.length == 0) {
+    if (errors.length === 0) {
       axios.post(url_event, {
         params: {
           name: this.state.name,
@@ -185,7 +167,7 @@ class CreateEvent extends Component {
           is_free: this.state.isFree
         }
       }).then((response) => {
-        if (response.data == 'Created event') {
+        if (response.data === 'Created event') {
           this.goBack()
         } else {
           console.log('error')

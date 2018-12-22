@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import axios from 'axios'
-import FontAwesome from 'react-fontawesome';
-import onClickOutside from "react-onclickoutside";
+import React, { Component } from 'react'
+import FontAwesome from 'react-fontawesome'
+import onClickOutside from "react-onclickoutside"
 
 import './DropdownMultiple.css'
-
-const url = 'https://whatsroaring-api.herokuapp.com/getEvents'
-const orange = '#fb8c00'
 
 class DropdownMultiple extends Component{
   constructor(props){

@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Calendar from './Pages/Calendar'
 import Landing from './Pages/Landing'
-import DropdownMultiple from './Pages/Components/DropdownMultiple'
 import Details from './Pages/Details'
 import CreateEvent from './Pages/CreateEvent'
+import AddOrg from './Pages/AddOrg'
 
 import './App.css';
 
@@ -34,6 +34,11 @@ class App extends Component {
           <Route exact={true} path='/submitEvent' render={() => (
             <div className="App">
               <CreateEvent />
+            </div>
+          )} />
+          <Route exact={true} path='/addOrg' render={() => (
+            <div className="App">
+              <AddOrg />
             </div>
           )} />
         </Switch>

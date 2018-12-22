@@ -3,61 +3,39 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import moment from 'moment'
+
+// Components
 import BigCalendar from 'react-big-calendar'
+import DropdownMultiple from './Components/DropdownMultiple'
+import AddEventButton from './Components/AddEventButton'
+import AddOrgButton from './Components/AddOrgButton'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 
 // Styling
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
-import DropdownMultiple from './Components/DropdownMultiple'
-import FilterForm from './Components/FilterForm'
-import LogInButton from './Components/LogInButton'
-import AddEventButton from './Components/AddEventButton'
-import CheckboxLabels from './Components/Checkbox'
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import green from '@material-ui/core/colors/green';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import Paper from '@material-ui/core/Paper'
-import FormControl from '@material-ui/core/FormControl'
 
-import Typography from '@material-ui/core/Typography'
-import DateTimePicker from 'react-datetime-picker'
 
 const localizer = BigCalendar.momentLocalizer(moment)
 const url = 'https://whatsroaring-api.herokuapp.com/'
 // const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
-let imgUrl = 'homepage_background.png';
+//let imgUrl = 'homepage_background.png'
 
-var sectionStyle = {
+/*var sectionStyle = {
   width: "100%",
   height: "100%",
   backgroundImage: 'url(' + imgUrl + ')',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
-};
+};*/
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  dateTimePicker: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 350,
-  },
-})
 
-function getOrgName(orgPk, callback) {
+/*function getOrgName(orgPk, callback) {
   const url_orgName = url + 'getOrgName/' + orgPk;
   var orgname;
   axios.get(url_orgName).then(res => {
@@ -67,10 +45,7 @@ function getOrgName(orgPk, callback) {
       callback(orgname)
     }
   })
-  // this isn't updated because asynchronous?
-  // console.log('org name' + orgname)
-  // return orgname
-}
+}*/
 
 // return array of location objects to populate dropdown
 function getLocationObjects() {
@@ -155,6 +130,18 @@ class Calendar extends Component {
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
   }
 
+  componentDidMount() {
+    this.setState({
+      locations: getLocationObjects(),
+      categories: getCategoryObjects(),
+      organizations: getOrganizationObjects(),
+      is_free: this.state.checkedFree,
+      netid: this.state.netid,
+      favorites: this.state.checkedFav
+    },
+    () => this.updateCalendar())
+  }
+
   handleCheckFree = name => {
     console.log("free_selected")
     this.setState({
@@ -219,7 +206,7 @@ class Calendar extends Component {
     // save state to local storage so it can be loaded
     console.log('state saved')
     for (let key in this.state) {
-      if (key != 'events') {
+      if (key !== 'events') {
         sessionStorage.setItem(key, JSON.stringify(this.state[key]));
       }
     }
@@ -292,17 +279,17 @@ class Calendar extends Component {
     var netid = "rachelsc";
     var favorites = "";
     for (i = 0; i < this.state.locations.length; i++) {
-      if (this.state.locations[i].selected == true) {
+      if (this.state.locations[i].selected === true) {
         locations += (this.state.locations[i].title + ',');
       }
     }
     for (i = 0; i < this.state.categories.length; i++) {
-      if (this.state.categories[i].selected == true) {
+      if (this.state.categories[i].selected === true) {
         categories += (this.state.categories[i].title + ',');
       }
     }
     for (i = 0; i < this.state.organizations.length; i++) {
-      if (this.state.organizations[i].selected == true) {
+      if (this.state.organizations[i].selected === true) {
         organizations += (this.state.organizations[i].title + ',');
       }
     }
@@ -310,10 +297,10 @@ class Calendar extends Component {
     locations = locations.substr(0, locations.length-1);
     categories = categories.substr(0, categories.length-1);
     organizations = organizations.substr(0, organizations.length-1);
-    if (this.state.checkedFree == true) {
+    if (this.state.checkedFree === true) {
       is_free = "true"
     }
-    if (this.state.checkedFav == true) {
+    if (this.state.checkedFav === true) {
       favorites = "true"
     }
     console.log(locations)
@@ -383,14 +370,17 @@ class Calendar extends Component {
     console.log('render')
     console.log(this.state)
     var addEvent
+    var addOrg
     const adminList = ['rachelsc', '-']
     this.validate()
     const isAdmin = adminList.includes(this.state.netid)
     if (isAdmin) {
       addEvent = <AddEventButton/>
+      addOrg = <AddOrgButton/>
     }
     else {
       addEvent = <div></div>
+      addOrg = <div></div>
     }
     return (
     <div className='CalendarPage'>
@@ -433,6 +423,7 @@ class Calendar extends Component {
 
           <div className = "alignright">
             {addEvent}
+            {addOrg}
           </div>
 
           <div className = "alignleft">
