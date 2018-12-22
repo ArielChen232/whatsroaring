@@ -152,7 +152,6 @@ class Calendar extends Component {
       start_datetime: new Date(),
       end_datetime: new Date()
     }
-    this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
   }
 
@@ -187,13 +186,6 @@ class Calendar extends Component {
     }, () => this.filterEvents())
   }
 
-  componentDidMount() {
-    this.setState({locations:getLocationObjects(),
-                   categories:getCategoryObjects(),
-                   organizations:getOrganizationObjects(),
-                 },
-                 () => this.updateCalendar())
-  }
   seeDetails = (event) => {
     console.log('Org: ' + event.org);
     this.props.changeToDetails(event);
@@ -251,36 +243,39 @@ class Calendar extends Component {
     .then(res => {
       const posts = JSON.parse(res.data.Events_JSON)
 
+      // UNCOMMENT THIS TO FIX
+      // posts.forEach((post) => {
+      //   events.push({
+      //     title: post.fields.name,
+      //     start: new Date(post.fields.start_datetime),
+      //     end: new Date(post.fields.end_datetime),
+      //     desc: post.fields.description,
+      //     loc: post.fields.location,
+      //     website: post.fields.website,
+      //     org: '',
+      //     is_free: post.fields.is_free
+      //   })
+      // })
+
+      // UNCOMMENT THIS BLOCK TO FIX
       posts.forEach((post) => {
-        events.push({
-          title: post.fields.name,
-          start: new Date(post.fields.start_datetime),
-          end: new Date(post.fields.end_datetime),
-          desc: post.fields.description,
-          loc: post.fields.location,
-          website: post.fields.website,
-          org: '',
-          is_free: post.fields.is_free
+        getOrgName(post.fields.org, function(orgname) {
+          events.push({
+            title: post.fields.name,
+            start: new Date(post.fields.start_datetime),
+            end: new Date(post.fields.end_datetime),
+            desc: post.fields.description,
+            loc: post.fields.location,
+            website: post.fields.website,
+            org: orgname,
+            is_free: post.fields.is_free
+          })
         })
       })
-      // posts.forEach((post) => {
-      //   getOrgName(post.fields.org, function(orgname) {
-      //     console.log(orgname)
-      //     events.push({
-      //       title: post.fields.name,
-      //       start: new Date(post.fields.start_datetime),
-      //       end: new Date(post.fields.end_datetime),
-      //       desc: post.fields.description,
-      //       loc: post.fields.location,
-      //       website: post.fields.website,
-      //       org: orgname,
-      //       is_free: post.fields.is_free
-      //     })
-      //   })
     })
     .then(res => {
-      // console.log(events)
-      this.setState({events}, () => this._isMounted = true)
+      console.log(events)
+      this.setState({events: events})
     })
     .catch(function(error) {
       console.log(error);
@@ -332,20 +327,20 @@ class Calendar extends Component {
                         organizations=organizations,
                         is_free=is_free,
                         netid=netid,
-                        favorites=favorites
-                      )
+                        favorites=favorites)
   }
 
   componentDidMount() {
+    this.updateCalendar()
     this.setState({locations:getLocationObjects(),
                    categories:getCategoryObjects(),
                    organizations:getOrganizationObjects(),
                    is_free: this.state.checkedFree,
                    netid: this.state.netid,
                    favorites: this.state.checkedFav
-                 },
-                 () => this.updateCalendar())
+                 })
   }
+
   seeDetails = (event) => {
     console.log('Org: ' + event.org)
     this.props.changeToDetails(event);
@@ -385,6 +380,8 @@ class Calendar extends Component {
   }
 
   render() {
+    console.log('render')
+    console.log(this.state)
     var addEvent
     const adminList = ['rachelsc', '-']
     this.validate()
