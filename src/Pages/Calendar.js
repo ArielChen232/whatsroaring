@@ -12,6 +12,7 @@ import DropdownMultiple from './Components/DropdownMultiple'
 import FilterForm from './Components/FilterForm'
 import LogInButton from './Components/LogInButton'
 import AddEventButton from './Components/AddEventButton'
+import AddOrgButton from './Components/AddOrgButton'
 import CheckboxLabels from './Components/Checkbox'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -386,14 +387,17 @@ class Calendar extends Component {
 
   render() {
     var addEvent
+    var addOrg
     const adminList = ['rachelsc', '-']
     this.validate()
     const isAdmin = adminList.includes(this.state.netid)
     if (isAdmin) {
       addEvent = <AddEventButton/>
+      addOrg = <AddOrgButton/>
     }
     else {
       addEvent = <div></div>
+      addOrg = <div></div>
     }
     return (
     <div className='CalendarPage'>
@@ -436,6 +440,7 @@ class Calendar extends Component {
 
           <div className = "alignright">
             {addEvent}
+            {addOrg}
           </div>
 
           <div className = "alignleft">

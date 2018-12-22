@@ -1,0 +1,37 @@
+.ReturnButton {
+  align-items: baseline;
+}
+
+.createEvent {
+  background-image: url("sideways_background.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.EventPaper {
+  padding-left: 20vw;
+  padding-right: 20vw;
+}
+
+.EventPaperInner {
+  padding-left: 2vw;
+  padding-right: 2vw;
+  padding-bottom: 2vh;
+  padding-top: 2vh;
+}
+
+.Button {
+  align-items: baseline;
+  padding-top: 2vw;
+  padding-bottom: 2vw;
+}
+
+.InnerPageFields {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

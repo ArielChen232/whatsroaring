@@ -1,0 +1,45 @@
+/*https://www.bestcssbuttongenerator.com/#/3*/
+
+.LogInButton {
+    -moz-box-shadow:inset 0px 1px 3px 0px #91b8b3;
+    -webkit-box-shadow:inset 0px 1px 3px 0px #91b8b3;
+    box-shadow:inset 0px 1px 3px 0px #91b8b3;
+    background-color: #768d87;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
+    background:-moz-linear-gradient(top, #e0762f 5%, #ef9628 100%);
+    background:-webkit-linear-gradient(top, #e0762f 5%, #ef9628 100%);
+    background:-o-linear-gradient(top, #e0762f 5%, #ef9628 100%);
+    background:-ms-linear-gradient(top, #e0762f 5%, #ef9628 100%);
+    background:linear-gradient(to bottom, #e0762f 5%, #ef9628 100%);
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    border:1px solid #e0762f;
+    color: white;
+    padding:11px 23px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.LogInButton:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
+    background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+    background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+    background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+    background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+    background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
+    background-color:#6c7c7c;
+}
+.LogInButton:active {
+    position:relative;
+    top:1px;
+}
+
+.right-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+}

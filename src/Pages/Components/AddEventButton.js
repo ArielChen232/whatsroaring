@@ -16,7 +16,7 @@ class AddEventButton extends Component {
     }
     render () {
         return (
-            <button class='LogInButton' onClick={this.handleClick}>
+            <button className='LogInButton' onClick={this.handleClick}>
                Add Event
             </button>
         );
