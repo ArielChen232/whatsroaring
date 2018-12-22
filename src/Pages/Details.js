@@ -115,6 +115,8 @@ class Details extends Component {
     if (categories === null || typeof(categories) === 'undefined') {
       categoriesTitle = ''
       categories = ''
+    } else {
+      categories = categories.toString().replace(',', ', ')
     }
 
     return (
@@ -181,7 +183,7 @@ class Details extends Component {
                     {websiteTitle}
                   </Typography>
                   <Typography variant="h5" component="h3" color="default">
-                    <a href={website}>{website}</a>
+                    <a href={website} target="_blank" rel="noopener noreferrer">{website}</a>
                   </Typography>
                   <Typography variant="h5" component="h3" color="primary">
                     {freeText}
