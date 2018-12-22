@@ -124,14 +124,14 @@ class Details extends Component {
           <section style={ sectionStyle }>
           <div className="Page">
 
-            <div class="buttons">
-              <div class="backbutton">
+            <div className="buttons">
+              <div className="backbutton">
 
                 <IconButton color="primary" onClick={this.goToCalendar}>
                   <ArrowBack />
                 </IconButton>
               </div>
-              <div class="fav">
+              <div className="fav">
                 <IconButton color="primary" onClick={this.favorite}>
                   <Grade />
                 </IconButton>
