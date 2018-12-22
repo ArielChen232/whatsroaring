@@ -6,6 +6,7 @@ import grey from '@material-ui/core/colors/grey';
 const Theme = createMuiTheme({
   typography: {
     useNextVariants: true,
+    fontSize: 18,
   },
   palette: {
     primary: {

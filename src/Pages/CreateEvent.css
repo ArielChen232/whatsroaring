@@ -1,5 +1,5 @@
 .ReturnButton {
-    align-items: baseline;
+  align-items: baseline;
 }
 
 .createEvent {
@@ -11,19 +11,27 @@
 }
 
 .EventPaper {
-    padding-left: 20vw;
-    padding-right: 20vw;
+  padding-left: 20vw;
+  padding-right: 20vw;
 }
 
 .EventPaperInner {
-    padding-left: 2vw;
-    padding-right: 2vw;
-    padding-bottom: 2vh;
-    padding-top: 2vh;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  padding-bottom: 2vh;
+  padding-top: 2vh;
 }
 
 .Button {
-    align-items: baseline;
-    padding-top: 2vw;
-    padding-bottom: 2vw;
+  align-items: baseline;
+  padding-top: 2vw;
+  padding-bottom: 2vw;
+}
+
+.InnerPageFields {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
