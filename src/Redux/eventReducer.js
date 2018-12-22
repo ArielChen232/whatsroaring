@@ -5,7 +5,8 @@ const initialEventState = {
   desc: '',
   loc: '',
   website: '',
-  is_free: false
+  is_free: false,
+  cat: null
 }
 
 const eventReducer = (state = initialEventState, action) => {

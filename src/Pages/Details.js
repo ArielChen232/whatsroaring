@@ -38,6 +38,7 @@ class Details extends Component {
       loc: '1897 Arch',
       website: 'http://www.nassoons.com/',
       org: 'Princeton Nassoons',
+      cat: 'Music',
       is_free: true,
       netid: ''
     }
@@ -102,9 +103,18 @@ class Details extends Component {
 
     // Get event organization.
     var organization = this.props.org
-    var organizationTitle = "Organization"
-    if (organization === null || organization === '') {
-      organization = 'unknown'
+    var organizationTitle = 'Organization'
+    if (organization === null || organization === '' || typeof(organization) === 'undefined') {
+      organizationTitle = ''
+      organization = ''
+    }
+
+    // Get event category.
+    var categories = this.props.cat
+    var categoriesTitle = 'Event Type'
+    if (categories === null || typeof(categories) === 'undefined') {
+      categoriesTitle = ''
+      categories = ''
     }
 
     return (
@@ -144,7 +154,7 @@ class Details extends Component {
                     <Divider />
                   </div>
                   <Typography variant="h5" component="h3" color="primary">
-                    Time:
+                    Time
                   </Typography>
                   <Typography variant="h5" component="h3" color="default">
                     {timeString}
@@ -160,6 +170,12 @@ class Details extends Component {
                   </Typography>
                   <Typography variant="h5" component="h3" color="default">
                     {organization}
+                  </Typography>
+                  <Typography variant="h5" component="h3" color="primary">
+                    {categoriesTitle}
+                  </Typography>
+                  <Typography variant="h5" component="h3" color="default">
+                    {categories}
                   </Typography>
                   <Typography variant="h5" component="h3" color="primary">
                     {websiteTitle}
@@ -192,6 +208,7 @@ const mapStateToProps = state => {
     website: state.eventReducer.website,
     org: state.eventReducer.org,
     is_free: state.eventReducer.is_free,
+    cat: state.eventReducer.cat,
     display_date: state.calReducer.display_date
   }
 }

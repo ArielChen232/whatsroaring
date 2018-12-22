@@ -19,8 +19,8 @@ import './Calendar.css'
 
 
 const localizer = BigCalendar.momentLocalizer(moment)
-const url = 'https://whatsroaring-api.herokuapp.com/'
-// const url = 'http://127.0.0.1:8000/'
+//const url = 'https://whatsroaring-api.herokuapp.com/'
+const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
 //let imgUrl = 'homepage_background.png'
@@ -33,19 +33,6 @@ const orange = '#fb8c00'
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
 };*/
-
-
-function getOrgName(orgPk, callback) {
-  const url_orgName = url + 'getOrgName/' + orgPk;
-  var orgname;
-  axios.get(url_orgName).then(res => {
-    const posts = JSON.parse(res.data.data)
-    if (posts.length >= 1) {
-      orgname = posts[0].fields.name;
-      callback(orgname)
-    }
-  })
-}
 
 // return array of location objects to populate dropdown
 function getLocationObjects() {
@@ -222,8 +209,9 @@ class Calendar extends Component {
           desc: post.fields.description,
           loc: post.fields.location,
           website: post.fields.website,
-          org: '',
-          is_free: post.fields.is_free
+          org: post.fields.org,
+          is_free: post.fields.is_free,
+          cat: post.fields.category
         })
       })
 
@@ -481,7 +469,8 @@ const mapDispatchToProps = dispatch => {
         loc: event.loc,
         website: event.website,
         org: event.org,
-        is_free: event.is_free
+        is_free: event.is_free,
+        cat: event.cat
       }
     })
   }
