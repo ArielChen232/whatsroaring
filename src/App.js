@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Calendar from './Pages/Calendar'
 import Landing from './Pages/Landing'
-import DropdownMultiple from './Pages/Components/DropdownMultiple'
 import Details from './Pages/Details'
 import CreateEvent from './Pages/CreateEvent'
 import AddOrg from './Pages/AddOrg'
