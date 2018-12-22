@@ -191,7 +191,8 @@ const mapStateToProps = state => {
     loc: state.eventReducer.loc,
     website: state.eventReducer.website,
     org: state.eventReducer.org,
-    is_free: state.eventReducer.is_free
+    is_free: state.eventReducer.is_free,
+    display_date: state.calReducer.display_date
   }
 }
 

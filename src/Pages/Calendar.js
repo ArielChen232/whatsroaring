@@ -125,7 +125,8 @@ class Calendar extends Component {
       checkedFree: false,
       checkedFav: false,
       start_datetime: new Date(),
-      end_datetime: new Date()
+      end_datetime: new Date(),
+      display_date: new Date()
     }
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
   }
@@ -159,12 +160,6 @@ class Calendar extends Component {
     this.setState({
       [key]: temp
     }, () => this.filterEvents())
-  }
-
-  seeDetails = (event) => {
-    console.log('Org: ' + event.org);
-    this.props.changeToDetails(event);
-    this.props.history.push('/details')
   }
 
   getStateFromStorage(callback) {
@@ -219,21 +214,21 @@ class Calendar extends Component {
       const posts = JSON.parse(res.data.Events_JSON)
 
       // UNCOMMENT THIS TO FIX
-      // posts.forEach((post) => {
-      //   events.push({
-      //     title: post.fields.name,
-      //     start: new Date(post.fields.start_datetime),
-      //     end: new Date(post.fields.end_datetime),
-      //     desc: post.fields.description,
-      //     loc: post.fields.location,
-      //     website: post.fields.website,
-      //     org: '',
-      //     is_free: post.fields.is_free
-      //   })
-      // })
+      posts.forEach((post) => {
+        events.push({
+          title: post.fields.name,
+          start: new Date(post.fields.start_datetime),
+          end: new Date(post.fields.end_datetime),
+          desc: post.fields.description,
+          loc: post.fields.location,
+          website: post.fields.website,
+          org: '',
+          is_free: post.fields.is_free
+        })
+      })
 
       // COMMENT THIS BLOCK TO FIX
-      posts.forEach((post) => {
+      /*posts.forEach((post) => {
         getOrgName(post.fields.org, function(orgname) {
           events.push({
             title: post.fields.name,
@@ -246,7 +241,7 @@ class Calendar extends Component {
             is_free: post.fields.is_free
           })
         })
-      })
+      })*/
     })
     .then(res => {
       console.log(events)
@@ -453,6 +448,7 @@ class Calendar extends Component {
             onSelectEvent={this.seeDetails}
             views={['month', 'week', 'day']}
             eventPropGetter={(this.eventStyleGetter)}
+            defaultDate={this.state.display_date}
           />
         </div>
       </div>
