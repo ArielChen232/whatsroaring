@@ -23,17 +23,6 @@ const url = 'https://whatsroaring-api.herokuapp.com/'
 //const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
-//let imgUrl = 'homepage_background.png'
-
-/*var sectionStyle = {
-  width: "100%",
-  height: "100%",
-  backgroundImage: 'url(' + imgUrl + ')',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center center',
-  backgroundRepeat: 'no-repeat',
-};*/
-
 // return array of location objects to populate dropdown
 function getLocationObjects() {
   const url_locs = url + 'getLocations'

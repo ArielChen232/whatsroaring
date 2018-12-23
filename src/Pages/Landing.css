@@ -8,8 +8,18 @@
 }
 
 .landing {
-  background-image: url("../Assets/homepage_background.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background-color: orange;
+}
+
+header.masthead {
+    text-align: center;
+    height:100vh;
+    background-image: url("../Assets/homepage_background.png");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
 }

@@ -4,40 +4,91 @@ import LogInButton from './Components/LogInButton'
 
 import './Landing.css'
 
-let imgUrl = 'homepage_background.png';
-
-var sectionStyle = {
-  width: "100%",
-  height: "600px",
-  backgroundImage: 'url(' + imgUrl + ')',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center center',
-  backgroundRepeat: 'no-repeat',
-};
+import {
+    Collapse,
+    Navbar,
+    NavbarToggler,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink,
+    Container,
+    Row,
+    Col,
+    Jumbotron,
+    Button
+} from 'reactstrap';
 
 class Landing extends Component {
 
+  constructor(props) {
+          super(props);
 
-  constructor(...args) {
-    super(...args)
-    this.state = {
-    }
-  }
+          this.toggle = this.toggle.bind(this);
+          this.state = {
+              isOpen: true
+          };
+      }
+      toggle() {
+          this.setState({
+              isOpen: !this.state.isOpen
+          });
+      }
+
+  // constructor(...args) {
+  //   super(...args)
+  //   this.state = {
+  //   }
+  // }
 
   render() {
     return (
       <div className="landing">
-        <div className="Jumbotron">
-        </div>
-        <div className="wrapper">
-          <section style={ sectionStyle }>
-          <br>
 
+      <Navbar color="faded" light style={{backgroundColor: '#FFA500'}}>
+        <NavbarBrand href="/">Home</NavbarBrand>
+        <NavbarToggler onClick={this.toggle} className="mr-2" />
+        <Collapse isOpen={!this.state.isOpen} navbar>
+          <Nav navbar>
+            <NavItem>
+              <NavLink href="/calendar/">Calendar</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/submitEvent">Add an Event</NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Navbar>
+
+      <header class="masthead">
+        <div class="container">
+          <div className="Jumbotron">
+          <br>
           </br>
-            <LogInButton/>
-          </section>
+          <br>
+          </br>
+          <br>
+          </br>
+          <br>
+          </br>
+          <LogInButton/>
+          </div>
         </div>
-      </div>
+      </header>
+
+        <div className="Jumbotron">
+          <h2> About whatsRoaring </h2>
+        </div>
+
+        <div className="Jumbotron">
+          <h2> The Team </h2>
+        </div>
+
+        <div className="Jumbotron">
+        <h2> Project Documentation </h2>
+        </div>
+
+        </div>
       )
     }
 
