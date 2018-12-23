@@ -5,11 +5,11 @@
 }
 
 .CalendarPage {
-  background-image: url("calendar_background.png");
+  background-image: url('../Assets/calendar_background.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  
 }
 
 .Calendar {
@@ -24,9 +24,14 @@
 
 .alignleft {
 	float: left;
+  flex-direction: row;
+  display: flex;
 }
+
 .alignright {
 	float: right;
+  flex-direction: row;
+  display: flex;
 }
 
 * {

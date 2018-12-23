@@ -1,5 +1,13 @@
 /*https://www.bestcssbuttongenerator.com/#/3*/
 
+.Button {
+  align-items: baseline;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  padding-right: 0.5vw;
+  padding-left: 0.5vw;
+}
+
 .LogInButton {
     -moz-box-shadow:inset 0px 1px 3px 0px #91b8b3;
     -webkit-box-shadow:inset 0px 1px 3px 0px #91b8b3;

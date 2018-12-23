@@ -32,11 +32,10 @@
 }
 
 .DetailsPage {
-  background-image: url("sideways_background.png");
+  background-image: url("../Assets/sideways_background.png");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
 .Page {
