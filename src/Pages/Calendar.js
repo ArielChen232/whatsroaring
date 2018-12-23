@@ -13,6 +13,21 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 
+import {
+    Collapse,
+    Navbar,
+    NavbarToggler,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink,
+    Container,
+    Row,
+    Col,
+    Jumbotron,
+    Button
+} from 'reactstrap';
+
 // Styling
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
@@ -346,8 +361,8 @@ class Calendar extends Component {
     <div className='CalendarPage'>
 
       <div className = "full-width">
-      <div className="Jumbotron">
-      </div>
+      <header class="calendarhead">
+      </header>
       <br>
 
 

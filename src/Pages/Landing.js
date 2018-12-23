@@ -60,21 +60,18 @@ class Landing extends Component {
         </Collapse>
       </Navbar>
 
-      <header class="masthead">
-        <div class="container">
-          <div className="Jumbotron">
-          <br>
-          </br>
-          <br>
-          </br>
-          <br>
-          </br>
-          <br>
-          </br>
-          <LogInButton/>
-          </div>
-        </div>
+      <header class="landinghead">
       </header>
+
+      <div class="container">
+        <div className="Jumbotron">
+        <LogInButton/>
+        </div>
+      </div>
+
+      <div className="landing_bottom">
+
+
 
         <div className="Jumbotron">
           <h2> About whatsRoaring </h2>
@@ -86,6 +83,7 @@ class Landing extends Component {
 
         <div className="Jumbotron">
         <h2> Project Documentation </h2>
+        </div>
         </div>
 
         </div>

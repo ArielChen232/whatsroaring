@@ -11,10 +11,22 @@
   background-color: orange;
 }
 
-header.masthead {
+.landing_bottom {
+  background-image: url("../Assets/homepage_lower.png");
+  height:110vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+header.landinghead {
     text-align: center;
-    height:100vh;
-    background-image: url("../Assets/homepage_background.png");
+    height:20vh;
+    background-image: url("../Assets/wr_header.png");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
