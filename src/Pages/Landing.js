@@ -63,30 +63,39 @@ class Landing extends Component {
       <header class="landinghead">
       </header>
 
-      <div class="container">
-        <div className="Jumbotron">
-        <LogInButton/>
+      <div className="landing_top">
+        <div class="container">
+          <div className="Jumbotron">
+          <LogInButton/>
+          </div>
         </div>
       </div>
 
       <div className="landing_bottom">
-
-
-
+        <section id="about">
         <div className="Jumbotron">
           <h2> About whatsRoaring </h2>
+          <p> blah blah text </p>
         </div>
+        </section>
 
+        <section id="team">
         <div className="Jumbotron">
           <h2> The Team </h2>
+          <p> blah blah pics and text </p>
         </div>
+        </section>
 
+        <section id="doc">
         <div className="Jumbotron">
         <h2> Project Documentation </h2>
+        <p> blah blah stuff, links prolly </p>
         </div>
+        </section>
         </div>
 
-        </div>
+
+      </div>
       )
     }
 

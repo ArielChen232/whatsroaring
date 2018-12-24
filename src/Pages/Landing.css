@@ -11,6 +11,18 @@
   background-color: orange;
 }
 
+.landing_top {
+  background-image: url("../Assets/nassau_hall.png");
+  height:70vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
 .landing_bottom {
   background-image: url("../Assets/homepage_lower.png");
   height:110vh;
