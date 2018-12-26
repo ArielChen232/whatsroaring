@@ -109,7 +109,7 @@ class Calendar extends Component {
     super(...args)
     this.state = {
       events: [],
-      netid: 'rachelsc',
+      netid: '',
       locations: [],
       categories: [],
       organizations: [],
@@ -324,21 +324,23 @@ class Calendar extends Component {
   }
 
   validate() {
-    // const query = new URLSearchParams(this.props.location.search)
+    const query = new URLSearchParams(this.props.location.search)
     // if (this.state.netid === '') {
-    //   const url_netid = url + "netid"
-    //   axios.get(url_netid)
-    //   .then(res => {
-    //     this.setState({netid: res['data']})
-    //     // this.setState({netid: query.get('netid')})
-    //   })
-    //   .catch(function(error) {
-    //     console.log(error);
-    //   })
-    // }
+    if (true) {
+      const url_netid = url + "netid"
+      axios.get(url_netid)
+      .then(res => {
+        console.log("netid = " + res['data'])
+        // this.setState({netid: res['data']})
+        // this.setState({netid: query.get('netid')})
+      })
+      .catch(function(error) {
+        console.log(error);
+      })
+    }
     // this.state.netid = 'rachelsc'
     if (this.state.netid === '') this.setState({netid: 'rachelsc'})
-    sessionStorage.setItem('netid', 'rachelsc')
+    sessionStorage.setItem('netid', this.state.netid)
   }
 
   render() {
