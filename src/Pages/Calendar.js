@@ -275,7 +275,7 @@ class Calendar extends Component {
 
   componentWillMount() {
     var cas = new Cas()
-    cas.authenticate()
+    // cas.authenticate()
   }
 
   componentDidMount() {
