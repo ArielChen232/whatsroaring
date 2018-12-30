@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import moment from 'moment'
-import Cas from './CASClient'
+import CASClient from './CASClient'
 
 // Components
 import BigCalendar from 'react-big-calendar'
@@ -109,6 +109,7 @@ class Calendar extends Component {
   constructor(...args) {
     super(...args)
     this.state = {
+      loading: true,
       events: [],
       locations: [],
       categories: [],
@@ -273,10 +274,6 @@ class Calendar extends Component {
                         favorites)
   }
 
-  componentWillMount() {
-    var cas = new Cas()
-    // cas.authenticate()
-  }
 
   componentDidMount() {
     this.updateCalendar()
@@ -286,6 +283,8 @@ class Calendar extends Component {
                    is_free: this.state.checkedFree,
                    favorites: this.state.checkedFav
                  })
+    var cas = new CASClient()
+    cas.authenticate(() => this.setState({loading: false}))
   }
 
   seeDetails = (event) => {
@@ -309,6 +308,14 @@ class Calendar extends Component {
   }
 
   render() {
+    // if authentication is not complete, display a loading page
+    if (this.state.loading == true) {
+      return (
+        <div className="container">
+          <h4>Loading...</h4>
+        </div>
+      )
+    }
     console.log('render')
     console.log(this.state)
     var addEvent
