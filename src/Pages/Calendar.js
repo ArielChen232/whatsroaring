@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import moment from 'moment'
+import Cas from './CASClient'
 
 // Components
 import BigCalendar from 'react-big-calendar'
@@ -35,7 +36,7 @@ import './Calendar.css'
 
 const localizer = BigCalendar.momentLocalizer(moment)
 const url = 'https://whatsroaring-api.herokuapp.com/'
-//const url = 'http://127.0.0.1:8000/'
+// const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 
 // return array of location objects to populate dropdown
@@ -109,7 +110,6 @@ class Calendar extends Component {
     super(...args)
     this.state = {
       events: [],
-      netid: '',
       locations: [],
       categories: [],
       organizations: [],
@@ -187,7 +187,7 @@ class Calendar extends Component {
   }
 
   updateCalendar(locations="", categories="", organizations="", is_free="",
-  start_date = "", end_date = "", netid = "rachelsc", favorites = "") {
+  start_date = "", end_date = "", favorites = "") {
     // empty string for parameters indicates select all of them
     // Repopulate calendar
     const url_getEvents = url + 'getEvents'
@@ -198,13 +198,11 @@ class Calendar extends Component {
         categories: categories,
         organizations: organizations,
         is_free: is_free,
-        netid: netid,
         favorites: favorites
     }})
     .then(res => {
       const posts = JSON.parse(res.data.Events_JSON)
 
-      // UNCOMMENT THIS TO FIX
       posts.forEach((post) => {
         events.push({
           title: post.fields.name,
@@ -218,22 +216,6 @@ class Calendar extends Component {
           cat: post.fields.category
         })
       })
-
-      // COMMENT THIS BLOCK TO FIX
-      /*posts.forEach((post) => {
-        getOrgName(post.fields.org, function(orgname) {
-          events.push({
-            title: post.fields.name,
-            start: new Date(post.fields.start_datetime),
-            end: new Date(post.fields.end_datetime),
-            desc: post.fields.description,
-            loc: post.fields.location,
-            website: post.fields.website,
-            org: orgname,
-            is_free: post.fields.is_free
-          })
-        })
-      })*/
     })
     .then(res => {
       console.log(events)
@@ -251,7 +233,7 @@ class Calendar extends Component {
     var categories = "";
     var organizations = "";
     var is_free = "";
-    var netid = "rachelsc";
+    var netid = localStorage.getItem('netid')
     var favorites = "";
     for (i = 0; i < this.state.locations.length; i++) {
       if (this.state.locations[i].selected === true) {
@@ -288,8 +270,12 @@ class Calendar extends Component {
                         categories,
                         organizations,
                         is_free,
-                        netid,
                         favorites)
+  }
+
+  componentWillMount() {
+    var cas = new Cas()
+    cas.authenticate()
   }
 
   componentDidMount() {
@@ -298,7 +284,6 @@ class Calendar extends Component {
                    categories:getCategoryObjects(),
                    organizations:getOrganizationObjects(),
                    is_free: this.state.checkedFree,
-                   netid: this.state.netid,
                    favorites: this.state.checkedFav
                  })
   }
@@ -323,34 +308,14 @@ class Calendar extends Component {
     }
   }
 
-  validate() {
-    const query = new URLSearchParams(this.props.location.search)
-    // if (this.state.netid === '') {
-    if (true) {
-      const url_netid = url + "netid"
-      axios.get(url_netid)
-      .then(res => {
-        console.log("netid = " + res['data'])
-        // this.setState({netid: res['data']})
-        // this.setState({netid: query.get('netid')})
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
-    }
-    // this.state.netid = 'rachelsc'
-    if (this.state.netid === '') this.setState({netid: 'rachelsc'})
-    sessionStorage.setItem('netid', this.state.netid)
-  }
-
   render() {
     console.log('render')
     console.log(this.state)
     var addEvent
     var addOrg
-    const adminList = ['rachelsc', '-']
-    this.validate()
-    const isAdmin = adminList.includes(this.state.netid)
+    const adminList = ['rachelsc', 'clairedu']
+    // this.validate()
+    const isAdmin = adminList.includes(localStorage.getItem('netid'))
     if (isAdmin) {
       addEvent = <AddEventButton/>
       addOrg = <AddOrgButton/>
