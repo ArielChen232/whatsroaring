@@ -320,7 +320,7 @@ class Calendar extends Component {
     console.log(this.state)
     var addEvent
     var addOrg
-    const adminList = ['rachelsc', 'clairedu']
+    const adminList = ['rachelsc', 'clairedu', 'arielc']
     // this.validate()
     const isAdmin = adminList.includes(localStorage.getItem('netid'))
     if (isAdmin) {
