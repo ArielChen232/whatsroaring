@@ -3,27 +3,42 @@ import { withRouter } from 'react-router-dom'
 
 export default class CASClient {
   casURL = 'https://fed.princeton.edu/cas/'
+  casProxyURL = '/cas/'
 
   validate = (ticket, callback) => {
-    const val_url = (this.casURL + 'validate?service=' +
+    const val_url = (this.casProxyURL + 'validate?service=' +
         encodeURIComponent(this.serviceURL()) + '&ticket=' +
         encodeURIComponent(ticket))
     console.log('validate url = ' + val_url)
-    var request = new XMLHttpRequest();
-    request.open('GET', val_url, true);
-    request.send();
-    request.onreadystatechange = function () {
-      console.log('url opened')
-      if (request.readyState === 4 && request.status === 200) {
+    fetch(val_url)
+      .then(resp => {
+        console.log('url opened')
         var netid = null
-        var lines = request.responseText;
-        lines = lines.split("\n")
-        if (lines[0] == 'yes') {
-          netid = lines[1]
-        }
-        callback(netid)
-      }
-    }
+        resp.text().then(function (text) {
+          text = text.split("\n")
+          if (text[0] == 'yes') {
+            netid = text[1]
+            console.log('validated netid: ' + netid)
+          }
+          callback(netid)
+        })
+      })
+    // var request = new XMLHttpRequest();
+    // request.open('GET', val_url, true);
+    // request.send();
+    // request.onreadystatechange = function () {
+    //   console.log('url opened')
+    //   if (request.readyState === 4 && request.status === 200) {
+    //     var netid = null
+    //     var lines = request.responseText;
+    //     lines = lines.split("\n")
+    //     if (lines[0] == 'yes') {
+    //       netid = lines[1]
+    //       console.log('validated netid: ' + netid)
+    //     }
+    //     callback(netid)
+    //   }
+    // }
   }
 
   authenticate = (callback) => {
