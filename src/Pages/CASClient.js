@@ -3,10 +3,9 @@ import { withRouter } from 'react-router-dom'
 
 export default class CASClient {
   casURL = 'https://fed.princeton.edu/cas/'
-  casProxyURL = '/cas/'
 
   validate = (ticket, callback) => {
-    const val_url = (this.casProxyURL + 'validate?service=' +
+    const val_url = (this.casURL + 'validate?service=' +
         encodeURIComponent(this.serviceURL()) + '&ticket=' +
         encodeURIComponent(ticket))
     console.log('validate url = ' + val_url)
