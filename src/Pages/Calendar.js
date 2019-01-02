@@ -302,7 +302,7 @@ class Calendar extends Component {
     } else {
       console.log('Recovering view')
       this.setState({
-        locations: getLocationObjects(), // change later
+        locations: this.props.locations,
         categories: this.props.categories,
         organizations: this.props.organizations,
         is_free: this.state.checkedFree,
@@ -320,7 +320,8 @@ class Calendar extends Component {
       event, 
       this.state.display_date,
       this.state.organizations,
-      this.state.categories)
+      this.state.categories,
+      this.state.locations)
     this.props.history.push('/details')
   }
 
@@ -452,6 +453,7 @@ const mapStateToProps = state => {
     changed_view: state.calReducer.changed_view,
     organizations: state.calReducer.organizations,
     categories: state.calReducer.categories,
+    locations: state.calReducer.locations,
     /*title: state.eventReducer.title,
     start: state.eventReducer.start,
     end: state.eventReducer.end,
@@ -465,7 +467,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToDetails: (event, display_date, organizations, categories) => dispatch({
+    changeToDetails: (event, display_date, organizations, categories, locations) => dispatch({
       type: 'changeToDetails',
       payload: {
         title: event.title,
@@ -480,6 +482,7 @@ const mapDispatchToProps = dispatch => {
         display_date: display_date,
         categories: categories,
         organizations: organizations,
+        locations: locations,
         changed_view: true,
       }
     })
