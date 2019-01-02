@@ -320,17 +320,18 @@ class Calendar extends Component {
     console.log(this.state)
     var addEvent
     var addOrg
-    const adminList = ['rachelsc', 'clairedu', 'arielc']
-    // this.validate()
-    const isAdmin = adminList.includes(localStorage.getItem('netid'))
-    if (isAdmin) {
-      addEvent = <AddEventButton/>
-      addOrg = <AddOrgButton/>
-    }
-    else {
-      addEvent = <div></div>
-      addOrg = <div></div>
-    }
+    addEvent = <AddEventButton/>
+    addOrg = <AddOrgButton/>
+    // const adminList = ['rachelsc', 'clairedu']
+    // const isAdmin = adminList.includes(localStorage.getItem('netid'))
+    // if (isAdmin) {
+    //   addEvent = <AddEventButton/>
+    //   addOrg = <AddOrgButton/>
+    // }
+    // else {
+    //   addEvent = <div></div>
+    //   addOrg = <div></div>
+    // }
     return (
     <div className='CalendarPage'>
 
