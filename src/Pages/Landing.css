@@ -8,7 +8,7 @@
 }
 
 .landing {
-  background-color: orange;
+  background-color: #ffd480;
 }
 
 .landing_top {
@@ -24,8 +24,7 @@
 }
 
 .landing_bottom {
-  background-image: url("../Assets/homepage_lower.png");
-  height:110vh;
+  background-color: #ffd480;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -36,9 +35,13 @@
 }
 
 .navbar-default {
-  background-color: orange;
+  background-color: #ffd480;
   background-image: none;
   background-repeat: no-repeat;
+ }
+
+ .Card {
+   background-color: #ffd480;
  }
 
 header.landinghead {
