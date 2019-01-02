@@ -13,15 +13,15 @@ class LogInButton extends Component {
   }
 
   handleClick() {
-      this.props.history.push('/calendar')
+    this.props.history.push('/calendar')
   }
 
   render () {
-      return (
-          <button class='LogInButton' onClick={this.handleClick}>
-             Log In
-          </button>
-      );
+    return (
+      <button class='LogInButton' onClick={this.handleClick}>
+         Log In
+      </button>
+    )
   }
 }
 export default withRouter(LogInButton);

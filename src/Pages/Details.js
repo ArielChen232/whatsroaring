@@ -45,6 +45,7 @@ class Details extends Component {
   }
 
   goToCalendar = () => {
+    this.props.changeToCalendar(this.props.display_date)
     this.props.history.push('/calendar')
   }
 
@@ -217,19 +218,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    /*changeToDetails: (event) => dispatch({
-      type: 'changeToDetails',
+    changeToCalendar: (display_date) => dispatch({
+      type: 'changeToCalendar',
       payload: {
-        title: event.title,
-        start: event.start,
-        end: event.end,
-        desc: event.desc,
-        location: event.location,
-        website: event.website,
-        org: event.org,
-        is_free: event.is_free
+        display_date: display_date,
       }
-    })*/
+    })
   }
 }
 

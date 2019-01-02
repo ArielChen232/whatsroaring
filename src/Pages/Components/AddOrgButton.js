@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button'
 
 import './Button.css'
 
+const url = 'https://whatsroaring.herokuapp.com/addOrg'
+
 class AddOrgButton extends Component {
   constructor() {
     super()
@@ -13,8 +15,8 @@ class AddOrgButton extends Component {
   }
 
   handleClick() {
-    //window.open("http://whatsroaring-api.herokuapp.com/addevent", "_blank")
-    this.props.history.push('/addOrg')
+    var win = window.open(url, '_blank')
+    win.focus()
   }
 
   render () {

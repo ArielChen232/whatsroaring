@@ -36,8 +36,18 @@ import './Calendar.css'
 
 const localizer = BigCalendar.momentLocalizer(moment)
 const url = 'https://whatsroaring-api.herokuapp.com/'
+const url_details = 'https://whatsroaring.herokuapp.com/details'
 // const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
+
+
+function getStartOfWeek() {
+  var d = new Date()
+  var day = d.getDay()
+  var diff = d.getDate() - day - 1 + (day === 0 ? -6:1)
+  var newD = new Date(d.setDate(diff))
+  return newD
+}
 
 // return array of location objects to populate dropdown
 function getLocationObjects() {
@@ -105,6 +115,7 @@ function compareDropdown(a, b) {
   return 0;
 }
 
+
 class Calendar extends Component {
   constructor(...args) {
     super(...args)
@@ -120,6 +131,7 @@ class Calendar extends Component {
       end_datetime: new Date(),
       display_date: new Date()
     }
+    this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
   }
 
@@ -283,13 +295,13 @@ class Calendar extends Component {
                    is_free: this.state.checkedFree,
                    favorites: this.state.checkedFav
                  })
+    this._isMounted = true
     // var cas = new CASClient()
     // cas.authenticate(() => this.setState({loading: false}))
   }
 
   seeDetails = (event) => {
-    console.log('Org: ' + event.org)
-    this.props.changeToDetails(event);
+    this.props.changeToDetails(event, this.state.display_date)
     this.props.history.push('/details')
   }
 
@@ -316,12 +328,8 @@ class Calendar extends Component {
     //     </div>
     //   )
     // }
-    console.log('render')
-    console.log(this.state)
-    var addEvent
-    var addOrg
-    addEvent = <AddEventButton/>
-    addOrg = <AddOrgButton/>
+    var addEvent = <AddEventButton/>
+    var addOrg = <AddOrgButton/>
     // const adminList = ['rachelsc', 'clairedu']
     // const isAdmin = adminList.includes(localStorage.getItem('netid'))
     // if (isAdmin) {
@@ -333,23 +341,19 @@ class Calendar extends Component {
     //   addOrg = <div></div>
     // }
     return (
-    <div className='CalendarPage'>
+      <div className='CalendarPage'>
 
-      <div className = "full-width">
-      <header class="calendarhead">
-      </header>
-      <br>
-
-
-      </br>
-        <div className = "alignleft">
-
-          <DropdownMultiple
-            titleHelper="location"
-            title="Select location"
-            list={this.state.locations}
-            toggleItem={this.toggleSelected}
-          />
+        <div className = "full-width">
+          <header className="calendarhead">
+          </header>
+          <br></br>
+          <div className = "alignleft">
+            <DropdownMultiple
+              titleHelper="location"
+              title="Select location"
+              list={this.state.locations}
+              toggleItem={this.toggleSelected}
+            />
           </div>
 
 
@@ -378,32 +382,32 @@ class Calendar extends Component {
 
           <div className = "alignleft">
 
-          <FormGroup row>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={this.state.checkedA}
-                  onChange={this.handleCheckFree}
-                  value="checkedA"
-                  color="primary"
-                />
-              }
-              label="Free events only"
-            />
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.checkedA}
+                    onChange={this.handleCheckFree}
+                    value="checkedA"
+                    color="primary"
+                  />
+                }
+                label="Free events only"
+              />
 
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={this.state.checkedA}
-                  onChange={this.handleCheckFav}
-                  value="checkedA"
-                  color="primary"
-                />
-              }
-              label="Favorites"
-            />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.checkedA}
+                    onChange={this.handleCheckFav}
+                    value="checkedA"
+                    color="primary"
+                  />
+                }
+                label="Favorites"
+              />
 
-          </FormGroup>
+            </FormGroup>
           </div>
         </div>
 
@@ -413,9 +417,10 @@ class Calendar extends Component {
             events={this.state.events}
             defaultView={BigCalendar.Views.MONTH}
             onSelectEvent={this.seeDetails}
-            views={['month', 'week', 'day']}
+            views={['month', 'week']}
             eventPropGetter={(this.eventStyleGetter)}
             defaultDate={this.state.display_date}
+            //components={{toolbar: this.getCustomToolbar}}
           />
         </div>
       </div>
@@ -438,7 +443,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToDetails: (event) => dispatch({
+    changeToDetails: (event, display_date) => dispatch({
       type: 'changeToDetails',
       payload: {
         title: event.title,
@@ -449,7 +454,8 @@ const mapDispatchToProps = dispatch => {
         website: event.website,
         org: event.org,
         is_free: event.is_free,
-        cat: event.cat
+        cat: event.cat,
+        display_date: display_date
       }
     })
   }
