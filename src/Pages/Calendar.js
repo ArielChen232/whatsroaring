@@ -129,7 +129,8 @@ class Calendar extends Component {
       checkedFav: false,
       start_datetime: new Date(),
       end_datetime: new Date(),
-      display_date: new Date()
+      display_date: new Date(),
+      changed_view: false // if user has changed calendar settings
     }
     this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
@@ -288,20 +289,38 @@ class Calendar extends Component {
 
 
   componentDidMount() {
+    console.log('changed_view: ' + this.props.changed_view)
+    if (this.props.changed_view === false) {
+      console.log('Default view')
+      this.setState({
+        locations:getLocationObjects(),
+        categories:getCategoryObjects(),
+        organizations:getOrganizationObjects(),
+        is_free: this.state.checkedFree,
+        favorites: this.state.checkedFav
+     })
+    } else {
+      console.log('Recovering view')
+      this.setState({
+        locations: getLocationObjects(), // change later
+        categories: this.props.categories,
+        organizations: this.props.organizations,
+        is_free: this.state.checkedFree,
+        favorites: this.state.checkedFav
+     })
+    }
     this.updateCalendar()
-    this.setState({locations:getLocationObjects(),
-                   categories:getCategoryObjects(),
-                   organizations:getOrganizationObjects(),
-                   is_free: this.state.checkedFree,
-                   favorites: this.state.checkedFav
-                 })
     this._isMounted = true
     // var cas = new CASClient()
     // cas.authenticate(() => this.setState({loading: false}))
   }
 
   seeDetails = (event) => {
-    this.props.changeToDetails(event, this.state.display_date)
+    this.props.changeToDetails(
+      event, 
+      this.state.display_date,
+      this.state.organizations,
+      this.state.categories)
     this.props.history.push('/details')
   }
 
@@ -430,6 +449,9 @@ class Calendar extends Component {
 
 const mapStateToProps = state => {
   return {
+    changed_view: state.calReducer.changed_view,
+    organizations: state.calReducer.organizations,
+    categories: state.calReducer.categories,
     /*title: state.eventReducer.title,
     start: state.eventReducer.start,
     end: state.eventReducer.end,
@@ -443,7 +465,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToDetails: (event, display_date) => dispatch({
+    changeToDetails: (event, display_date, organizations, categories) => dispatch({
       type: 'changeToDetails',
       payload: {
         title: event.title,
@@ -455,7 +477,10 @@ const mapDispatchToProps = dispatch => {
         org: event.org,
         is_free: event.is_free,
         cat: event.cat,
-        display_date: display_date
+        display_date: display_date,
+        categories: categories,
+        organizations: organizations,
+        changed_view: true,
       }
     })
   }

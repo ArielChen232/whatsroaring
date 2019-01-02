@@ -1,12 +1,15 @@
 const initialState = {
-  display_date: new Date()
+  display_date: new Date(),
+  organizations: [],
+  categories: [],
+  changed_view: false,
 }
 
 const calReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'changeToDetails':
       console.log('Reduced cal')
-      console.log('Display date: ' + action.payload.display_date)
+      console.log('changed view: ' + action.payload.changed_view)
       return action.payload
     default:
       return state
