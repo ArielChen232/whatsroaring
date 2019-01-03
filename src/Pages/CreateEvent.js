@@ -120,7 +120,7 @@ class CreateEvent extends Component {
 
   handleDateChange = name => date => {
     this.setState({
-      [name]: date
+      [name]: date.target.value
     })
   }
 
@@ -154,6 +154,7 @@ class CreateEvent extends Component {
     this.setState({ displayError: errors })
 
     if (errors.length === 0) {
+      console.log('Start time: ' + this.state.startTime.toLocaleString())
       axios.post(url_event, {
         params: {
           name: this.state.name,
@@ -246,6 +247,7 @@ class CreateEvent extends Component {
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      onChange={this.handleDateChange('startTime')}
                     />
 
                     <TextField
@@ -256,6 +258,7 @@ class CreateEvent extends Component {
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      onChange={this.handleDateChange('endTime')}
                     />
 
 
