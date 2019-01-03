@@ -17,7 +17,7 @@
 header.calendarhead {
     text-align: center;
     height:20vh;
-    background-image: url("../Assets/wr_header.png"); */
+    background-image: url("../Assets/wr_header.png");å
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -30,6 +30,23 @@ header.calendarhead {
 .Calendar {
   margin-top: 30px;
   height: 100vh;
+}
+
+.ToolbarCalendar {
+  flex-direction: row;
+  justify-content: space-around;
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.ToolbarButtons {
+  flex-direction: row;
+  display: flex;
+}
+
+.ToolbarItem {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .full-width {

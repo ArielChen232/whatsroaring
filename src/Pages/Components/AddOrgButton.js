@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 
 import './Button.css'
 
-const url = 'https://whatsroaring.herokuapp.com/addOrg'
+const url = 'http://whatsroaring.herokuapp.com/addOrg'
 
 class AddOrgButton extends Component {
   constructor() {

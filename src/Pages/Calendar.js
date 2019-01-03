@@ -10,6 +10,11 @@ import BigCalendar from 'react-big-calendar'
 import DropdownMultiple from './Components/DropdownMultiple'
 import AddEventButton from './Components/AddEventButton'
 import AddOrgButton from './Components/AddOrgButton'
+
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import Theme from '../Assets/Theme'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -39,14 +44,15 @@ const url = 'https://whatsroaring-api.herokuapp.com/'
 const url_details = 'https://whatsroaring.herokuapp.com/details'
 // const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+]
 
 
-function getStartOfWeek() {
-  var d = new Date()
-  var day = d.getDay()
-  var diff = d.getDate() - day - 1 + (day === 0 ? -6:1)
-  var newD = new Date(d.setDate(diff))
-  return newD
+function getStartOfMonth() {
+  var today = new Date()
+  today.setDate(1)
+  return today
 }
 
 // return array of location objects to populate dropdown
@@ -130,10 +136,90 @@ class Calendar extends Component {
       start_datetime: new Date(),
       end_datetime: new Date(),
       display_date: new Date(),
-      changed_view: false // if user has changed calendar settings
+      month: getStartOfMonth(),
+      changed_view: false, // if user has changed calendar settings
     }
     this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
+    this.getCustomToolbar = this.getCustomToolbar.bind(this)
+  }
+
+  nextMonth() {
+    var day = new Date(this.state.month)
+    if (day.getMonth() == 11) {
+      day.setMonth(0)
+      day.setFullYear(day.getFullYear() + 1)
+    } else {
+      day.setMonth(day.getMonth() + 1)
+    }
+    this.setState({
+      month: new Date(day.toLocaleString())
+    })
+    return day
+  }
+
+  prevMonth() {
+    var day = new Date(this.state.month)
+    if (day.getMonth() == 0) {
+      day.setMonth(11)
+      day.setFullYear(day.getFullYear() - 1)
+    } else {
+      day.setMonth(day.getMonth() - 1)
+    }
+    this.setState({
+      month: new Date(day.toLocaleString())
+    })
+    return day
+  }
+
+  getCustomToolbar = (toolbar) => {
+    this.toolbarDate = toolbar.date
+    const goToBack = () => {
+      toolbar.onNavigate('back', this.prevMonth())
+    }
+    const goToNext = () => {
+      toolbar.onNavigate('next', this.nextMonth())
+    }
+    const goToToday =() => {
+      var day = new Date()
+      this.setState({
+        month: getStartOfMonth()
+      })
+      toolbar.onNavigate('today', day)
+    }
+
+    return (
+      <div className='ToolbarCalendar'>
+        <MuiThemeProvider theme={Theme}>
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography variant="h5" component="h3" color="primary">
+                {monthNames[this.state.month.getMonth()] + ' ' +  this.state.month.getFullYear()}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <div className='ToolbarButtons'>
+                <div className='ToolbarItem'>
+                  <Button onClick={goToBack} variant="contained" color="secondary">
+                    Back
+                  </Button>
+                </div>
+                <div className='ToolbarItem'>
+                  <Button onClick={goToNext} variant="contained" color="secondary">
+                    Next
+                  </Button>
+                </div>
+                <div className='ToolbarItem'>
+                  <Button onClick={goToToday} variant="contained" color="secondary">
+                    Today
+                  </Button>
+                </div>
+              </div>
+            </Grid>
+          </Grid>
+        </MuiThemeProvider>
+      </div>
+    )
   }
 
   handleCheckFree = name => {
@@ -318,7 +404,7 @@ class Calendar extends Component {
   seeDetails = (event) => {
     this.props.changeToDetails(
       event, 
-      this.state.display_date,
+      this.state.month,
       this.state.organizations,
       this.state.categories,
       this.state.locations)
@@ -350,6 +436,11 @@ class Calendar extends Component {
     // }
     var addEvent = <AddEventButton/>
     var addOrg = <AddOrgButton/>
+    var displayDate = getStartOfMonth()
+    if (this.props.changed_view === true) {
+      displayDate = this.props.month
+      console.log('Default date: ' + displayDate.toLocaleString())
+    }
     // const adminList = ['rachelsc', 'clairedu']
     // const isAdmin = adminList.includes(localStorage.getItem('netid'))
     // if (isAdmin) {
@@ -439,8 +530,8 @@ class Calendar extends Component {
             onSelectEvent={this.seeDetails}
             views={['month', 'week']}
             eventPropGetter={(this.eventStyleGetter)}
-            defaultDate={this.state.display_date}
-            //components={{toolbar: this.getCustomToolbar}}
+            defaultDate={displayDate}
+            components={{toolbar: this.getCustomToolbar}}
           />
         </div>
       </div>
@@ -454,6 +545,7 @@ const mapStateToProps = state => {
     organizations: state.calReducer.organizations,
     categories: state.calReducer.categories,
     locations: state.calReducer.locations,
+    month: state.calReducer.month,
     /*title: state.eventReducer.title,
     start: state.eventReducer.start,
     end: state.eventReducer.end,
@@ -467,7 +559,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToDetails: (event, display_date, organizations, categories, locations) => dispatch({
+    changeToDetails: (event, month, organizations, categories, locations) => dispatch({
       type: 'changeToDetails',
       payload: {
         title: event.title,
@@ -479,7 +571,7 @@ const mapDispatchToProps = dispatch => {
         org: event.org,
         is_free: event.is_free,
         cat: event.cat,
-        display_date: display_date,
+        month: month,
         categories: categories,
         organizations: organizations,
         locations: locations,

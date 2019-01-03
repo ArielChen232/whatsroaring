@@ -1,5 +1,5 @@
 const initialState = {
-  display_date: new Date(),
+  month: new Date(),
   organizations: [],
   categories: [],
   locations: [],
@@ -10,6 +10,7 @@ const calReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'changeToDetails':
       console.log('Reduced cal')
+      console.log('Month: ' + action.payload.month)
       return action.payload
     default:
       return state

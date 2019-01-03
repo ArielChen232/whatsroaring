@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import ListItemText from '@material-ui/core/ListItemText'
 
-import theme from '../Assets/Theme'
+import Theme from '../Assets/Theme'
 
 import './CreateEvent.css'
 
@@ -185,7 +185,7 @@ class CreateEvent extends Component {
       <div className="createEvent">
           <h1> Create Event </h1>
 
-          <MuiThemeProvider theme={theme}>
+          <MuiThemeProvider theme={Theme}>
 
             <div className='EventPaper'>
 

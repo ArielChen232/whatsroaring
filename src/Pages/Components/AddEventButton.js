@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 
 import './Button.css'
 
-const url = 'https://whatsroaring.herokuapp.com/submitEvent'
+const url = 'http://whatsroaring.herokuapp.com/submitEvent'
 
 class AddEventButton extends Component {
   constructor() {
