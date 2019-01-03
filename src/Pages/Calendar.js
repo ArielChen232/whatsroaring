@@ -18,6 +18,10 @@ import Typography from '@material-ui/core/Typography'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import ArrowBack from '@material-ui/icons/ArrowBack'
+import ArrowForward from '@material-ui/icons/ArrowForward'
 
 import {
     Collapse,
@@ -31,7 +35,7 @@ import {
     Row,
     Col,
     Jumbotron,
-    Button
+    //Button
 } from 'reactstrap';
 
 // Styling
@@ -223,24 +227,24 @@ class Calendar extends Component {
         <MuiThemeProvider theme={Theme}>
           <Grid container>
             <Grid item xs={6}>
-              <Typography variant="h5" component="h3" color="primary">
-                {monthNames[this.state.month.getMonth()] + ' ' +  this.state.month.getFullYear()}
-              </Typography>
+                <Typography variant="h5" component="h3" color="primary">
+                  {monthNames[this.state.month.getMonth()] + ' ' +  this.state.month.getFullYear()}
+                </Typography>
             </Grid>
             <Grid item xs={6}>
               <div className='ToolbarButtons'>
                 <div className='ToolbarItem'>
-                  <Button onClick={goToBack} variant="contained" color="secondary">
-                    Back
-                  </Button>
+                  <IconButton color="primary" onClick={goToBack} variant="contained" size="small">
+                    <ArrowBack />
+                  </IconButton>
                 </div>
                 <div className='ToolbarItem'>
-                  <Button onClick={goToNext} variant="contained" color="secondary">
-                    Next
-                  </Button>
+                  <IconButton color="primary" onClick={goToNext} variant="contained" size="small">
+                    <ArrowForward />
+                  </IconButton>
                 </div>
                 <div className='ToolbarItem'>
-                  <Button onClick={goToToday} variant="contained" color="secondary">
+                  <Button color="primary" onClick={goToToday} size="small">
                     Today
                   </Button>
                 </div>

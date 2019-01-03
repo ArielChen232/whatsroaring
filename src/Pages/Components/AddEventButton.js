@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import theme from '../../Assets/Theme'
 import Button from '@material-ui/core/Button'
+import AddIcon from '@material-ui/icons/Add'
 
 import './Button.css'
 
@@ -24,8 +25,8 @@ class AddEventButton extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <div className='Button'>
-          <Button variant="contained" color="primary" onClick={this.handleClick}>
-            Add Event
+          <Button variant="contained" color="primary" onClick={this.handleClick} size="medium">
+            <AddIcon></AddIcon>Event
           </Button>
         </div>
       </MuiThemeProvider>

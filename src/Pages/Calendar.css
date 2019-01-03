@@ -47,6 +47,8 @@ header.calendarhead {
 .ToolbarItem {
   padding-left: 5px;
   padding-right: 5px;
+  display: flex;
+  vertical-align: middle;
 }
 
 .full-width {
