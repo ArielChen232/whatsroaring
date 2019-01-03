@@ -5,7 +5,9 @@
 }
 
 .CalendarPage {
-  background-image: url('../Assets/homepage_lower.png');
+  /*background-image: url('../Assets/homepage_lower.png');*/
+  background-color: #F4E4CA;
+
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -49,6 +51,11 @@ header.calendarhead {
   padding-right: 5px;
   display: flex;
   vertical-align: middle;
+}
+
+.month {
+  padding-top: 5px;
+  display: flex;
 }
 
 .full-width {

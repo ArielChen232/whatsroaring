@@ -227,9 +227,9 @@ class Calendar extends Component {
         <MuiThemeProvider theme={Theme}>
           <Grid container>
             <Grid item xs={6}>
-                <Typography variant="h5" component="h3" color="primary">
-                  {monthNames[this.state.month.getMonth()] + ' ' +  this.state.month.getFullYear()}
-                </Typography>
+              <Typography className="month" variant="h3" component="h3" color="primary">
+                {monthNames[this.state.month.getMonth()] + ' ' +  this.state.month.getFullYear()}
+              </Typography>
             </Grid>
             <Grid item xs={6}>
               <div className='ToolbarButtons'>
@@ -244,7 +244,7 @@ class Calendar extends Component {
                   </IconButton>
                 </div>
                 <div className='ToolbarItem'>
-                  <Button color="primary" onClick={goToToday} size="small">
+                  <Button color="primary" onClick={goToToday} size="medium" variant="outlined">
                     Today
                   </Button>
                 </div>
