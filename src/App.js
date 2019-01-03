@@ -7,7 +7,7 @@ import Details from './Pages/Details'
 import CreateEvent from './Pages/CreateEvent'
 import AddOrg from './Pages/AddOrg'
 
-import './App.css';
+import './App.css'
 
 class App extends Component {
 

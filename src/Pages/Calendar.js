@@ -392,7 +392,8 @@ class Calendar extends Component {
         categories: this.props.categories,
         organizations: this.props.organizations,
         is_free: this.state.checkedFree,
-        favorites: this.state.checkedFav
+        favorites: this.state.checkedFav,
+        month: this.props.month,
      })
     }
     this.updateCalendar()
@@ -436,11 +437,6 @@ class Calendar extends Component {
     // }
     var addEvent = <AddEventButton/>
     var addOrg = <AddOrgButton/>
-    var displayDate = getStartOfMonth()
-    if (this.props.changed_view === true) {
-      displayDate = this.props.month
-      console.log('Default date: ' + displayDate.toLocaleString())
-    }
     // const adminList = ['rachelsc', 'clairedu']
     // const isAdmin = adminList.includes(localStorage.getItem('netid'))
     // if (isAdmin) {
@@ -530,7 +526,7 @@ class Calendar extends Component {
             onSelectEvent={this.seeDetails}
             views={['month', 'week']}
             eventPropGetter={(this.eventStyleGetter)}
-            defaultDate={displayDate}
+            defaultDate={this.state.month}
             components={{toolbar: this.getCustomToolbar}}
           />
         </div>
