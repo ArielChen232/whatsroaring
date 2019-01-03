@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import LogInButton from './Components/LogInButton'
+import Footer from './Components/Footer'
 
 import './Landing.css'
 
@@ -62,7 +63,7 @@ class Landing extends React.Component {
     return (
       <div className="landing">
 
-      <div>
+      {/*<div>
         <Navbar color="muted" light expand="lg">
           <NavbarBrand href="/" className="mr-auto">Home</NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
@@ -80,7 +81,7 @@ class Landing extends React.Component {
             </Nav>
           </Collapse>
         </Navbar>
-      </div>
+      </div>*/}
 
       <div className="landing_top">
         <div class="container">
@@ -95,7 +96,7 @@ class Landing extends React.Component {
         </div>
       </div>
 
-      <div className="landing_bottom">
+      {/*<div className="landing_bottom">
         <section id="about">
         <Button color="muted" size="lg" block onClick={this.toggle} style={{ marginBottom: '1rem' }}>About whatsRoaring</Button>
         <Collapse isOpen={this.state.collapse}>
@@ -137,7 +138,7 @@ class Landing extends React.Component {
             <span class="text-muted">Thanks for using whatsRoaring!
             </span>
           </div>
-        </div>
+        </div>*/}
 
 
       </div>

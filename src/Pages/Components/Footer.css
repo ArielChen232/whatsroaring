@@ -1,0 +1,30 @@
+:root {
+  --lightorange: #F4E4CA;
+  --lightblue: #f4f9f9;
+  --darkorange: #fb8c00;
+}
+
+.Footer {
+  background-color: var(--darkorange);
+}
+
+.Links {
+  padding-top: 1vh;
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+}
+
+.Copyright {
+  color: var(--lightblue);
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+
+.link {
+  color: var(--darkorange);
+}
+
+.link:hover {
+  color: #00f;
+}

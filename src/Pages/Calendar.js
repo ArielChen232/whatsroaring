@@ -10,6 +10,8 @@ import BigCalendar from 'react-big-calendar'
 import DropdownMultiple from './Components/DropdownMultiple'
 import AddEventButton from './Components/AddEventButton'
 import AddOrgButton from './Components/AddOrgButton'
+import Footer from './Components/Footer'
+import Header from './Components/Header'
 
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Theme from '../Assets/Theme'
@@ -546,7 +548,10 @@ class Calendar extends Component {
             {this.renderCalendar()}
           </div>
         </div>
+
       </MuiThemeProvider>
+
+      
     )
   }
 }

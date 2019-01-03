@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import theme from '../../Assets/Theme'
+import Theme from '../../Assets/Theme'
 import Button from '@material-ui/core/Button'
 
 import './Button.css'
@@ -18,10 +18,19 @@ class LogInButton extends Component {
 
   render () {
     return (
+      <MuiThemeProvider theme={Theme}>
+        <div className='Button'>
+          <Button variant="contained" color="primary" onClick={this.handleClick} size="large">
+            Log In
+          </Button>
+        </div>
+      </MuiThemeProvider>
+    )
+    /*return (
       <button class='LogInButton' onClick={this.handleClick}>
          Log In
       </button>
-    )
+    )*/
   }
 }
 export default withRouter(LogInButton);
