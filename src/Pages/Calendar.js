@@ -144,6 +144,36 @@ class Calendar extends Component {
     this.getCustomToolbar = this.getCustomToolbar.bind(this)
   }
 
+  componentDidMount() {
+    if (this.props.changed_view === false) {
+      console.log('Default view')
+      this.setState({
+        locations:getLocationObjects(),
+        categories:getCategoryObjects(),
+        organizations:getOrganizationObjects(),
+        is_free: this.state.checkedFree,
+        favorites: this.state.checkedFav
+     })
+    } else {
+      console.log('Recovering view')
+      console.log('Checked Free: ' + this.props.checked_free)
+      this.setState({
+        locations: this.props.locations,
+        categories: this.props.categories,
+        organizations: this.props.organizations,
+        is_free: this.props.checked_free,
+        favorites: this.props.checked_fav,
+        checkedFree: this.props.checked_free,
+        checkedFav: this.props.checked_fav,
+        month: this.props.month,
+     })
+    }
+    this.updateCalendar()
+    this._isMounted = true
+    // var cas = new CASClient()
+    // cas.authenticate(() => this.setState({loading: false}))
+  }
+
   nextMonth() {
     var day = new Date(this.state.month)
     if (day.getMonth() == 11) {
@@ -373,42 +403,15 @@ class Calendar extends Component {
                         favorites)
   }
 
-
-  componentDidMount() {
-    console.log('changed_view: ' + this.props.changed_view)
-    if (this.props.changed_view === false) {
-      console.log('Default view')
-      this.setState({
-        locations:getLocationObjects(),
-        categories:getCategoryObjects(),
-        organizations:getOrganizationObjects(),
-        is_free: this.state.checkedFree,
-        favorites: this.state.checkedFav
-     })
-    } else {
-      console.log('Recovering view')
-      this.setState({
-        locations: this.props.locations,
-        categories: this.props.categories,
-        organizations: this.props.organizations,
-        is_free: this.state.checkedFree,
-        favorites: this.state.checkedFav,
-        month: this.props.month,
-     })
-    }
-    this.updateCalendar()
-    this._isMounted = true
-    // var cas = new CASClient()
-    // cas.authenticate(() => this.setState({loading: false}))
-  }
-
   seeDetails = (event) => {
     this.props.changeToDetails(
       event, 
       this.state.month,
       this.state.organizations,
       this.state.categories,
-      this.state.locations)
+      this.state.locations,
+      this.state.checkedFree,
+      this.state.checkedFav)
     this.props.history.push('/details')
   }
 
@@ -448,6 +451,7 @@ class Calendar extends Component {
     //   addOrg = <div></div>
     // }
     return (
+      <MuiThemeProvider theme={Theme}>
       <div className='CalendarPage'>
 
         <div className = "full-width">
@@ -493,7 +497,7 @@ class Calendar extends Component {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={this.state.checkedA}
+                    checked={this.state.checkedFree}
                     onChange={this.handleCheckFree}
                     value="checkedA"
                     color="primary"
@@ -505,7 +509,7 @@ class Calendar extends Component {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={this.state.checkedA}
+                    checked={this.state.checkedFav}
                     onChange={this.handleCheckFav}
                     value="checkedA"
                     color="primary"
@@ -531,6 +535,7 @@ class Calendar extends Component {
           />
         </div>
       </div>
+      </MuiThemeProvider>
     )
   }
 }
@@ -542,6 +547,8 @@ const mapStateToProps = state => {
     categories: state.calReducer.categories,
     locations: state.calReducer.locations,
     month: state.calReducer.month,
+    checked_free: state.calReducer.checked_free,
+    checked_fav: state.calReducer.checked_fav,
     /*title: state.eventReducer.title,
     start: state.eventReducer.start,
     end: state.eventReducer.end,
@@ -555,7 +562,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToDetails: (event, month, organizations, categories, locations) => dispatch({
+    changeToDetails: (event, month, organizations, categories, locations, checked_free, checked_fav) => dispatch({
       type: 'changeToDetails',
       payload: {
         title: event.title,
@@ -572,6 +579,8 @@ const mapDispatchToProps = dispatch => {
         organizations: organizations,
         locations: locations,
         changed_view: true,
+        checked_free: checked_free,
+        checked_fav: checked_fav
       }
     })
   }

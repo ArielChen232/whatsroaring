@@ -50,6 +50,8 @@ class Details extends Component {
       this.props.organizations,
       this.props.categories,
       this.props.locations,
+      this.props.checked_free,
+      this.props.checked_fav,
     )
     this.props.history.push('/calendar')
   }
@@ -221,12 +223,14 @@ const mapStateToProps = state => {
     organizations: state.calReducer.organizations,
     categories: state.calReducer.categories,
     locations: state.calReducer.locations,
+    checked_free: state.calReducer.checked_free,
+    checked_fav: state.calReducer.checked_fav
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToCalendar: (month, organizations, categories, locations) => dispatch({
+    changeToCalendar: (month, organizations, categories, locations, checked_free, checked_fav) => dispatch({
       type: 'changeToCalendar',
       payload: {
         month: month,
@@ -234,6 +238,8 @@ const mapDispatchToProps = dispatch => {
         categories: categories,
         locations: locations,
         changed_view: true,
+        checked_free: checked_free,
+        checked_fav: checked_fav,
       }
     })
   }
