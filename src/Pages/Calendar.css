@@ -2,11 +2,14 @@
   --blue: #3174ad;
   --pink: #ad3173;
   --orange: #fb8c00;
+  --lightorange: #F4E4CA;
+  --toolbarorange: #f9efe0;
+  --lightblue: #f4f9f9;
 }
 
 .CalendarPage {
   /*background-image: url('../Assets/homepage_lower.png');*/
-  background-color: #F4E4CA;
+  background-color: var(--lightorange);
 
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -19,7 +22,7 @@
 header.calendarhead {
     text-align: center;
     height:20vh;
-    background-image: url("../Assets/wr_header.png");å
+    background-image: url("../Assets/wr_header.png");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -30,14 +33,17 @@ header.calendarhead {
 }
 
 .Calendar {
+  background-color: var(--lightblue);
   margin-top: 30px;
   height: 100vh;
 }
 
 .ToolbarCalendar {
+  background-color: var(--toolbarorange);
   flex-direction: row;
   justify-content: space-around;
   display: flex;
+  padding-top: 10px;
   padding-bottom: 10px;
 }
 
