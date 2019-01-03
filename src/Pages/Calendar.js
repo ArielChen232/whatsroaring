@@ -160,7 +160,6 @@ class Calendar extends Component {
      })
     } else {
       console.log('Recovering view')
-      console.log('Checked Free: ' + this.props.checked_free)
       this.setState({
         locations: this.props.locations,
         categories: this.props.categories,
@@ -324,6 +323,7 @@ class Calendar extends Component {
   start_date = "", end_date = "", favorites = "") {
     // empty string for parameters indicates select all of them
     // Repopulate calendar
+    console.log('UPDATING CALENDAR')
     const url_getEvents = url + 'getEvents'
     const events = [];
     axios.get(url_getEvents, {
@@ -433,6 +433,23 @@ class Calendar extends Component {
     }
   }
 
+  renderCalendar = () => {
+    if (this._isMounted === true) {
+      return (
+        <BigCalendar
+          localizer={localizer}
+          events={this.state.events}
+          defaultView={BigCalendar.Views.MONTH}
+          onSelectEvent={this.seeDetails}
+          views={['month', 'week']}
+          eventPropGetter={(this.eventStyleGetter)}
+          defaultDate={this.state.month}
+          components={{toolbar: this.getCustomToolbar}}
+        />
+      )
+    }
+  }
+
   render() {
     // if authentication is not complete, display a loading page
     // if (this.state.loading == true) {
@@ -526,16 +543,7 @@ class Calendar extends Component {
           </div>
 
           <div className='Calendar'>
-            <BigCalendar
-              localizer={localizer}
-              events={this.state.events}
-              defaultView={BigCalendar.Views.MONTH}
-              onSelectEvent={this.seeDetails}
-              views={['month', 'week']}
-              eventPropGetter={(this.eventStyleGetter)}
-              defaultDate={this.state.month}
-              components={{toolbar: this.getCustomToolbar}}
-            />
+            {this.renderCalendar()}
           </div>
         </div>
       </MuiThemeProvider>

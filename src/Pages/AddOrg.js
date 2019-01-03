@@ -78,7 +78,7 @@ class AddOrg extends Component {
   render() {
     const { classes } = this.props
     return (
-      <div className="addOrg">
+      <div className="AddOrg">
           <h1> Add Organization </h1>
 
           <MuiThemeProvider theme={theme}>
