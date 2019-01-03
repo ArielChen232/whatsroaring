@@ -9,6 +9,8 @@ import AddOrg from './Pages/AddOrg'
 
 import './App.css'
 
+var validate = require('json-schema').validate
+
 class App extends Component {
 
   render() {

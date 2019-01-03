@@ -452,89 +452,88 @@ class Calendar extends Component {
     // }
     return (
       <MuiThemeProvider theme={Theme}>
-      <div className='CalendarPage'>
+        <div className='CalendarPage'>
 
-        <div className = "full-width">
-          <header className="calendarhead">
-          </header>
-          <br></br>
-          <div className = "alignleft">
-            <DropdownMultiple
-              titleHelper="location"
-              title="Select location"
-              list={this.state.locations}
-              toggleItem={this.toggleSelected}
-            />
-          </div>
-
-
-          <div className = "alignleft">
-            <DropdownMultiple
-              titleHelper="event type"
-              title="Select event type"
-              list={this.state.categories}
-              toggleItem={this.toggleSelected}
-            />
-          </div>
-
-          <div className = "alignleft">
-            <DropdownMultiple
-              titleHelper="organization"
-              title="Select organization"
-              list={this.state.organizations}
-              toggleItem={this.toggleSelected}
-            />
-          </div>
-
-          <div className = "alignright">
-            {addEvent}
-            {addOrg}
-          </div>
-
-          <div className = "alignleft">
-
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.checkedFree}
-                    onChange={this.handleCheckFree}
-                    value="checkedA"
-                    color="primary"
-                  />
-                }
-                label="Free events only"
+          <div className = "full-width">
+            <header className="calendarhead">
+            </header>
+            <br></br>
+            <div className = "alignleft">
+              <DropdownMultiple
+                titleHelper="location"
+                title="Select location"
+                list={this.state.locations}
+                toggleItem={this.toggleSelected}
               />
+            </div>
 
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.checkedFav}
-                    onChange={this.handleCheckFav}
-                    value="checkedA"
-                    color="primary"
-                  />
-                }
-                label="Favorites"
+            <div className = "alignleft">
+              <DropdownMultiple
+                titleHelper="event type"
+                title="Select event type"
+                list={this.state.categories}
+                toggleItem={this.toggleSelected}
               />
+            </div>
 
-            </FormGroup>
+            <div className = "alignleft">
+              <DropdownMultiple
+                titleHelper="organization"
+                title="Select organization"
+                list={this.state.organizations}
+                toggleItem={this.toggleSelected}
+              />
+            </div>
+
+            <div className = "alignright">
+              {addEvent}
+              {addOrg}
+            </div>
+
+            <div className = "alignleft">
+
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.checkedFree}
+                      onChange={this.handleCheckFree}
+                      value="checkedA"
+                      color="primary"
+                    />
+                  }
+                  label="Free events only"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.checkedFav}
+                      onChange={this.handleCheckFav}
+                      value="checkedA"
+                      color="primary"
+                    />
+                  }
+                  label="Favorites"
+                />
+
+              </FormGroup>
+            </div>
+          </div>
+
+          <div className='Calendar'>
+            <BigCalendar
+              localizer={localizer}
+              events={this.state.events}
+              defaultView={BigCalendar.Views.MONTH}
+              onSelectEvent={this.seeDetails}
+              views={['month', 'week']}
+              eventPropGetter={(this.eventStyleGetter)}
+              defaultDate={this.state.month}
+              components={{toolbar: this.getCustomToolbar}}
+            />
           </div>
         </div>
-
-        <div className='Calendar'>
-          <BigCalendar
-            localizer={localizer}
-            events={this.state.events}
-            defaultView={BigCalendar.Views.MONTH}
-            onSelectEvent={this.seeDetails}
-            views={['month', 'week']}
-            eventPropGetter={(this.eventStyleGetter)}
-            defaultDate={this.state.month}
-            components={{toolbar: this.getCustomToolbar}}
-          />
-        </div>
-      </div>
       </MuiThemeProvider>
     )
   }
