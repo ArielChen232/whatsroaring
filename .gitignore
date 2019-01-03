@@ -1,1 +1,5 @@
 *.json
+*.npmignore
+*.MD
+LICENSE
+index.js
