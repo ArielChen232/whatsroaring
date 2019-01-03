@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import { MuiThemeProvider } from '@material-ui/core/styles'
@@ -79,17 +80,20 @@ class AddOrg extends Component {
     const { classes } = this.props
     return (
       <div className="AddOrg">
-          <h1> Add Organization </h1>
-
           <MuiThemeProvider theme={theme}>
+            <div className='Header'>
+              <Typography variant="h2" color="primary">
+                Add Organization
+              </Typography>
+            </div>
 
             <div className='EventPaper'>
 
-              <div className='ReturnButton'>
+              {/*<div className='ReturnButton'>
                 <IconButton color='primary' onClick={this.goBack}>
                   <ArrowBack />
                 </IconButton>
-              </div>
+              </div>*/}
 
               <Paper className='EventPaperInner'>
                 <div className='InnerPageFields'>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import { MuiThemeProvider } from '@material-ui/core/styles'
@@ -183,18 +184,23 @@ class CreateEvent extends Component {
     const { classes } = this.props
 
     return (
-      <div className="createEvent">
-          <h1> Create Event </h1>
+      <div className="CreateEvent">
+
 
           <MuiThemeProvider theme={Theme}>
+            <div className='Header'>
+              <Typography variant="h2" color="primary">
+                Create Event
+              </Typography>
+            </div>
 
             <div className='EventPaper'>
 
-              <div className='ReturnButton'>
+              {/*<div className='ReturnButton'>
                 <IconButton color='primary' onClick={this.goBack}>
                   <ArrowBack />
                 </IconButton>
-              </div>
+              </div>*/}
 
               <Paper className='EventPaperInner'>
                 <div className='InnerPageFields'>
@@ -334,7 +340,7 @@ class CreateEvent extends Component {
                   </FormControl>
                 </div>
                 <div className='Button'>
-                  <Button variant="contained" color="primary" onClick={this.submitEvent}>
+                  <Button variant="contained" color="primary" onClick={this.submitEvent} size="large">
                     Submit Event
                   </Button>
                 </div>

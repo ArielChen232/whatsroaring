@@ -1,8 +1,15 @@
+.Header {
+  padding-left: 2vw;
+  padding-right: 2vw;
+  padding-bottom: 2vh;
+  padding-top: 3vh;
+}
+
 .ReturnButton {
   align-items: baseline;
 }
 
-.createEvent {
+.CreateEvent {
   background-image: url('../Assets/sideways_background.png');
   background-size: cover;
   background-position: center center;
@@ -12,6 +19,8 @@
 .EventPaper {
   padding-left: 20vw;
   padding-right: 20vw;
+  padding-bottom: 5vh;
+  padding-top: 2vh;
 }
 
 .EventPaperInner {
