@@ -65,63 +65,6 @@ function getStartOfMonth() {
   return today
 }
 
-// return array of location objects to populate dropdown
-function getLocationObjects() {
-  const url_locs = url + 'getLocations'
-  var locs_arr = [];
-  axios.get(url_locs).then(res => {
-    var locs = res.data.locs
-    locs.sort(compareDropdown)
-    for (var i = 0; i < locs.length; i++) {
-      locs_arr.push({
-        id: i,
-        title: locs[i],
-        selected: false,
-        key: 'locations'
-      });
-    }
-  })
-  return locs_arr
-}
-
-// return array of category objects to populate dropdown
-function getCategoryObjects() {
-  const url_cats = url + 'getCategories'
-  var cats_arr = [];
-  axios.get(url_cats).then(res => {
-    var cats = res.data.cats
-    cats.sort(compareDropdown)
-    for (var i = 0; i < cats.length; i++) {
-      cats_arr.push({
-        id: i,
-        title: cats[i],
-        selected: false,
-        key: 'categories'
-      });
-    }
-  })
-  return cats_arr
-}
-
-// return array of organization objects to populate dropdown
-function getOrganizationObjects() {
-  const url_orgs = url + 'getOrganizations'
-  var orgs_arr = [];
-  axios.get(url_orgs).then(res => {
-    var orgs = res.data.orgs
-    orgs.sort(compareDropdown)
-    for (var i = 0; i < orgs.length; i++) {
-      orgs_arr.push({
-        id: i,
-        title: orgs[i],
-        selected: false,
-        key: 'organizations'
-      });
-    }
-  })
-  return orgs_arr
-}
-
 // function to sort dropdown components
 function compareDropdown(a, b) {
   var compA = a.toUpperCase();
@@ -133,6 +76,7 @@ function compareDropdown(a, b) {
 
 
 class Calendar extends Component {
+
   constructor(...args) {
     super(...args)
     this.state = {
@@ -158,12 +102,74 @@ class Calendar extends Component {
   }
 
   componentDidMount() {
+    // Get location objects, then get category objects, then get organization objects.
+    // Then apply filters and render the calendar.
+    const url_locs = url + 'getLocations'
+    var locs_arr = [];
+    axios.get(url_locs).then(res => {
+      var locs = res.data.locs
+      locs.sort(compareDropdown)
+      for (var i = 0; i < locs.length; i++) {
+        locs_arr.push({
+          id: i,
+          title: locs[i],
+          selected: false,
+          key: 'locations'
+        });
+      }
+      this.setState({
+        locations: locs_arr
+      }, () => this.setCategories())
+    })
+    
+    // var cas = new CASClient()
+    // cas.authenticate(() => this.setState({loading: false}))
+  }
+
+  setCategories() {
+    const url_cats = url + 'getCategories'
+    var cats_arr = [];
+    axios.get(url_cats).then(res => {
+      var cats = res.data.cats
+      cats.sort(compareDropdown)
+      for (var i = 0; i < cats.length; i++) {
+        cats_arr.push({
+          id: i,
+          title: cats[i],
+          selected: false,
+          key: 'categories'
+        });
+      }
+      this.setState({
+        categories: cats_arr
+      }, () => this.setOrganizations())
+    })
+  }
+
+  setOrganizations() {
+    const url_orgs = url + 'getOrganizations'
+    var orgs_arr = [];
+    axios.get(url_orgs).then(res => {
+      var orgs = res.data.orgs
+      orgs.sort(compareDropdown)
+      for (var i = 0; i < orgs.length; i++) {
+        orgs_arr.push({
+          id: i,
+          title: orgs[i],
+          selected: false,
+          key: 'organizations'
+        });
+      }
+      this.setState({
+        organizations: orgs_arr
+      }, () => this.applyFilters())
+    })
+  }
+
+  applyFilters() {
     if (this.props.changed_view === false) {
       console.log('Default view')
       this.setState({
-        locations: getLocationObjects(),
-        categories: getCategoryObjects(),
-        organizations: getOrganizationObjects(),
         locations_selected: [],
         categories_selected: [],
         organizations_selected: [],
@@ -172,13 +178,7 @@ class Calendar extends Component {
       }, () => this.filterEvents())
     } else {
       console.log('Recovering view')
-      console.log('Recovered organizations: ' + this.props.organizations_selected)
-      console.log('Recovered categories: ' + this.props.categories_selected)
-      console.log('Recovered locations: ' + this.props.locations_selected)
       this.setState({
-        locations: getLocationObjects(),
-        categories: getCategoryObjects(),
-        organizations: getOrganizationObjects(),
         locations_selected: this.props.locations_selected,
         categories_selected: this.props.categories_selected,
         organizations_selected: this.props.organizations_selected,
@@ -189,11 +189,7 @@ class Calendar extends Component {
         month: this.props.month,
      }, () => this.filterEvents())
     }
-    //this.updateCalendar()
-    //this.filterEvents()
     this._isMounted = true
-    // var cas = new CASClient()
-    // cas.authenticate(() => this.setState({loading: false}))
   }
 
   nextMonth() {
@@ -275,45 +271,40 @@ class Calendar extends Component {
   }
 
   handleCheckFree = name => {
-    console.log("free_selected")
     this.setState({
       checkedFree: !this.state.checkedFree
     }, () => this.filterEvents());
-  };
+  }
 
   handleCheckFav = name => {
-    console.log("fav_selected")
     this.setState({
       checkedFav: !this.state.checkedFav
     }, () => this.filterEvents());
-  };
+  }
 
   onStartChange = date => {
     this.setState({
-      start_datetime: date })};
+      start_datetime: date })}
 
   onEndChange = date => {
     this.setState({
-      end_datetime: date })};
+      end_datetime: date })}
 
-  toggleSelected = (id, key) => {
+  /*toggleSelected = (id, key) => {
     let temp = JSON.parse(JSON.stringify(this.state[key]))
     temp[id].selected = !temp[id].selected
-    console.log("toggled")
     this.setState({
       [key]: temp
     }, () => this.filterEvents())
-  }
+  }*/
 
   updateFilter = (listName, selectedList) => {
-    console.log('updateFilter called')
     this.setState({
       [listName + '_selected']: selectedList,
     }, () => this.filterEvents())
   }
 
   getStateFromStorage(callback) {
-    console.log('state gotten')
     var state = {}
     for (let key in this.state) {
       console.log(key)
@@ -346,7 +337,7 @@ class Calendar extends Component {
   }
 
   updateCalendar(locations="", categories="", organizations="", is_free="",
-  start_date = "", end_date = "", favorites = "") {
+    start_date = "", end_date = "", favorites = "") {
     // empty string for parameters indicates select all of them
     // Repopulate calendar
     const url_getEvents = url + 'getEvents'
@@ -377,7 +368,6 @@ class Calendar extends Component {
       })
     })
     .then(res => {
-      console.log(events)
       this.setState({events: events})
     })
     .catch(function(error) {
@@ -394,7 +384,6 @@ class Calendar extends Component {
     var is_free = "";
     var netid = localStorage.getItem('netid')
     var favorites = "";
-    console.log('locations length: ' + this.state.locations.length)
     for (i = 0; i < this.state.locations.length; i++) {
       if (this.state.locations_selected.includes(this.state.locations[i].title)) {
         locations += (this.state.locations[i].title + ',');
@@ -420,17 +409,12 @@ class Calendar extends Component {
     if (this.state.checkedFav === true) {
       favorites = "true"
     }
-    console.log(locations)
-    console.log(categories)
-    console.log(organizations)
-    console.log(is_free)
-    console.log(netid)
-    console.log(favorites)
-    this.updateCalendar(locations,
-                        categories,
-                        organizations,
-                        is_free,
-                        favorites)
+    this.updateCalendar(
+      locations,
+      categories,
+      organizations,
+      is_free,
+      favorites)
   }
 
   seeDetails = (event) => {
@@ -583,7 +567,6 @@ class Calendar extends Component {
                 {addEvent}
                 {addOrg}
               </div>
-
               
             </div>
 
@@ -596,7 +579,7 @@ class Calendar extends Component {
       )
     } else {
       return (
-        <div></div> /* Try loading sign */
+        <div>Loading...</div> /* Try loading sign */
       )
     }
   }
@@ -611,14 +594,6 @@ const mapStateToProps = state => {
     month: state.calReducer.month,
     checked_free: state.calReducer.checked_free,
     checked_fav: state.calReducer.checked_fav,
-    /*title: state.eventReducer.title,
-    start: state.eventReducer.start,
-    end: state.eventReducer.end,
-    desc: state.eventReducer.desc,
-    location: state.eventReducer.location,
-    website: state.eventReducer.website,
-    org: state.eventReducer.org,
-    is_free: state.eventReducer.is_free*/
   }
 }
 
