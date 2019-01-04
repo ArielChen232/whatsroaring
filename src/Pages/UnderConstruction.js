@@ -61,10 +61,7 @@ class UnderConstruction extends Component {
                   <ArrowBack />
                 </IconButton>
               </div>
-
-              <Paper className='EventPaperInner'>
-                This page is under construction.
-              </Paper>
+              <br></br>This page is under construction.
             </div>
           </MuiThemeProvider>
       </div>

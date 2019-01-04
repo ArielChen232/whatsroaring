@@ -5,6 +5,7 @@
   --dark-orange: #e0762f;
   --light-orange: #ef9628;
   --light-blue: #61dafb;
+  --lightorange: #F4E4CA;
 }
 
 .landing {
@@ -12,7 +13,8 @@
 }
 
 .landing_top {
-  background-image: url("../Assets/nassau_hall.png");
+  /*background-image: url("../Assets/nassau_hall.png");*/
+  background-color: var(--lightorange);
   height:90vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;

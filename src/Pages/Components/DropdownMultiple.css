@@ -1,12 +1,10 @@
 :root {
-  --blue: #3174ad;
-  --pink: #ad3173;
-  --orange: #fb8c00;
+  --darkorange: #fb8c00;
 }
 
-.DropdownMultiple {
-  margin-top: 30px;
-  height: 100vh;
+.formControl {
+  width: 100%;
+  display: flex;
 }
 
 * {
@@ -75,7 +73,7 @@ p {
   border-radius: 3px;
   cursor: default;
   position: relative;
-  background-color: #FFFACD;
+  background-color: var(--darkorange);
 }
 .dd-header span {
   margin-right: 20px;
@@ -93,7 +91,7 @@ p {
   z-index: 10;
   position: absolute;
   width: 100%;
-  border: 1px solid #dfdfdf;
+  border: 1px solid var(--darkorange);
   border-top: none;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
@@ -118,11 +116,11 @@ p {
 }
 .dd-list-item.selected {
   color: #fff;
-  background-color: #ffcc01;
+  background-color: var(--darkorange);
 }
 .dd-list-item:hover {
   color: #fff;
-  background-color: #ffcc01;
+  background-color: var(--darkorange);
 }
 .dd-wrapper-single {
   -webkit-user-select: none;
@@ -133,12 +131,12 @@ p {
   width: 265px;
 }
 .dd-wrapper-single .dd-header {
-  border: 1px solid #ccc;
+  border: 1px solid var(--darkorange);
 }
 .dd-wrapper-single .dd-header .dd-header-name {
   font-weight: 400;
 }
 .dd-wrapper-single .dd-list {
-  border: 1px solid #ccc;
+  border: 1px solid var(--darkorange);
   border-top: none;
 }

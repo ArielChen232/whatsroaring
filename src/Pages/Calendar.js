@@ -24,6 +24,11 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import ArrowForward from '@material-ui/icons/ArrowForward'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
+import Input from '@material-ui/core/Input'
+import ListItemText from '@material-ui/core/ListItemText'
 
 import {
     Collapse,
@@ -53,7 +58,6 @@ const orange = '#fb8c00'
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ]
-
 
 function getStartOfMonth() {
   var today = new Date()
@@ -137,6 +141,9 @@ class Calendar extends Component {
       locations: [],
       categories: [],
       organizations: [],
+      locations_selected: [],
+      categories_selected: [],
+      organizations_selected: [],
       checkedFree: false,
       checkedFav: false,
       start_datetime: new Date(),
@@ -154,26 +161,36 @@ class Calendar extends Component {
     if (this.props.changed_view === false) {
       console.log('Default view')
       this.setState({
-        locations:getLocationObjects(),
-        categories:getCategoryObjects(),
-        organizations:getOrganizationObjects(),
+        locations: getLocationObjects(),
+        categories: getCategoryObjects(),
+        organizations: getOrganizationObjects(),
+        locations_selected: [],
+        categories_selected: [],
+        organizations_selected: [],
         is_free: this.state.checkedFree,
         favorites: this.state.checkedFav
-     })
+      }, () => this.filterEvents())
     } else {
       console.log('Recovering view')
+      console.log('Recovered organizations: ' + this.props.organizations_selected)
+      console.log('Recovered categories: ' + this.props.categories_selected)
+      console.log('Recovered locations: ' + this.props.locations_selected)
       this.setState({
-        locations: this.props.locations,
-        categories: this.props.categories,
-        organizations: this.props.organizations,
+        locations: getLocationObjects(),
+        categories: getCategoryObjects(),
+        organizations: getOrganizationObjects(),
+        locations_selected: this.props.locations_selected,
+        categories_selected: this.props.categories_selected,
+        organizations_selected: this.props.organizations_selected,
         is_free: this.props.checked_free,
         favorites: this.props.checked_fav,
         checkedFree: this.props.checked_free,
         checkedFav: this.props.checked_fav,
         month: this.props.month,
-     })
+     }, () => this.filterEvents())
     }
-    this.updateCalendar()
+    //this.updateCalendar()
+    //this.filterEvents()
     this._isMounted = true
     // var cas = new CASClient()
     // cas.authenticate(() => this.setState({loading: false}))
@@ -288,6 +305,13 @@ class Calendar extends Component {
     }, () => this.filterEvents())
   }
 
+  updateFilter = (listName, selectedList) => {
+    console.log('updateFilter called')
+    this.setState({
+      [listName + '_selected']: selectedList,
+    }, () => this.filterEvents())
+  }
+
   getStateFromStorage(callback) {
     console.log('state gotten')
     var state = {}
@@ -325,7 +349,6 @@ class Calendar extends Component {
   start_date = "", end_date = "", favorites = "") {
     // empty string for parameters indicates select all of them
     // Repopulate calendar
-    console.log('UPDATING CALENDAR')
     const url_getEvents = url + 'getEvents'
     const events = [];
     axios.get(url_getEvents, {
@@ -371,18 +394,19 @@ class Calendar extends Component {
     var is_free = "";
     var netid = localStorage.getItem('netid')
     var favorites = "";
+    console.log('locations length: ' + this.state.locations.length)
     for (i = 0; i < this.state.locations.length; i++) {
-      if (this.state.locations[i].selected === true) {
+      if (this.state.locations_selected.includes(this.state.locations[i].title)) {
         locations += (this.state.locations[i].title + ',');
       }
     }
     for (i = 0; i < this.state.categories.length; i++) {
-      if (this.state.categories[i].selected === true) {
+      if (this.state.categories_selected.includes(this.state.categories[i].title)) {
         categories += (this.state.categories[i].title + ',');
       }
     }
     for (i = 0; i < this.state.organizations.length; i++) {
-      if (this.state.organizations[i].selected === true) {
+      if (this.state.organizations_selected.includes(this.state.organizations[i].title)) {
         organizations += (this.state.organizations[i].title + ',');
       }
     }
@@ -413,9 +437,9 @@ class Calendar extends Component {
     this.props.changeToDetails(
       event, 
       this.state.month,
-      this.state.organizations,
-      this.state.categories,
-      this.state.locations,
+      this.state.organizations_selected,
+      this.state.categories_selected,
+      this.state.locations_selected,
       this.state.checkedFree,
       this.state.checkedFav)
     this.props.history.push('/details')
@@ -433,6 +457,12 @@ class Calendar extends Component {
     return {
       style: style
     }
+  }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    })
   }
 
   renderCalendar = () => {
@@ -473,95 +503,111 @@ class Calendar extends Component {
     //   addEvent = <div></div>
     //   addOrg = <div></div>
     // }
-    return (
-      <MuiThemeProvider theme={Theme}>
-        <div className='CalendarPage'>
+    if (this._isMounted === true) {
+      return (
+        <MuiThemeProvider theme={Theme}>
+          <div className='CalendarPage'>
 
-          <div className = "full-width">
-            <header className="calendarhead">
-            </header>
-            <br></br>
-            <div className = "alignleft">
-              <DropdownMultiple
-                titleHelper="location"
-                title="Select location"
-                list={this.state.locations}
-                toggleItem={this.toggleSelected}
-              />
-            </div>
+            <div className = "full-width">
+              <header className="calendarhead">
+              </header>
+              <br></br>
 
-            <div className = "alignleft">
-              <DropdownMultiple
-                titleHelper="event type"
-                title="Select event type"
-                list={this.state.categories}
-                toggleItem={this.toggleSelected}
-              />
-            </div>
-
-            <div className = "alignleft">
-              <DropdownMultiple
-                titleHelper="organization"
-                title="Select organization"
-                list={this.state.organizations}
-                toggleItem={this.toggleSelected}
-              />
-            </div>
-
-            <div className = "alignright">
-              {addEvent}
-              {addOrg}
-            </div>
-
-            <div className = "alignleft">
-
-              <FormGroup row>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.checkedFree}
-                      onChange={this.handleCheckFree}
-                      value="checkedA"
-                      color="primary"
+              <div className='CalendarOptions'>
+                <div className='FilterItemsTitle'>
+                  <Typography className="month" variant="subtitle1" color="primary">
+                    Filter Events
+                  </Typography>
+                </div>
+                <div className='FilterItems'>
+                  <div className='Menu'>
+                    <DropdownMultiple
+                      titleHelper="location"
+                      title="Locations"
+                      list={this.state.locations}
+                      updateFilter={this.updateFilter}
+                      selectedList={this.state.locations_selected}
                     />
-                  }
-                  label="Free events only"
-                />
+                  </div>
 
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.checkedFav}
-                      onChange={this.handleCheckFav}
-                      value="checkedA"
-                      color="primary"
+                  <div className='Menu'>
+                    <DropdownMultiple
+                      titleHelper="event type"
+                      title="Categories"
+                      list={this.state.categories}
+                      updateFilter={this.updateFilter}
+                      selectedList={this.state.categories_selected}
                     />
-                  }
-                  label="Favorites"
-                />
+                  </div>
 
-              </FormGroup>
+                  <div className='Menu'>
+                    <DropdownMultiple
+                      titleHelper="organization"
+                      title="Organizations"
+                      list={this.state.organizations}
+                      updateFilter={this.updateFilter}
+                      selectedList={this.state.organizations_selected}
+                    />
+                  </div>
+
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.checkedFree}
+                          onChange={this.handleCheckFree}
+                          value="checkedA"
+                          color="primary"
+                        />
+                      }
+                      label="Free Events"
+                    />
+
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.checkedFav}
+                          onChange={this.handleCheckFav}
+                          value="checkedA"
+                          color="primary"
+                        />
+                      }
+                      label="Favorites"
+                    />
+
+                  </FormGroup>
+                </div>
+              </div>
+
+              <div className = "AddButtons">
+                {addEvent}
+                {addOrg}
+              </div>
+
+              
+            </div>
+
+            <div className='Calendar'>
+              {this.renderCalendar()}
             </div>
           </div>
 
-          <div className='Calendar'>
-            {this.renderCalendar()}
-          </div>
-        </div>
-
-      </MuiThemeProvider>
-
-      
-    )
+        </MuiThemeProvider>
+      )
+    } else {
+      return (
+        <div></div> /* Try loading sign */
+      )
+    }
   }
 }
 
 const mapStateToProps = state => {
   return {
     changed_view: state.calReducer.changed_view,
-    organizations: state.calReducer.organizations,
-    categories: state.calReducer.categories,
-    locations: state.calReducer.locations,
+    organizations_selected: state.calReducer.organizations_selected,
+    categories_selected: state.calReducer.categories_selected,
+    locations_selected: state.calReducer.locations_selected,
     month: state.calReducer.month,
     checked_free: state.calReducer.checked_free,
     checked_fav: state.calReducer.checked_fav,
@@ -591,9 +637,9 @@ const mapDispatchToProps = dispatch => {
         is_free: event.is_free,
         cat: event.cat,
         month: month,
-        categories: categories,
-        organizations: organizations,
-        locations: locations,
+        categories_selected: categories,
+        organizations_selected: organizations,
+        locations_selected: locations,
         changed_view: true,
         checked_free: checked_free,
         checked_fav: checked_fav

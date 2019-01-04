@@ -87,7 +87,7 @@ class Landing extends React.Component {
         <div class="container">
           <div className="Jumbotron">
             <div>
-            <img src={imageName}/>
+              <img src={imageName}/>
             </div>
           </div>
           <div className="Jumbotron">

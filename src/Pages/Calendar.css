@@ -38,6 +38,12 @@ header.calendarhead {
   height: 100vh;
 }
 
+.CalendarOptions {
+  float: left;
+  display: flex;
+  flex-direction: column;
+}
+
 .ToolbarCalendar {
   background-color: var(--toolbarorange);
   flex-direction: row;
@@ -59,6 +65,27 @@ header.calendarhead {
   vertical-align: middle;
 }
 
+.FilterItemsTitle {
+  display: flex;
+  float: left;
+  padding-left: 2vw;
+}
+
+.FilterItems {
+  padding-left: 2vw;
+  padding-right: 2vw;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.Menu {
+  padding-left: 1vw;
+  padding-right: 1vw;
+  display: flex;
+  width: 150px;
+}
+
 .month {
   padding-top: 5px;
   display: flex;
@@ -75,7 +102,7 @@ header.calendarhead {
   display: flex;
 }
 
-.alignright {
+.AddButtons {
 	float: right;
   flex-direction: row;
   display: flex;
