@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Grade from '@material-ui/icons/Grade'
+import Share from '@material-ui/icons/Share'
 
 import Paper from '@material-ui/core/Paper'
 import Divider from '@material-ui/core/Divider'
@@ -65,6 +66,11 @@ class Details extends Component {
     url = url + "?user=" + sessionStorage.getItem('netid') + "&name=" + this.props.title + '&start_datetime=' + start
     axios.get(url)
 
+  }
+
+  export = () => {
+    var url = 'http://whatsroaring-api.herokuapp.com'
+    // TODO TO BE CONTINUED
   }
 
   render() {
@@ -141,9 +147,14 @@ class Details extends Component {
                   <ArrowBack />
                 </IconButton>
               </div>
+
               <div className="fav">
                 <IconButton color="primary" onClick={this.favorite}>
                   <Grade />
+                </IconButton>
+
+                <IconButton color="primary" onClick={this.export}>
+                  <Share />
                 </IconButton>
               </div>
             </div>
