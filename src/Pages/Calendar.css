@@ -10,7 +10,7 @@
 .CalendarPage {
   /*background-image: url('../Assets/homepage_lower.png');*/
   background-color: var(--lightorange);
-
+  
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -32,10 +32,15 @@ header.calendarhead {
     background-attachment: scroll;
 }
 
+.Toolbar {
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
+
 .Calendar {
   background-color: var(--lightblue);
-  margin-top: 30px;
   height: 100vh;
+  margin-top: 3vh;
 }
 
 .CalendarOptions {
@@ -82,8 +87,9 @@ header.calendarhead {
 .Menu {
   padding-left: 1vw;
   padding-right: 1vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
   display: flex;
-  width: 150px;
 }
 
 .month {

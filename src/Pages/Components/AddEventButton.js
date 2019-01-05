@@ -26,7 +26,7 @@ class AddEventButton extends Component {
       <MuiThemeProvider theme={Theme}>
         <div className='Button'>
           <Button variant="contained" color="primary" onClick={this.handleClick} size="medium">
-            <AddIcon></AddIcon>Event
+            Add Event
           </Button>
         </div>
       </MuiThemeProvider>

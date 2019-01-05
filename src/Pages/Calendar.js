@@ -16,6 +16,7 @@ import Header from './Components/Header'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Theme from '../Assets/Theme'
 import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -239,13 +240,13 @@ class Calendar extends Component {
     return (
       <div className='ToolbarCalendar'>
         <MuiThemeProvider theme={Theme}>
-          <Grid container>
-            <Grid item xs={6}>
+          <Grid container alignItems='stretch'>
+            <Grid item xs={7}>
               <Typography className="month" variant="h3" component="h3" color="primary">
                 {monthNames[this.state.month.getMonth()] + ' ' +  this.state.month.getFullYear()}
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <div className='ToolbarButtons'>
                 <div className='ToolbarItem'>
                   <IconButton color="primary" onClick={goToBack} variant="contained" size="small">
@@ -491,6 +492,88 @@ class Calendar extends Component {
       return (
         <MuiThemeProvider theme={Theme}>
           <div className='CalendarPage'>
+            <header className='calendarhead'>
+            </header>
+            <div className='Toolbar'>
+              <Paper elevation={1}>
+                <Grid container direction='row' justify='left' alignItems='baseline'>
+                  <Grid item xs={2}>
+                    <div className='Menu'>
+                      <DropdownMultiple
+                        titleHelper="location"
+                        title="Locations"
+                        list={this.state.locations}
+                        updateFilter={this.updateFilter}
+                        selectedList={this.state.locations_selected}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <div className='Menu'>
+                      <DropdownMultiple
+                        titleHelper="event type"
+                        title="Categories"
+                        list={this.state.categories}
+                        updateFilter={this.updateFilter}
+                        selectedList={this.state.categories_selected}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <div className='Menu'>
+                      <DropdownMultiple
+                        titleHelper="organization"
+                        title="Organizations"
+                        list={this.state.organizations}
+                        updateFilter={this.updateFilter}
+                        selectedList={this.state.organizations_selected}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={1}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.checkedFree}
+                          onChange={this.handleCheckFree}
+                          value="checkedA"
+                          color="primary"
+                        />
+                      }
+                      label="Free Events"
+                    />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.checkedFav}
+                          onChange={this.handleCheckFav}
+                          value="checkedA"
+                          color="primary"
+                        />
+                      }
+                      label="Favorites"
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    {addEvent}
+                  </Grid>
+                  <Grid item xs={2}>
+                    {addOrg}
+                  </Grid>
+                </Grid>
+              </Paper>
+            </div>
+            <div className='Calendar'>
+              {this.renderCalendar()}
+            </div>
+          </div>
+        </MuiThemeProvider>
+      )
+      /*return (
+        <MuiThemeProvider theme={Theme}>
+          <div className='CalendarPage'>
 
             <div className = "full-width">
               <header className="calendarhead">
@@ -576,10 +659,10 @@ class Calendar extends Component {
           </div>
 
         </MuiThemeProvider>
-      )
+      )*/
     } else {
       return (
-        <div>Loading...</div> /* Try loading sign */
+        <div>Loading...</div> 
       )
     }
   }

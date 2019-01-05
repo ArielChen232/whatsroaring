@@ -25,7 +25,7 @@ class AddOrgButton extends Component {
       <MuiThemeProvider theme={theme}>
         <div className='Button'>
           <Button variant="contained" color="primary" onClick={this.handleClick} size="medium">
-            <AddIcon></AddIcon>Organization
+            Add Organization
           </Button>
         </div>
       </MuiThemeProvider>
