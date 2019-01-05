@@ -1,12 +1,15 @@
-.AddOrg {
-  background-image: url('../Assets/sideways_background.png');
-  height: 100vh;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+:root {
+  --lightorange: #F4E4CA;
+  --toolbarorange: #f9efe0;
+  --lightblue: #f4f9f9;
 }
 
-.Header {
+.AddOrg {
+  background-color: var(--lightorange);
+  height: 100vh;
+}
+
+.header {
   padding-left: 2vw;
   padding-right: 2vw;
   padding-bottom: 2vh;

@@ -17,6 +17,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import ListItemText from '@material-ui/core/ListItemText'
 
 import Theme from '../Assets/Theme'
+import Header from './Components/Header'
 
 import './CreateEvent.css'
 
@@ -185,168 +186,166 @@ class CreateEvent extends Component {
 
     return (
       <div className="CreateEvent">
+        <Header />
+        <MuiThemeProvider theme={Theme}>
+          <div className='EventPaper'>
+
+            {/*<div className='ReturnButton'>
+              <IconButton color='primary' onClick={this.goBack}>
+                <ArrowBack />
+              </IconButton>
+            </div>*/}
+
+            <Paper className='EventPaperInner'>
+              <div className='header'>
+                <Typography variant="h3" color="primary">
+                  Create Event
+                </Typography>
+              </div>
+              <div className='InnerPageFields'>
+                <FormControl>
+                  <TextField
+                    id='event-name'
+                    label='Event Name'
+                    className={classes.textField}
+                    value={this.state.name}
+                    onChange={this.handleChange('name')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    id='event-description'
+                    label='Description'
+                    className={classes.textField}
+                    value={this.state.description}
+                    onChange={this.handleChange('description')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    id='event-location'
+                    label='Event Location'
+                    className={classes.textField}
+                    value={this.state.location}
+                    onChange={this.handleChange('location')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    id='event-website'
+                    label='Event Website'
+                    className={classes.textField}
+                    value={this.state.website}
+                    onChange={this.handleChange('website')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    id="datetime-local"
+                    label="Start Date & Time"
+                    type="datetime-local"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={this.handleDateChange('startTime')}
+                  />
+
+                  <TextField
+                    id="datetime-local"
+                    label="End Date & Time"
+                    type="datetime-local"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={this.handleDateChange('endTime')}
+                  />
 
 
-          <MuiThemeProvider theme={Theme}>
-            <div className='Header'>
-              <Typography variant="h2" color="primary">
-                Create Event
-              </Typography>
-            </div>
+                 {/* <Typography variant="h5" component="h3" color="primary">
+                    Start date/time
+                  </Typography>
+                  <DateTimePicker
+                    value={this.state.startTime}
+                    onChange={this.handleDateChange('startTime')}
+                  />
 
-            <div className='EventPaper'>
+                  <Typography variant="h5" component="h3" color="primary">
+                    End date/time
+                  </Typography>
+                  <DateTimePicker
+                    value={this.state.endTime}
+                    className={classes.dateTimePicker}
+                    onChange={this.handleDateChange('endTime')}
+                  />*/}
+                </FormControl>
+              </div>
 
-              {/*<div className='ReturnButton'>
-                <IconButton color='primary' onClick={this.goBack}>
-                  <ArrowBack />
-                </IconButton>
-              </div>*/}
+              <div className='InnerPageFields'>
+                <FormControl>
+                  <InputLabel htmlFor="outlined-org-simple">
+                    Organization
+                  </InputLabel>
+                  <Select
+                    value={this.state.org}
+                    onChange={this.handleChange('org')}
+                    className={classes.select}
+                  >
+                    {this.state.organizations.map(organization => (
+                      <MenuItem key={organization} value={organization}>
+                        {organization}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
-              <Paper className='EventPaperInner'>
-                <div className='InnerPageFields'>
-                  <FormControl>
-                    <TextField
-                      id='event-name'
-                      label='Event Name'
-                      className={classes.textField}
-                      value={this.state.name}
-                      onChange={this.handleChange('name')}
-                      margin='normal'
-                      variant='outlined'
-                    />
+                <FormControl>
+                  <InputLabel htmlFor="select-multiple-checkbox">Category</InputLabel>
+                  <Select
+                    multiple
+                    value={this.state.category}
+                    onChange={this.handleChange('category')}
+                    input={<Input id="select-multiple-checkbox" />}
+                    renderValue={selected => selected.join(', ')}
+                    className={classes.select}
+                    MenuProps={MenuProps}
+                  >
+                    {this.state.categories.map(category => (
+                      <MenuItem key={category} value={category}>
+                        <Checkbox checked={this.state.category.indexOf(category) > -1} />
+                        <ListItemText primary={category} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
-                    <TextField
-                      id='event-description'
-                      label='Description'
-                      className={classes.textField}
-                      value={this.state.description}
-                      onChange={this.handleChange('description')}
-                      margin='normal'
-                      variant='outlined'
-                    />
-
-                    <TextField
-                      id='event-location'
-                      label='Event Location'
-                      className={classes.textField}
-                      value={this.state.location}
-                      onChange={this.handleChange('location')}
-                      margin='normal'
-                      variant='outlined'
-                    />
-
-                    <TextField
-                      id='event-website'
-                      label='Event Website'
-                      className={classes.textField}
-                      value={this.state.website}
-                      onChange={this.handleChange('website')}
-                      margin='normal'
-                      variant='outlined'
-                    />
-
-                    <TextField
-                      id="datetime-local"
-                      label="Start Date & Time"
-                      type="datetime-local"
-                      className={classes.textField}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={this.handleDateChange('startTime')}
-                    />
-
-                    <TextField
-                      id="datetime-local"
-                      label="End Date & Time"
-                      type="datetime-local"
-                      className={classes.textField}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={this.handleDateChange('endTime')}
-                    />
-
-
-                   {/* <Typography variant="h5" component="h3" color="primary">
-                      Start date/time
-                    </Typography>
-                    <DateTimePicker
-                      value={this.state.startTime}
-                      onChange={this.handleDateChange('startTime')}
-                    />
-
-                    <Typography variant="h5" component="h3" color="primary">
-                      End date/time
-                    </Typography>
-                    <DateTimePicker
-                      value={this.state.endTime}
-                      className={classes.dateTimePicker}
-                      onChange={this.handleDateChange('endTime')}
-                    />*/}
-                  </FormControl>
-                </div>
-
-                <div className='InnerPageFields'>
-                  <FormControl>
-                    <InputLabel htmlFor="outlined-org-simple">
-                      Organization
-                    </InputLabel>
-                    <Select
-                      value={this.state.org}
-                      onChange={this.handleChange('org')}
-                      className={classes.select}
-                    >
-                      {this.state.organizations.map(organization => (
-                        <MenuItem key={organization} value={organization}>
-                          {organization}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-                  <FormControl>
-                    <InputLabel htmlFor="select-multiple-checkbox">Category</InputLabel>
-                    <Select
-                      multiple
-                      value={this.state.category}
-                      onChange={this.handleChange('category')}
-                      input={<Input id="select-multiple-checkbox" />}
-                      renderValue={selected => selected.join(', ')}
-                      className={classes.select}
-                      MenuProps={MenuProps}
-                    >
-                      {this.state.categories.map(category => (
-                        <MenuItem key={category} value={category}>
-                          <Checkbox checked={this.state.category.indexOf(category) > -1} />
-                          <ListItemText primary={category} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-                  <FormControl>
-                    <InputLabel htmlFor="outlined-isfree-simple">
-                      Free?
-                    </InputLabel>
-                    <Select
-                      value={this.state.isFree}
-                      onChange={this.handleChange('isFree')}
-                      className={classes.select}
-                    >
-                      <MenuItem value={true}>Yes</MenuItem>
-                      <MenuItem value={false}>No</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <div className='Button'>
-                  <Button variant="contained" color="primary" onClick={this.submitEvent} size="large">
-                    Submit Event
-                  </Button>
-                </div>
-              </Paper>
-            </div>
-          </MuiThemeProvider>
+                <FormControl>
+                  <InputLabel htmlFor="outlined-isfree-simple">
+                    Free?
+                  </InputLabel>
+                  <Select
+                    value={this.state.isFree}
+                    onChange={this.handleChange('isFree')}
+                    className={classes.select}
+                  >
+                    <MenuItem value={true}>Yes</MenuItem>
+                    <MenuItem value={false}>No</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className='Button'>
+                <Button variant="contained" color="primary" onClick={this.submitEvent} size="large">
+                  Submit Event
+                </Button>
+              </div>
+            </Paper>
+          </div>
+        </MuiThemeProvider>
       </div>
     )
   }

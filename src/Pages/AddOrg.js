@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
 
+import Header from './Components/Header'
 import theme from '../Assets/Theme'
 
 //import DateTimePicker from 'react-datetime-picker'
@@ -80,44 +81,44 @@ class AddOrg extends Component {
     const { classes } = this.props
     return (
       <div className="AddOrg">
-          <MuiThemeProvider theme={theme}>
-            <div className='Header'>
-              <Typography variant="h2" color="primary">
-                Add Organization
-              </Typography>
-            </div>
+        <Header />
+        <MuiThemeProvider theme={theme}>
+          <div className='EventPaper'>
 
-            <div className='EventPaper'>
+            {/*<div className='ReturnButton'>
+              <IconButton color='primary' onClick={this.goBack}>
+                <ArrowBack />
+              </IconButton>
+            </div>*/}
 
-              {/*<div className='ReturnButton'>
-                <IconButton color='primary' onClick={this.goBack}>
-                  <ArrowBack />
-                </IconButton>
-              </div>*/}
+            <Paper className='EventPaperInner'>
+              <div className='header'>
+                <Typography variant="h3" color="primary">
+                  Add Organization
+                </Typography>
+              </div>
+              <div className='InnerPageFields'>
+                <FormControl>
+                  <TextField
+                    id='event-name'
+                    label='Organization Name'
+                    className={classes.textField}
+                    value={this.state.name}
+                    onChange={this.handleChange('name')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+                </FormControl>
+              </div>
 
-              <Paper className='EventPaperInner'>
-                <div className='InnerPageFields'>
-                  <FormControl>
-                    <TextField
-                      id='event-name'
-                      label='Organization Name'
-                      className={classes.textField}
-                      value={this.state.name}
-                      onChange={this.handleChange('name')}
-                      margin='normal'
-                      variant='outlined'
-                    />
-                  </FormControl>
-                </div>
-
-                <div className='Button'>
-                  <Button variant="contained" color="primary" onClick={this.submit}>
-                    Submit
-                  </Button>
-                </div>
-              </Paper>
-            </div>
-          </MuiThemeProvider>
+              <div className='Button'>
+                <Button variant="contained" color="primary" onClick={this.submit} size='large'>
+                  Submit
+                </Button>
+              </div>
+            </Paper>
+          </div>
+        </MuiThemeProvider>
       </div>
     )
   }
