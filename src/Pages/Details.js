@@ -69,8 +69,15 @@ class Details extends Component {
   }
 
   export = () => {
-    var url = 'http://whatsroaring-api.herokuapp.com'
-    // TODO TO BE CONTINUED
+    var url = 'http://127.0.0.1:8000/export'
+    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+    var summary = this.props.title
+    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+    var end = moment.tz(this.props.end, 'GMT').format(dtform) + ' GMT'
+    console.log(summary)
+    console.log(start)
+    console.log(end)
+    axios.get(url)
   }
 
   render() {
