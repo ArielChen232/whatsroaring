@@ -95,13 +95,13 @@ class Details extends Component {
 
     // Get event website.
     var website = this.props.website
-    if (!(website.includes('http://www.') 
-          || website.includes('https://www.') 
-          || website.includes('www.')) && website !== '') {
-      website = 'http://' + website
-    }
     var websiteTitle = ''
     if (website !== null && website !== '') {
+      if (!(website.includes('http://www.') 
+            || website.includes('https://www.') 
+            || website.includes('www.'))) {
+        website = 'http://' + website
+      }
       websiteTitle = 'Website:'
     }
 
