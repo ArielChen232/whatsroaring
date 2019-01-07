@@ -17,16 +17,8 @@ import './Details.css'
 // import Favorite from './Components/Favorite'
 import axios from 'axios'
 
-let imgUrl = 'sideways_background.png';
+import Header from './Components/Header'
 
-var sectionStyle = {
-  width: "100%",
-  height: "600px",
-  backgroundImage: 'url(' + imgUrl + ')',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center center',
-  backgroundRepeat: 'no-repeat',
-};
 
 class Details extends Component {
   constructor(props) {
@@ -111,7 +103,7 @@ class Details extends Component {
 
     // Get event location.
     var location = this.props.loc
-    var locationTitle = 'Location'
+    var locationTitle = 'Location:'
     if (location === null || location === '') {
       location = 'unknown'
     }
@@ -119,12 +111,12 @@ class Details extends Component {
     // Get event is_free.
     var freeText = ''
     if (this.props.is_free) {
-      freeText = 'Free Event'
+      freeText = 'This is a free event!'
     }
 
     // Get event organization.
     var organization = this.props.org
-    var organizationTitle = 'Organization'
+    var organizationTitle = 'Organization:'
     if (organization === null || organization === '' || typeof(organization) === 'undefined') {
       organizationTitle = ''
       organization = ''
@@ -132,7 +124,7 @@ class Details extends Component {
 
     // Get event category.
     var categories = this.props.cat
-    var categoriesTitle = 'Event Type'
+    var categoriesTitle = 'Event Type:'
     if (categories === null || typeof(categories) === 'undefined') {
       categoriesTitle = ''
       categories = ''
@@ -141,10 +133,112 @@ class Details extends Component {
     }
 
     return (
-      <div className="DetailsPage">
+      <div className='page'>
+        <Header />
         <MuiThemeProvider theme={Theme}>
+          <div className='buttons'>
+            <Grid
+              container
+              justify='space-between'
+              alignItems='baseline'
+            >
+              <Grid item xs={6}>
+                <div className='backButton'>
+                  <IconButton color="primary" onClick={this.goToCalendar}>
+                    <ArrowBack />
+                  </IconButton>
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="favButtons">
+                  <IconButton color="primary" onClick={this.favorite}>
+                    <Grade />
+                  </IconButton>
+                  <IconButton color="primary" onClick={this.export}>
+                    <Share />
+                  </IconButton>
+                </div>
+              </Grid>
+            </Grid>
+          </div>
 
-          <section style={ sectionStyle }>
+          <div className='details'>
+            <Grid container>
+              <Grid item xs={12} className="paper">
+                <Paper elevation={1}>
+                  <div className='paperUpper'>
+                    <div className='text'>
+                      <Typography variant="h4" color="primary">
+                        {title}
+                      </Typography>
+                    </div>
+                    <div className='text'>
+                      <Typography variant="h5" color="default">
+                        {desc}
+                      </Typography>
+                    </div>
+                  </div>
+                  <Divider />
+                  <Divider />
+                  <div className='paperLower'>
+                    <div className='text'>
+                      <Typography variant="h5" color="primary">
+                        Time: 
+                      </Typography>
+                      <Typography variant="h5" color="default">
+                        {timeString}
+                      </Typography>
+                    </div>
+                    <div className='text'>
+                      <Typography variant="h5" color="primary">
+                        {locationTitle}
+                      </Typography>
+                      <Typography variant="h5" color="default">
+                        {location}
+                      </Typography>
+                    </div>
+                    <div className='text'>
+                      <Typography variant="h5" color="primary">
+                        {organizationTitle}
+                      </Typography>
+                      <Typography variant="h5" color="default">
+                        {organization}
+                      </Typography>
+                    </div>
+                    <div className='text'>
+                      <Typography variant="h5" color="primary">
+                        {categoriesTitle}
+                      </Typography>
+                      <Typography variant="h5" color="default">
+                        {categories}
+                      </Typography>
+                    </div>
+                    <div className='text'>
+                      <Typography variant="h5" color="primary">
+                        {websiteTitle}
+                      </Typography>
+                      <Typography variant="h5" color="default">
+                        <a href={website} target="_blank">{website}</a>
+                      </Typography>
+                    </div>
+                    <div className='text'>
+                      <Typography variant="h5" color="default">
+                        {freeText}
+                      </Typography>
+                    </div>
+                  </div>
+                </Paper>
+              </Grid>
+            </Grid>
+          </div>
+        </MuiThemeProvider>
+      </div>
+    )
+
+    /*return (
+      <div className="DetailsPage">
+        <Header />
+        <MuiThemeProvider theme={Theme}>
           <div className="Page">
 
             <div className="buttons">
@@ -218,11 +312,9 @@ class Details extends Component {
               </Grid>
             </Grid>
           </div>
-
-        </section>
         </MuiThemeProvider>
       </div>
-    )
+    )*/
   }
 }
 
