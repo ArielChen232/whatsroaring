@@ -195,7 +195,7 @@ class Calendar extends Component {
 
   nextMonth() {
     var day = new Date(this.state.month)
-    if (day.getMonth() == 11) {
+    if (day.getMonth() === 11) {
       day.setMonth(0)
       day.setFullYear(day.getFullYear() + 1)
     } else {
@@ -209,7 +209,7 @@ class Calendar extends Component {
 
   prevMonth() {
     var day = new Date(this.state.month)
-    if (day.getMonth() == 0) {
+    if (day.getMonth() === 0) {
       day.setMonth(11)
       day.setFullYear(day.getFullYear() - 1)
     } else {

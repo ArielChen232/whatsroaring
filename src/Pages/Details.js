@@ -95,6 +95,11 @@ class Details extends Component {
 
     // Get event website.
     var website = this.props.website
+    if (!(website.includes('http://www.') 
+          || website.includes('https://www.') 
+          || website.includes('www.')) && website !== '') {
+      website = 'http://' + website
+    }
     var websiteTitle = ''
     if (website !== null && website !== '') {
       websiteTitle = 'Website:'
@@ -217,7 +222,7 @@ class Details extends Component {
                         {websiteTitle}
                       </Typography>
                       <Typography variant="h5" color="default">
-                        <a href={website} target="_blank">{website}</a>
+                        <a href={website} target="_blank" rel="noopener noreferrer">{website}</a>
                       </Typography>
                     </div>
                     <div className='text'>

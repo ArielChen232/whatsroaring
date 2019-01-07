@@ -9,10 +9,6 @@ import './Button.css'
 
 class HomeButton extends Component {
 
-  constructor(props) {
-    super(props)
-  }
-
   goToCalendar = () => {
     this.props.history.push('/calendar')
   }
