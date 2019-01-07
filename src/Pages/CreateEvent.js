@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+
+// Material-UI
 import { withStyles } from '@material-ui/core/styles'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-import { MuiThemeProvider } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -14,15 +17,14 @@ import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import ListItemText from '@material-ui/core/ListItemText'
 
+// Local
 import Theme from '../Assets/Theme'
 import Header from './Components/Header'
 import HomeButton from './Components/HomeButton'
-
-import './CreateEvent.css'
+import './Form.css'
 
 const axios = require('axios')
 const url = 'http://whatsroaring-api.herokuapp.com/'
-//const url = 'http://127.0.0.1:8000/'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -184,6 +186,146 @@ class CreateEvent extends Component {
     const { classes } = this.props
 
     return (
+      <div className='page'>
+        <Header />
+        <HomeButton />
+        <MuiThemeProvider theme={Theme}>
+          <div className='main'>
+            <Paper className='paper'>
+              <div className='title'>
+                <Typography variant="h3" color="primary">
+                  Create Event
+                </Typography>
+              </div>
+              <div className='form'>
+                <FormControl>
+                  <TextField
+                    id='event-name'
+                    label='Event Name'
+                    className={classes.textField}
+                    value={this.state.name}
+                    onChange={this.handleChange('name')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    id='event-description'
+                    label='Description'
+                    className={classes.textField}
+                    value={this.state.description}
+                    onChange={this.handleChange('description')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    id='event-location'
+                    label='Event Location'
+                    className={classes.textField}
+                    value={this.state.location}
+                    onChange={this.handleChange('location')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    id='event-website'
+                    label='Event Website'
+                    className={classes.textField}
+                    value={this.state.website}
+                    onChange={this.handleChange('website')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    id="datetime-local"
+                    label="Start Date & Time"
+                    type="datetime-local"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={this.handleDateChange('startTime')}
+                  />
+
+                  <TextField
+                    id="datetime-local"
+                    label="End Date & Time"
+                    type="datetime-local"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={this.handleDateChange('endTime')}
+                  />
+                </FormControl>
+              </div>
+              <div className='form'>
+                <FormControl>
+                  <InputLabel htmlFor="outlined-org-simple">
+                    Organization
+                  </InputLabel>
+                  <Select
+                    value={this.state.org}
+                    onChange={this.handleChange('org')}
+                    className={classes.select}
+                  >
+                    {this.state.organizations.map(organization => (
+                      <MenuItem key={organization} value={organization}>
+                        {organization}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl>
+                  <InputLabel htmlFor="select-multiple-checkbox">Category</InputLabel>
+                  <Select
+                    multiple
+                    value={this.state.category}
+                    onChange={this.handleChange('category')}
+                    input={<Input id="select-multiple-checkbox" />}
+                    renderValue={selected => selected.join(', ')}
+                    className={classes.select}
+                    MenuProps={MenuProps}
+                  >
+                    {this.state.categories.map(category => (
+                      <MenuItem key={category} value={category}>
+                        <Checkbox checked={this.state.category.indexOf(category) > -1} />
+                        <ListItemText primary={category} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl>
+                  <InputLabel htmlFor="outlined-isfree-simple">
+                    Free?
+                  </InputLabel>
+                  <Select
+                    value={this.state.isFree}
+                    onChange={this.handleChange('isFree')}
+                    className={classes.select}
+                  >
+                    <MenuItem value={true}>Yes</MenuItem>
+                    <MenuItem value={false}>No</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className='button'>
+                <Button variant="contained" color="primary" onClick={this.submitEvent} size="large">
+                  Submit Event
+                </Button>
+              </div>
+            </Paper>
+          </div>
+        </MuiThemeProvider>
+      </div>
+    )
+
+    /*return (
       <div className="CreateEvent">
         <Header />
         <MuiThemeProvider theme={Theme}>
@@ -324,7 +466,7 @@ class CreateEvent extends Component {
           </div>
         </MuiThemeProvider>
       </div>
-    )
+    )*/
   }
 }
 
