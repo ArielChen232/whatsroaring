@@ -5,14 +5,7 @@ import axios from 'axios'
 import moment from 'moment'
 import CASClient from './CASClient'
 
-// Components
-import BigCalendar from 'react-big-calendar'
-import DropdownMultiple from './Components/DropdownMultiple'
-import AddEventButton from './Components/AddEventButton'
-import AddOrgButton from './Components/AddOrgButton'
-import Footer from './Components/Footer'
-import Header from './Components/Header'
-
+// Material-UI
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Theme from '../Assets/Theme'
 import Grid from '@material-ui/core/Grid'
@@ -31,6 +24,15 @@ import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
 import ListItemText from '@material-ui/core/ListItemText'
 
+// Components
+import BigCalendar from 'react-big-calendar'
+import DropdownMultiple from './Components/DropdownMultiple'
+import AddEventButton from './Components/AddEventButton'
+import AddOrgButton from './Components/AddOrgButton'
+import Footer from './Components/Footer'
+import Header from './Components/Header'
+
+// Styling
 import {
     Collapse,
     Navbar,
@@ -44,17 +46,12 @@ import {
     Col,
     Jumbotron,
     //Button
-} from 'reactstrap';
-
-// Styling
+} from 'reactstrap'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
 
-
 const localizer = BigCalendar.momentLocalizer(moment)
 const url = 'https://whatsroaring-api.herokuapp.com/'
-const url_details = 'https://whatsroaring.herokuapp.com/details'
-// const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -431,10 +428,9 @@ class Calendar extends Component {
   }
 
   eventStyleGetter(event) {
-    var color = orange
     /* Can add logic here to color code */
     var style = {
-      backgroundColor: color,
+      backgroundColor: orange,
       opacity: 0.8,
       color: 'black',
       border: '0px'
@@ -662,7 +658,10 @@ class Calendar extends Component {
       )*/
     } else {
       return (
-        <div>Loading...</div> 
+        <div className='page'>
+          <header className='calendarhead'></header>
+          <div>Loading...</div> 
+        </div>
       )
     }
   }
