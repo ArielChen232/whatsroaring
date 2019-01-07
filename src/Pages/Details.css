@@ -6,7 +6,6 @@
 
 .page {
   background-color: var(--lightorange);
-  height: 100vh;
 }
 
 .buttons {
@@ -27,7 +26,7 @@
 
 .paper {
   padding-top: 2vh;
-  padding-bottom: 2vh;
+  padding-bottom: 5vh;
   padding-left: 5vw;
   padding-right: 5vw;
 }

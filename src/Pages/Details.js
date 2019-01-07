@@ -19,7 +19,6 @@ import axios from 'axios'
 
 import Header from './Components/Header'
 
-
 class Details extends Component {
   constructor(props) {
     super(props)
@@ -234,87 +233,6 @@ class Details extends Component {
         </MuiThemeProvider>
       </div>
     )
-
-    /*return (
-      <div className="DetailsPage">
-        <Header />
-        <MuiThemeProvider theme={Theme}>
-          <div className="Page">
-
-            <div className="buttons">
-              <div className="backbutton">
-
-                <IconButton color="primary" onClick={this.goToCalendar}>
-                  <ArrowBack />
-                </IconButton>
-              </div>
-
-              <div className="fav">
-                <IconButton color="primary" onClick={this.favorite}>
-                  <Grade />
-                </IconButton>
-
-                <IconButton color="primary" onClick={this.export}>
-                  <Share />
-                </IconButton>
-              </div>
-            </div>
-
-            <Grid container>
-              <Grid item xs={11} className="MainPaper">
-                <Paper elevation={1} >
-                  <div className="InnerPaperUpper">
-                    <Typography variant="h4" component="h3" color="primary">
-                      {title}
-                    </Typography>
-                    <Typography variant="h5" component="h3" color="default">
-                      {desc}
-                    </Typography>
-                  </div>
-                  <div className="InnerPaperDivider">
-                    <Divider />
-                    <Divider />
-                  </div>
-                  <Typography variant="h5" component="h3" color="primary">
-                    Time
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="default">
-                    {timeString}
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="primary">
-                    {locationTitle}
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="default">
-                    {location}
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="primary">
-                    {organizationTitle}
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="default">
-                    {organization}
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="primary">
-                    {categoriesTitle}
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="default">
-                    {categories}
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="primary">
-                    {websiteTitle}
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="default">
-                    <a href={website} target="_blank" rel="noopener noreferrer">{website}</a>
-                  </Typography>
-                  <Typography variant="h5" component="h3" color="primary">
-                    {freeText}
-                  </Typography>
-                </Paper>
-              </Grid>
-            </Grid>
-          </div>
-        </MuiThemeProvider>
-      </div>
-    )*/
   }
 }
 
