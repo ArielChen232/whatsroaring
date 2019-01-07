@@ -496,7 +496,7 @@ class Calendar extends Component {
             </header>
             <div className='Toolbar'>
               <Paper elevation={1}>
-                <Grid container direction='row' justify='left' alignItems='baseline'>
+                <Grid container direction='row' alignItems='baseline'>
                   <Grid item xs={2}>
                     <div className='Menu'>
                       <DropdownMultiple

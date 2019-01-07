@@ -18,6 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 
 import Theme from '../Assets/Theme'
 import Header from './Components/Header'
+import HomeButton from './Components/HomeButton'
 
 import './CreateEvent.css'
 
@@ -190,11 +191,7 @@ class CreateEvent extends Component {
         <MuiThemeProvider theme={Theme}>
           <div className='EventPaper'>
 
-            {/*<div className='ReturnButton'>
-              <IconButton color='primary' onClick={this.goBack}>
-                <ArrowBack />
-              </IconButton>
-            </div>*/}
+            <HomeButton />
 
             <Paper className='EventPaperInner'>
               <div className='header'>
@@ -265,24 +262,6 @@ class CreateEvent extends Component {
                     }}
                     onChange={this.handleDateChange('endTime')}
                   />
-
-
-                 {/* <Typography variant="h5" component="h3" color="primary">
-                    Start date/time
-                  </Typography>
-                  <DateTimePicker
-                    value={this.state.startTime}
-                    onChange={this.handleDateChange('startTime')}
-                  />
-
-                  <Typography variant="h5" component="h3" color="primary">
-                    End date/time
-                  </Typography>
-                  <DateTimePicker
-                    value={this.state.endTime}
-                    className={classes.dateTimePicker}
-                    onChange={this.handleDateChange('endTime')}
-                  />*/}
                 </FormControl>
               </div>
 

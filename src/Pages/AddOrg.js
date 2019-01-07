@@ -11,6 +11,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
 
 import Header from './Components/Header'
+import HomeButton from './Components/HomeButton'
 import theme from '../Assets/Theme'
 
 //import DateTimePicker from 'react-datetime-picker'
@@ -85,11 +86,7 @@ class AddOrg extends Component {
         <MuiThemeProvider theme={theme}>
           <div className='EventPaper'>
 
-            {/*<div className='ReturnButton'>
-              <IconButton color='primary' onClick={this.goBack}>
-                <ArrowBack />
-              </IconButton>
-            </div>*/}
+            <HomeButton />
 
             <Paper className='EventPaperInner'>
               <div className='header'>
