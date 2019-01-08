@@ -190,22 +190,22 @@ class CreateEvent extends Component {
 
     // Check fields
     var errors = []
-    if (this.state.name === '') {
+    if (!this.state.name.replace(/\s/g, '').length) {
       errors.push('event name')
     }
-    if (this.state.description === '') {
+    if (!this.state.description.replace(/\s/g, '').length) {
       errors.push('description')
     }
-    if (this.state.location === '') {
+    if (!this.state.location.replace(/\s/g, '').length) {
       errors.push('location')
     }
-    if (this.state.startTime === '') {
+    if (!this.state.startTime.replace(/\s/g, '').length) {
       errors.push('start time')
     }
-    if (this.state.endTime === '') {
+    if (!this.state.endTime.replace(/\s/g, '').length) {
       errors.push('end time')
     }
-    if (this.state.org === '') {
+    if (!this.state.org.replace(/\s/g, '').length) {
       errors.push('organization')
     }
     if (this.state.category.length == 0) {
