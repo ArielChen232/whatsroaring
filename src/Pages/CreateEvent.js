@@ -30,6 +30,7 @@ import './Form.css'
 
 const axios = require('axios')
 const url = 'http://whatsroaring-api.herokuapp.com/'
+//const url ='http://127.0.0.1:8000/'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -392,7 +393,7 @@ class CreateEvent extends Component {
                   >
                     {this.state.categories.map(category => (
                       <MenuItem key={category} value={category}>
-                        <Checkbox checked={this.state.category.indexOf(category) > -1} />
+                        <Checkbox checked={this.state.category.indexOf(category) > -1} color='primary'/>
                         <ListItemText primary={category} />
                       </MenuItem>
                     ))}
