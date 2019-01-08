@@ -6,6 +6,7 @@ import Landing from './Pages/Landing'
 import Details from './Pages/Details'
 import CreateEvent from './Pages/CreateEvent'
 import AddOrg from './Pages/AddOrg'
+import Register from './Pages/Register'
 import UnderConstruction from './Pages/UnderConstruction'
 
 import Footer from './Pages/Components/Footer'
@@ -54,6 +55,14 @@ class App extends Component {
           <Route exact={true} path='/addOrg' render={() => (
             <div className="App">
               <AddOrg />
+              <div className='Footer'>
+                <Footer />
+              </div>
+            </div>
+          )} />
+          <Route exact={true} path='/register' render={() => (
+            <div className="App">
+              <Register />
               <div className='Footer'>
                 <Footer />
               </div>
