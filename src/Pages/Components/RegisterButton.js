@@ -6,14 +6,14 @@ import Button from '@material-ui/core/Button'
 
 import './Button.css'
 
-class LogInButton extends Component {
+class RegisterButton extends Component {
   constructor() {
     super()
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick() {
-    this.props.history.push('/calendar')
+    this.props.history.push('/register')
   }
 
   render () {
@@ -21,11 +21,11 @@ class LogInButton extends Component {
       <MuiThemeProvider theme={Theme}>
         <div className='Button'>
           <Button variant="contained" color="primary" onClick={this.handleClick} size="medium">
-            Log In
+            Register
           </Button>
         </div>
       </MuiThemeProvider>
     )
   }
 }
-export default withRouter(LogInButton);
+export default withRouter(RegisterButton);

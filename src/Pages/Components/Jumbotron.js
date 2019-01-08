@@ -4,17 +4,17 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import Theme from '../../Assets/Theme'
 
 import imageName from "../../Assets/just_logo.png"
-import './Header.css'
+import './Jumbotron.css'
 
-class Header extends Component {
+class Jumbotron extends Component {
   render () {
     return (
       <MuiThemeProvider theme={Theme}>
-        <div className='Header'>
+        <div className='Jumbotron'>
         </div>
       </MuiThemeProvider>
     )
   }
 }
 
-export default Header
+export default Jumbotron
