@@ -65,12 +65,24 @@ const styles = theme => ({
   },
 })
 
-// https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
+// https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
 function isValidURL(str) {
-  console.log('Testing ' + str)
   var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
   var regex = new RegExp(expression)
   return regex.test(str)
+}
+
+// Check if start date/time and end date/time are valid
+function checkDates(startDate, endDate) {
+  var today = new Date()
+  var errMsgs = []
+  if (startDate < today) {
+    errMsgs.push('Start date/time should be after the current time.')
+  }
+  if (endDate <= startDate) {
+    errMsgs.push('End date/time should be after the start date/time.')
+  }
+  return errMsgs
 }
 
 class CreateEvent extends Component {
@@ -86,13 +98,15 @@ class CreateEvent extends Component {
       website:'',
       startTime: '',
       endTime: '',
-      missingFields: [],
       categories: [],
       organizations: [],
+      missingFields: [],
+      timeErrors: [],
       openErrorDialog: false,
       openSuccessDialog: false,
       openServerErrorDialog: false,
       openInvalidWebsiteDialog: false,
+      openInvalidTimesDialog: false,
     }
   }
 
@@ -159,6 +173,10 @@ class CreateEvent extends Component {
     this.setState({ openInvalidWebsiteDialog: false })
   }
 
+  handleCloseInvalidTimesDialog = () => {
+    this.setState({ openInvalidTimesDialog: false })
+  }
+
   submitEvent = () => {
     var url_event = url + 'createEvent'
     console.log('Name: ' + this.state.name)
@@ -197,6 +215,10 @@ class CreateEvent extends Component {
       errors.push('is free')
     }
 
+    var timeErrs = checkDates(
+      new Date(this.state.startTime), 
+      new Date(this.state.endTime))
+
     if (errors.length > 0) {
       // Missing fields
       this.setState({
@@ -208,6 +230,12 @@ class CreateEvent extends Component {
       // Invalid website URL
       this.setState({
         openInvalidWebsiteDialog: true
+      })
+    } else if (timeErrs.length > 0) {
+      // Invalid times
+      this.setState({
+        timeErrors: timeErrs,
+        openInvalidTimesDialog: true
       })
     } else {
       console.log('Start time: ' + this.state.startTime.toLocaleString())
@@ -314,6 +342,25 @@ class CreateEvent extends Component {
           <DialogActions>
             <Button 
               onClick={this.handleCloseInvalidWebsiteDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openInvalidTimesDialog}
+          onClose={this.handleCloseInvalidTimesDialog}
+        >
+          <DialogTitle>
+            {'Invalid Times'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {this.state.timeErrors.join(' ')}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button 
+              onClick={this.handleCloseInvalidTimesDialog} color="primary">
               OK
             </Button>
           </DialogActions>
