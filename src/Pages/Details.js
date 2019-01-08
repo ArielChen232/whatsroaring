@@ -99,7 +99,8 @@ class Details extends Component {
     if (website !== null && website !== '') {
       if (!(website.includes('http://www.') 
             || website.includes('https://www.') 
-            || website.includes('www.'))) {
+            || website.includes('www.')
+            || website.includes('https://'))) {
         website = 'http://' + website
       }
       websiteTitle = 'Website:'

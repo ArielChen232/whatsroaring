@@ -65,6 +65,13 @@ const styles = theme => ({
   },
 })
 
+// https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
+function isValidURL(str) {
+  console.log('Testing ' + str)
+  var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
+  var regex = new RegExp(expression)
+  return regex.test(str)
+}
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -85,6 +92,7 @@ class CreateEvent extends Component {
       openErrorDialog: false,
       openSuccessDialog: false,
       openServerErrorDialog: false,
+      openInvalidWebsiteDialog: false,
     }
   }
 
@@ -135,16 +143,20 @@ class CreateEvent extends Component {
   }
 
   handleCloseDialog = () => {
-    this.setState({ openErrorDialog: false})
+    this.setState({ openErrorDialog: false })
   }
 
   handleCloseServerErrorDialog = () => {
-    this.setState({ openServerErrorDialog: false})
+    this.setState({ openServerErrorDialog: false })
   }
 
   handleCloseSuccessDialog = () => {
-    this.setState({ openSuccessDialog: false})
+    this.setState({ openSuccessDialog: false })
     this.props.history.push('/calendar')
+  }
+
+  handleCloseInvalidWebsiteDialog = () => {
+    this.setState({ openInvalidWebsiteDialog: false })
   }
 
   submitEvent = () => {
@@ -186,9 +198,16 @@ class CreateEvent extends Component {
     }
 
     if (errors.length > 0) {
+      // Missing fields
       this.setState({
         missingFields: errors,
         openErrorDialog: true
+      })
+    } else if (this.state.website !== '' 
+               && !isValidURL(this.state.website)) {
+      // Invalid website URL
+      this.setState({
+        openInvalidWebsiteDialog: true
       })
     } else {
       console.log('Start time: ' + this.state.startTime.toLocaleString())
@@ -222,6 +241,87 @@ class CreateEvent extends Component {
     }
   }
 
+  renderDialogs() {
+    return (
+      <div className='dialogs'>
+        <Dialog
+          open={this.state.openErrorDialog}
+          onClose={this.handleCloseDialog}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Missing required fields'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              The following fields are missing: {this.state.missingFields.join(', ')}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openSuccessDialog}
+          onClose={this.handleCloseSuccessDialog}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Success'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Your event has been submitted. Please refresh the calendar to see your event.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseSuccessDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openServerErrorDialog}
+          onClose={this.handleCloseServerErrorDialog}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Error'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              There was an error submitting your event. 
+              Please contact someone on the administrative team for help.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseServerErrorDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openInvalidWebsiteDialog}
+          onClose={this.handleCloseInvalidWebsiteDialog}
+        >
+          <DialogTitle>
+            {'Invalid Website'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please provide a valid website link (e.g., "https://whatsroaring.herokuapp.com")
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button 
+              onClick={this.handleCloseInvalidWebsiteDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    )
+  }
+
   render() {
     const { classes } = this.props
 
@@ -230,62 +330,8 @@ class CreateEvent extends Component {
         <Header />
         <HomeButton />
         <MuiThemeProvider theme={Theme}>
+          {this.renderDialogs()}
           <div className='main'>
-            <Dialog
-              open={this.state.openErrorDialog}
-              onClose={this.handleCloseDialog}
-            >
-              <DialogTitle id="alert-dialog-title">
-                {'Missing required fields'}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  The following fields are missing: {this.state.missingFields.join(', ')}
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleCloseDialog} color="primary">
-                  OK
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <Dialog
-              open={this.state.openSuccessDialog}
-              onClose={this.handleCloseSuccessDialog}
-            >
-              <DialogTitle id="alert-dialog-title">
-                {'Success'}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  Your event has been submitted. Please refresh the calendar to see your event.
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleCloseSuccessDialog} color="primary">
-                  OK
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <Dialog
-              open={this.state.openServerErrorDialog}
-              onClose={this.handleCloseServerErrorDialog}
-            >
-              <DialogTitle id="alert-dialog-title">
-                {'Error'}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  There was an error submitting your event. 
-                  Please contact someone on the administrative team for help.
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleCloseServerErrorDialog} color="primary">
-                  OK
-                </Button>
-              </DialogActions>
-            </Dialog>
             <Paper className='paper'>
               <div className='title'>
                 <Typography variant="h3" color="primary">
