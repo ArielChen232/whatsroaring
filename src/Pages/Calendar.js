@@ -6,6 +6,7 @@ import moment from 'moment'
 import CASClient from './CASClient'
 
 // Material-UI
+import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Theme from '../Assets/Theme'
 import Grid from '@material-ui/core/Grid'
@@ -23,6 +24,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
 import ListItemText from '@material-ui/core/ListItemText'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
+import FormControl from '@material-ui/core/FormControl'
 
 // Components
 import BigCalendar from 'react-big-calendar'
@@ -59,10 +62,28 @@ function compareDropdown(a, b) {
   return 0;
 }
 
+const styles = theme => ({
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
+  select: {
+    '&:before': {
+      borderColor: orange,
+    },
+    '&:after': {
+      borderColor: orange,
+    },
+  },
+  icon: {
+    fill: orange,
+  },
+})
+
 class Calendar extends Component {
 
-  constructor(...args) {
-    super(...args)
+  constructor(props) {
+    super(props)
     this.state = {
       email: localStorage.getItem('email'),
       isAdmin: localStorage.getItem('isAdmin'),
@@ -79,6 +100,7 @@ class Calendar extends Component {
       end_datetime: new Date(),
       display_date: new Date(),
       month: getStartOfMonth(),
+      view: 'Month',
       changed_view: false, // if user has changed calendar settings
     }
     console.log('Email: ' + this.state.email)
@@ -176,6 +198,19 @@ class Calendar extends Component {
     this._isMounted = true
   }
 
+  handleViewChange = event => {
+    console.log('View changed: ' + event.target.value)
+    this.setState({
+      'view': event.target.value,
+    })
+  }
+
+  changeView(view) {
+    if (view === 'Month') {
+
+    }
+  }
+
   nextMonth() {
     var day = new Date(this.state.month)
     if (day.getMonth() === 11) {
@@ -205,6 +240,7 @@ class Calendar extends Component {
   }
 
   getCustomToolbar = (toolbar) => {
+    const { classes } = this.props
     this.toolbarDate = toolbar.date
     const goToBack = () => {
       toolbar.onNavigate('back', this.prevMonth())
@@ -212,24 +248,31 @@ class Calendar extends Component {
     const goToNext = () => {
       toolbar.onNavigate('next', this.nextMonth())
     }
-    const goToToday =() => {
+    const goToToday = () => {
       var day = new Date()
       this.setState({
         month: getStartOfMonth()
       })
       toolbar.onNavigate('today', day)
     }
+    const handleViewChange = event => {
+      console.log('View changed: ' + event.target.value)
+      this.setState({
+        'view': event.target.value,
+      })
+      toolbar.onView(event.target.value.toLowerCase())
+    }
 
     return (
       <div className='ToolbarCalendar'>
         <MuiThemeProvider theme={Theme}>
-          <Grid container alignItems='stretch'>
-            <Grid item xs={7}>
+          <Grid container alignItems='baseline'>
+            <Grid item xs={5}>
               <Typography className="month" variant="h3" component="h3" color="primary">
                 {monthNames[this.state.month.getMonth()] + ' ' +  this.state.month.getFullYear()}
               </Typography>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={7}>
               <div className='ToolbarButtons'>
                 <div className='ToolbarItem'>
                   <IconButton color="primary" onClick={goToBack} variant="contained" size="small">
@@ -245,6 +288,25 @@ class Calendar extends Component {
                   <Button color="primary" onClick={goToToday} size="medium" variant="outlined">
                     Today
                   </Button>
+                </div>
+                <div className='ToolbarItem'>
+                <FormControl className={classes.formControl}>
+                  <Select
+                    value={this.state.view}
+                    onChange={handleViewChange}
+                    input={
+                      <OutlinedInput
+                        labelWidth={0}
+                        name='view'
+                        className={classes.select}
+                      />
+                    }
+                  >
+                    <MenuItem value={'Month'}>Month</MenuItem>
+                    <MenuItem value={'Week'}>Week</MenuItem>
+                    <MenuItem value={'Day'}>Day</MenuItem>
+                  </Select>
+                </FormControl>
                 </div>
               </div>
             </Grid>
@@ -273,14 +335,6 @@ class Calendar extends Component {
   onEndChange = date => {
     this.setState({
       end_datetime: date })}
-
-  /*toggleSelected = (id, key) => {
-    let temp = JSON.parse(JSON.stringify(this.state[key]))
-    temp[id].selected = !temp[id].selected
-    this.setState({
-      [key]: temp
-    }, () => this.filterEvents())
-  }*/
 
   updateFilter = (listName, selectedList) => {
     this.setState({
@@ -407,7 +461,7 @@ class Calendar extends Component {
           events={this.state.events}
           defaultView={BigCalendar.Views.MONTH}
           onSelectEvent={this.seeDetails}
-          views={['month', 'week']}
+          views={['month', 'week', 'day']}
           eventPropGetter={(this.eventStyleGetter)}
           defaultDate={this.state.month}
           components={{toolbar: this.getCustomToolbar}}
@@ -418,29 +472,6 @@ class Calendar extends Component {
 
   render() {
     if (this.state.email === null) this.props.history.push('/') 
-    // if authentication is not complete, display a loading page
-    // if (this.state.loading == true) {
-    //   return (
-    //     <div className="container">
-    //       <h4>Loading...</h4>
-    //     </div>
-    //   )
-    // }
-    // var addEvent = <AddEventButton/>
-    // var addOrg = <AddOrgButton/>
-    // const adminList = ['rachelsc', 'clairedu']
-    // const isAdmin = adminList.includes(localStorage.getItem('netid'))
-    // if (this.state.isAdmin === false) {
-    //   url_admin = url + 'isAdmin'
-    //   axios.post(url_admin, {params: {email: this.state.email}
-    //   }).then((response) => {
-    //     if (response.data === true) {
-    //       this.setState({
-    //         isAdmin: true
-    //       })
-    //     } 
-    //   })
-    // }
     var addEvent
     var addOrg
     if (this.state.isAdmin === 'true') {
@@ -587,4 +618,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Calendar))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(Calendar)))
