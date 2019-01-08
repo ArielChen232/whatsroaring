@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 
 import './Button.css'
 
-class LogInButton extends Component {
+class LogOutButton extends Component {
   constructor() {
     super()
     this.handleClick = this.handleClick.bind(this)

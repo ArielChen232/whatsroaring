@@ -80,7 +80,7 @@ class Calendar extends Component {
     super(...args)
     this.state = {
       email: localStorage.getItem('email'),
-      isAdmin: localStorage.getItem('isAdmin')
+      isAdmin: localStorage.getItem('isAdmin'),
       events: [],
       locations: [],
       categories: [],
@@ -96,6 +96,8 @@ class Calendar extends Component {
       month: getStartOfMonth(),
       changed_view: false, // if user has changed calendar settings
     }
+    console.log('Email: ' + this.state.email)
+    console.log('isAdmin: ' + this.state.isAdmin)
     this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
     this.getCustomToolbar = this.getCustomToolbar.bind(this)
@@ -492,7 +494,7 @@ class Calendar extends Component {
     // }
     var addEvent
     var addOrg
-    if (this.state.isAdmin) {
+    if (this.state.isAdmin === true) {
       addEvent = <AddEventButton/>
       addOrg = <AddOrgButton/>
     }
