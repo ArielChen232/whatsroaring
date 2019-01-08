@@ -89,6 +89,8 @@ class CreateEvent extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      email: localStorage.getItem('email'),
+      isAdmin: localStorage.getItem('isAdmin'),
       name: '',
       org: '',
       category: [],
@@ -370,6 +372,10 @@ class CreateEvent extends Component {
   }
 
   render() {
+
+    if (this.state.email === null) this.props.history.push('/')
+    if (this.state.isAdmin === false) this.props.history.push('/calendar')
+
     const { classes } = this.props
 
     return (

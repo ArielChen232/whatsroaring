@@ -32,7 +32,7 @@ class Details extends Component {
       org: 'Princeton Nassoons',
       cat: 'Music',
       is_free: true,
-      netid: ''
+      email: localStorage.getItem('email')
     }
   }
 
@@ -54,7 +54,7 @@ class Details extends Component {
     var dtform = "ddd, DD MMM YYYY HH:mm:ss"
     var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
     console.log(start)
-    url = url + "?user=" + sessionStorage.getItem('netid') + "&name=" + this.props.title + '&start_datetime=' + start
+    url = url + "?user=" + this.state.email + "&name=" + this.props.title + '&start_datetime=' + start
     axios.get(url)
 
   }
@@ -72,6 +72,9 @@ class Details extends Component {
   }
 
   render() {
+
+    if (this.state.email === null) this.props.history.push('/')
+    
     console.log(this.props)
 
     // Get event title.

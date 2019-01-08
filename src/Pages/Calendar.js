@@ -31,6 +31,7 @@ import AddEventButton from './Components/AddEventButton'
 import AddOrgButton from './Components/AddOrgButton'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
+import LogOutButton from './Components/LogOutButton'
 
 // Styling
 import {
@@ -78,7 +79,8 @@ class Calendar extends Component {
   constructor(...args) {
     super(...args)
     this.state = {
-      // loading: true,
+      email: localStorage.getItem('email'),
+      isAdmin: localStorage.getItem('isAdmin')
       events: [],
       locations: [],
       categories: [],
@@ -464,6 +466,7 @@ class Calendar extends Component {
   }
 
   render() {
+    if (this.state.email === null) this.props.history.push('/') 
     // if authentication is not complete, display a loading page
     // if (this.state.loading == true) {
     //   return (
@@ -472,18 +475,31 @@ class Calendar extends Component {
     //     </div>
     //   )
     // }
-    var addEvent = <AddEventButton/>
-    var addOrg = <AddOrgButton/>
+    // var addEvent = <AddEventButton/>
+    // var addOrg = <AddOrgButton/>
     // const adminList = ['rachelsc', 'clairedu']
     // const isAdmin = adminList.includes(localStorage.getItem('netid'))
-    // if (isAdmin) {
-    //   addEvent = <AddEventButton/>
-    //   addOrg = <AddOrgButton/>
+    // if (this.state.isAdmin === false) {
+    //   url_admin = url + 'isAdmin'
+    //   axios.post(url_admin, {params: {email: this.state.email}
+    //   }).then((response) => {
+    //     if (response.data === true) {
+    //       this.setState({
+    //         isAdmin: true
+    //       })
+    //     } 
+    //   })
     // }
-    // else {
-    //   addEvent = <div></div>
-    //   addOrg = <div></div>
-    // }
+    var addEvent
+    var addOrg
+    if (this.state.isAdmin) {
+      addEvent = <AddEventButton/>
+      addOrg = <AddOrgButton/>
+    }
+    else {
+      addEvent = <div></div>
+      addOrg = <div></div>
+    }
     if (this._isMounted === true) {
       return (
         <MuiThemeProvider theme={Theme}>
@@ -557,6 +573,9 @@ class Calendar extends Component {
                   </Grid>
                   <Grid item xs={2}>
                     {addOrg}
+                  </Grid>
+                  <Grid item xs={2}>
+                    <LogOutButton/>
                   </Grid>
                 </Grid>
               </Paper>
