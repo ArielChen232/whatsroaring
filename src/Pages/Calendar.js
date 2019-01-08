@@ -34,26 +34,11 @@ import Header from './Components/Header'
 import LogOutButton from './Components/LogOutButton'
 
 // Styling
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    Container,
-    Row,
-    Col,
-    Jumbotron,
-    //Button
-} from 'reactstrap'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-//const url = 'https://whatsroaring-api.herokuapp.com/'
-const url = 'http://127.0.0.1:8000/'
+const url = 'https://whatsroaring-api.herokuapp.com/'
 const orange = '#fb8c00'
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -73,7 +58,6 @@ function compareDropdown(a, b) {
   if (compA > compB) return 1;
   return 0;
 }
-
 
 class Calendar extends Component {
 
@@ -124,9 +108,6 @@ class Calendar extends Component {
         locations: locs_arr
       }, () => this.setCategories())
     })
-    
-    // var cas = new CASClient()
-    // cas.authenticate(() => this.setState({loading: false}))
   }
 
   setCategories() {
@@ -307,38 +288,6 @@ class Calendar extends Component {
     }, () => this.filterEvents())
   }
 
-  getStateFromStorage(callback) {
-    var state = {}
-    for (let key in this.state) {
-      console.log(key)
-      // if the key exists in sessionStorage
-      if (sessionStorage.hasOwnProperty(key)) {
-        // get the key's value from sessionStorage
-        let value = sessionStorage.getItem(key);
-        console.log(value)
-        // parse the sessionStorage string and setState
-        try {
-          value = JSON.parse(value);
-          state[key] = value;
-        } catch (e) {
-          // handle empty string
-        }
-      }
-    }
-    console.log(state)
-    return state
-  }
-
-  saveStateToStorage() {
-    // save state to local storage so it can be loaded
-    console.log('state saved')
-    for (let key in this.state) {
-      if (key !== 'events') {
-        sessionStorage.setItem(key, JSON.stringify(this.state[key]));
-      }
-    }
-  }
-
   updateCalendar(locations="", categories="", organizations="", is_free="",
     start_date = "", end_date = "", favorites = "") {
     // empty string for parameters indicates select all of them
@@ -355,9 +304,7 @@ class Calendar extends Component {
     }})
     .then(res => {
       const posts = JSON.parse(res.data.Events_JSON)
-
       posts.forEach((post) => {
-        console.log('org: ' + post.fields.org)
         events.push({
           title: post.fields.name,
           start: new Date(post.fields.start_datetime),
@@ -496,7 +443,7 @@ class Calendar extends Component {
     // }
     var addEvent
     var addOrg
-    if (this.state.isAdmin === true) {
+    if (this.state.isAdmin === 'true') {
       addEvent = <AddEventButton/>
       addOrg = <AddOrgButton/>
     }
@@ -590,95 +537,6 @@ class Calendar extends Component {
           </div>
         </MuiThemeProvider>
       )
-      /*return (
-        <MuiThemeProvider theme={Theme}>
-          <div className='CalendarPage'>
-
-            <div className = "full-width">
-              <header className="calendarhead">
-              </header>
-              <br></br>
-
-              <div className='CalendarOptions'>
-                <div className='FilterItemsTitle'>
-                  <Typography className="month" variant="subtitle1" color="primary">
-                    Filter Events
-                  </Typography>
-                </div>
-                <div className='FilterItems'>
-                  <div className='Menu'>
-                    <DropdownMultiple
-                      titleHelper="location"
-                      title="Locations"
-                      list={this.state.locations}
-                      updateFilter={this.updateFilter}
-                      selectedList={this.state.locations_selected}
-                    />
-                  </div>
-
-                  <div className='Menu'>
-                    <DropdownMultiple
-                      titleHelper="event type"
-                      title="Categories"
-                      list={this.state.categories}
-                      updateFilter={this.updateFilter}
-                      selectedList={this.state.categories_selected}
-                    />
-                  </div>
-
-                  <div className='Menu'>
-                    <DropdownMultiple
-                      titleHelper="organization"
-                      title="Organizations"
-                      list={this.state.organizations}
-                      updateFilter={this.updateFilter}
-                      selectedList={this.state.organizations_selected}
-                    />
-                  </div>
-
-                  <FormGroup row>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={this.state.checkedFree}
-                          onChange={this.handleCheckFree}
-                          value="checkedA"
-                          color="primary"
-                        />
-                      }
-                      label="Free Events"
-                    />
-
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={this.state.checkedFav}
-                          onChange={this.handleCheckFav}
-                          value="checkedA"
-                          color="primary"
-                        />
-                      }
-                      label="Favorites"
-                    />
-
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className = "AddButtons">
-                {addEvent}
-                {addOrg}
-              </div>
-              
-            </div>
-
-            <div className='Calendar'>
-              {this.renderCalendar()}
-            </div>
-          </div>
-
-        </MuiThemeProvider>
-      )*/
     } else {
       return (
         <div className='page'>

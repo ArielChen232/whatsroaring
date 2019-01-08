@@ -374,11 +374,10 @@ class CreateEvent extends Component {
   render() {
     const { classes } = this.props
 
-    console.log('is admin: ' + this.state.isAdmin)
     if (this.state.email === null) {
       this.props.history.push('/')
     } 
-    if (this.state.isAdmin === false) {
+    if (this.state.isAdmin === 'false') {
       console.log('Going to calendar')
       this.props.history.push('/calendar')
     }

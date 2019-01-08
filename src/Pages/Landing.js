@@ -38,6 +38,9 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit * 2,
     width: 150,
+  },
+  continueButton: {
+    marginBottom: theme.spacing.unit * 2,
   }
 })
 
@@ -57,6 +60,7 @@ class Landing extends React.Component {
     }
     this.handleRegister = this.handleRegister.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+    this.handleContinue = this.handleContinue.bind(this)
   }
 
   goToCal = () => {
@@ -127,6 +131,10 @@ class Landing extends React.Component {
 
   handleRegister() {
     this.props.history.push('/register')
+  }
+
+  handleContinue() {
+    this.props.history.push('/calendar')
   }
 
   handleCloseMissingFieldsDialog = () => {
@@ -203,8 +211,30 @@ class Landing extends React.Component {
     )
   }
 
+  renderContinueButton() {
+    const { classes } = this.props
+
+    if (localStorage.getItem('email')) {
+      return (
+        <Button
+          className={classes.continueButton}
+          variant="contained" 
+          color="primary" 
+          onClick={this.handleContinue} 
+          size="large">
+          Continue As {localStorage.getItem('email')}
+        </Button>
+      )
+    } else {
+      return (
+        <div></div>
+      )
+    }
+  }
+
   render() {
     const { classes } = this.props
+
     return (
       <div className='page'>
         <Jumbotron />
@@ -219,6 +249,7 @@ class Landing extends React.Component {
               alignContent='center'>
               <Grid item xs={6}>
                 <div className='textFields'>
+                {this.renderContinueButton()}
                   <FormControl>
                     <TextField
                       label='Email'

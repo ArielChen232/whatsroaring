@@ -192,7 +192,7 @@ class AddOrg extends Component {
   render() {
 
     if (this.state.email === null) this.props.history.push('/')
-    if (this.state.isAdmin === false) this.props.history.push('/calendar')
+    if (this.state.isAdmin === 'false') this.props.history.push('/calendar')
 
     const { classes } = this.props
 
