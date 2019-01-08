@@ -52,7 +52,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-const url = 'https://whatsroaring-api.herokuapp.com/'
+//const url = 'https://whatsroaring-api.herokuapp.com/'
+const url = 'http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -356,6 +357,7 @@ class Calendar extends Component {
       const posts = JSON.parse(res.data.Events_JSON)
 
       posts.forEach((post) => {
+        console.log('org: ' + post.fields.org)
         events.push({
           title: post.fields.name,
           start: new Date(post.fields.start_datetime),
