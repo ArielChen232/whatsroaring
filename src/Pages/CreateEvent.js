@@ -16,6 +16,11 @@ import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import ListItemText from '@material-ui/core/ListItemText'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 // Local
 import Theme from '../Assets/Theme'
@@ -73,9 +78,12 @@ class CreateEvent extends Component {
       website:'',
       startTime: '',
       endTime: '',
-      displayError: [],
+      missingFields: [],
       categories: [],
-      organizations: []
+      organizations: [],
+      openErrorDialog: false,
+      openSuccessDialog: false,
+      openServerErrorDialog: false,
     }
   }
 
@@ -89,7 +97,6 @@ class CreateEvent extends Component {
         cats_arr.push(cats[i])
       }
       this.setState({categories: cats_arr})
-      console.log(this.state.categories)
     }).catch(err => {
       console.log(err)
     })
@@ -104,7 +111,6 @@ class CreateEvent extends Component {
       }
       orgs_arr.sort()
       this.setState({organizations: orgs_arr})
-      console.log(this.state.organizations)
     }).catch(err => {
       console.log(err)
     })
@@ -127,6 +133,19 @@ class CreateEvent extends Component {
     })
   }
 
+  handleCloseDialog = () => {
+    this.setState({ openErrorDialog: false})
+  }
+
+  handleCloseServerErrorDialog = () => {
+    this.setState({ openServerErrorDialog: false})
+  }
+
+  handleCloseSuccessDialog = () => {
+    this.setState({ openSuccessDialog: false})
+    this.props.history.push('/calendar')
+  }
+
   submitEvent = () => {
     var url_event = url + 'createEvent'
     console.log('Name: ' + this.state.name)
@@ -138,25 +157,39 @@ class CreateEvent extends Component {
     console.log('Description: ' + this.state.description)
     console.log('Is free: ' + this.state.isFree)
 
+    // Check fields
     var errors = []
     if (this.state.name === '') {
-      errors.push('Enter a name for your event.')
+      errors.push('event name')
     }
-    if (this.state.organization === '') {
-      errors.push('Enter an organization for your event.')
+    if (this.state.description === '') {
+      errors.push('description')
     }
     if (this.state.location === '') {
-      errors.push('Enter a location for your event.')
+      errors.push('location')
     }
-    if (this.state.startTime === null) {
-      errors.push('Enter a start time for your event.')
+    if (this.state.startTime === '') {
+      errors.push('start time')
     }
-    if (this.state.endTime === null) {
-      errors.push('Enter an end time for your event.')
+    if (this.state.endTime === '') {
+      errors.push('end time')
     }
-    this.setState({ displayError: errors })
+    if (this.state.org === '') {
+      errors.push('organization')
+    }
+    if (this.state.category.length == 0) {
+      errors.push('category')
+    }
+    if (this.state.isFree === '') {
+      errors.push('is free')
+    }
 
-    if (errors.length === 0) {
+    if (errors.length > 0) {
+      this.setState({
+        missingFields: errors,
+        openErrorDialog: true
+      })
+    } else {
       console.log('Start time: ' + this.state.startTime.toLocaleString())
       axios.post(url_event, {
         params: {
@@ -172,12 +205,18 @@ class CreateEvent extends Component {
         }
       }).then((response) => {
         if (response.data === 'Created event') {
-          this.goBack()
+          this.setState({
+            openSuccessDialog: true
+          })
         } else {
-          console.log('error')
+          this.setState({
+            openServerErrorDialog: true
+          })
         }
       }).catch((error) => {
-        console.log(error)
+        this.setState({
+          openServerErrorDialog: true
+        })
       })
     }
   }
@@ -191,6 +230,61 @@ class CreateEvent extends Component {
         <HomeButton />
         <MuiThemeProvider theme={Theme}>
           <div className='main'>
+            <Dialog
+              open={this.state.openErrorDialog}
+              onClose={this.handleCloseDialog}
+            >
+              <DialogTitle id="alert-dialog-title">
+                {'Missing required fields'}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  The following fields are missing: {this.state.missingFields.join(', ')}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleCloseDialog} color="primary">
+                  OK
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={this.state.openSuccessDialog}
+              onClose={this.handleCloseSuccessDialog}
+            >
+              <DialogTitle id="alert-dialog-title">
+                {'Success'}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Your event has been submitted. Please refresh the calendar to see your event.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleCloseSuccessDialog} color="primary">
+                  OK
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={this.state.openServerErrorDialog}
+              onClose={this.handleCloseServerErrorDialog}
+            >
+              <DialogTitle id="alert-dialog-title">
+                {'Error'}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  There was an error submitting your event. 
+                  Please contact someone on the administrative team for help.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleCloseServerErrorDialog} color="primary">
+                  OK
+                </Button>
+              </DialogActions>
+            </Dialog>
             <Paper className='paper'>
               <div className='title'>
                 <Typography variant="h3" color="primary">
@@ -200,6 +294,7 @@ class CreateEvent extends Component {
               <div className='form'>
                 <FormControl>
                   <TextField
+                    required
                     id='event-name'
                     label='Event Name'
                     className={classes.textField}
@@ -210,6 +305,7 @@ class CreateEvent extends Component {
                   />
 
                   <TextField
+                    required
                     id='event-description'
                     label='Description'
                     className={classes.textField}
@@ -220,8 +316,9 @@ class CreateEvent extends Component {
                   />
 
                   <TextField
+                    required
                     id='event-location'
-                    label='Event Location'
+                    label='Location'
                     className={classes.textField}
                     value={this.state.location}
                     onChange={this.handleChange('location')}
@@ -231,7 +328,7 @@ class CreateEvent extends Component {
 
                   <TextField
                     id='event-website'
-                    label='Event Website'
+                    label='Website'
                     className={classes.textField}
                     value={this.state.website}
                     onChange={this.handleChange('website')}
@@ -240,6 +337,7 @@ class CreateEvent extends Component {
                   />
 
                   <TextField
+                    required
                     id="datetime-local"
                     label="Start Date & Time"
                     type="datetime-local"
@@ -251,6 +349,7 @@ class CreateEvent extends Component {
                   />
 
                   <TextField
+                    required
                     id="datetime-local"
                     label="End Date & Time"
                     type="datetime-local"
@@ -265,7 +364,7 @@ class CreateEvent extends Component {
               <div className='form'>
                 <FormControl>
                   <InputLabel htmlFor="outlined-org-simple">
-                    Organization
+                    Organization *
                   </InputLabel>
                   <Select
                     value={this.state.org}
@@ -281,7 +380,7 @@ class CreateEvent extends Component {
                 </FormControl>
 
                 <FormControl>
-                  <InputLabel htmlFor="select-multiple-checkbox">Category</InputLabel>
+                  <InputLabel htmlFor="select-multiple-checkbox">Category *</InputLabel>
                   <Select
                     multiple
                     value={this.state.category}
@@ -302,7 +401,7 @@ class CreateEvent extends Component {
 
                 <FormControl>
                   <InputLabel htmlFor="outlined-isfree-simple">
-                    Free?
+                    Free? *
                   </InputLabel>
                   <Select
                     value={this.state.isFree}
@@ -324,149 +423,6 @@ class CreateEvent extends Component {
         </MuiThemeProvider>
       </div>
     )
-
-    /*return (
-      <div className="CreateEvent">
-        <Header />
-        <MuiThemeProvider theme={Theme}>
-          <div className='EventPaper'>
-
-            <HomeButton />
-
-            <Paper className='EventPaperInner'>
-              <div className='header'>
-                <Typography variant="h3" color="primary">
-                  Create Event
-                </Typography>
-              </div>
-              <div className='InnerPageFields'>
-                <FormControl>
-                  <TextField
-                    id='event-name'
-                    label='Event Name'
-                    className={classes.textField}
-                    value={this.state.name}
-                    onChange={this.handleChange('name')}
-                    margin='normal'
-                    variant='outlined'
-                  />
-
-                  <TextField
-                    id='event-description'
-                    label='Description'
-                    className={classes.textField}
-                    value={this.state.description}
-                    onChange={this.handleChange('description')}
-                    margin='normal'
-                    variant='outlined'
-                  />
-
-                  <TextField
-                    id='event-location'
-                    label='Event Location'
-                    className={classes.textField}
-                    value={this.state.location}
-                    onChange={this.handleChange('location')}
-                    margin='normal'
-                    variant='outlined'
-                  />
-
-                  <TextField
-                    id='event-website'
-                    label='Event Website'
-                    className={classes.textField}
-                    value={this.state.website}
-                    onChange={this.handleChange('website')}
-                    margin='normal'
-                    variant='outlined'
-                  />
-
-                  <TextField
-                    id="datetime-local"
-                    label="Start Date & Time"
-                    type="datetime-local"
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={this.handleDateChange('startTime')}
-                  />
-
-                  <TextField
-                    id="datetime-local"
-                    label="End Date & Time"
-                    type="datetime-local"
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={this.handleDateChange('endTime')}
-                  />
-                </FormControl>
-              </div>
-
-              <div className='InnerPageFields'>
-                <FormControl>
-                  <InputLabel htmlFor="outlined-org-simple">
-                    Organization
-                  </InputLabel>
-                  <Select
-                    value={this.state.org}
-                    onChange={this.handleChange('org')}
-                    className={classes.select}
-                  >
-                    {this.state.organizations.map(organization => (
-                      <MenuItem key={organization} value={organization}>
-                        {organization}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                <FormControl>
-                  <InputLabel htmlFor="select-multiple-checkbox">Category</InputLabel>
-                  <Select
-                    multiple
-                    value={this.state.category}
-                    onChange={this.handleChange('category')}
-                    input={<Input id="select-multiple-checkbox" />}
-                    renderValue={selected => selected.join(', ')}
-                    className={classes.select}
-                    MenuProps={MenuProps}
-                  >
-                    {this.state.categories.map(category => (
-                      <MenuItem key={category} value={category}>
-                        <Checkbox checked={this.state.category.indexOf(category) > -1} />
-                        <ListItemText primary={category} />
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                <FormControl>
-                  <InputLabel htmlFor="outlined-isfree-simple">
-                    Free?
-                  </InputLabel>
-                  <Select
-                    value={this.state.isFree}
-                    onChange={this.handleChange('isFree')}
-                    className={classes.select}
-                  >
-                    <MenuItem value={true}>Yes</MenuItem>
-                    <MenuItem value={false}>No</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <div className='Button'>
-                <Button variant="contained" color="primary" onClick={this.submitEvent} size="large">
-                  Submit Event
-                </Button>
-              </div>
-            </Paper>
-          </div>
-        </MuiThemeProvider>
-      </div>
-    )*/
   }
 }
 

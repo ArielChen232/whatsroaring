@@ -21,12 +21,13 @@
 }
 
 .details {
-
+  padding-top: 2vh;
+  padding-bottom: 10vh;
 }
 
 .paper {
   padding-top: 2vh;
-  padding-bottom: 5vh;
+  padding-bottom: 2vh;
   padding-left: 5vw;
   padding-right: 5vw;
 }
