@@ -29,8 +29,8 @@ import HomeButton from './Components/HomeButton'
 import './Form.css'
 
 const axios = require('axios')
-const url = 'http://whatsroaring-api.herokuapp.com/'
-//const url ='http://127.0.0.1:8000/'
+// const url = 'http://whatsroaring-api.herokuapp.com/'
+const url ='http://127.0.0.1:8000/'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -223,7 +223,7 @@ class CreateEvent extends Component {
     }
 
     var timeErrs = checkDates(
-      new Date(this.state.startTime), 
+      new Date(this.state.startTime),
       new Date(this.state.endTime))
 
     if (errors.length > 0) {
@@ -232,7 +232,7 @@ class CreateEvent extends Component {
         missingFields: errors,
         openErrorDialog: true
       })
-    } else if (this.state.website !== '' 
+    } else if (this.state.website !== ''
                && !isValidURL(this.state.website)) {
       // Invalid website URL
       this.setState({
@@ -328,7 +328,7 @@ class CreateEvent extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              There was an error submitting your event. 
+              There was an error submitting your event.
               Please contact someone on the administrative team for help.
             </DialogContentText>
           </DialogContent>
@@ -351,7 +351,7 @@ class CreateEvent extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button 
+            <Button
               onClick={this.handleCloseInvalidWebsiteDialog} color="primary">
               OK
             </Button>
@@ -370,7 +370,7 @@ class CreateEvent extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button 
+            <Button
               onClick={this.handleCloseInvalidTimesDialog} color="primary">
               OK
             </Button>
@@ -389,7 +389,7 @@ class CreateEvent extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button 
+            <Button
               onClick={this.handleCloseDuplicateEventDialog} color="primary">
               OK
             </Button>
@@ -404,7 +404,7 @@ class CreateEvent extends Component {
 
     if (this.state.email === null) {
       this.props.history.push('/')
-    } 
+    }
     if (this.state.isAdmin === 'false') {
       console.log('Going to calendar')
       this.props.history.push('/calendar')

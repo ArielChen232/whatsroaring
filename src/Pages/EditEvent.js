@@ -36,11 +36,11 @@ import './Form.css'
 import Theme from '../Assets/Theme'
 import Header from './Components/Header'
 import HomeButton from './Components/HomeButton'
-import CreateEvent from './CreateEvent'
 import './Form.css'
 
 const axios = require('axios')
-const url = 'http://whatsroaring-api.herokuapp.com/'
+//const url = 'http://whatsroaring-api.herokuapp.com/'
+const url = 'http://127.0.0.1:8000/'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -75,6 +75,7 @@ const styles = theme => ({
   },
 })
 
+// https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
 function isValidURL(str) {
   var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
   var regex = new RegExp(expression)
@@ -95,10 +96,11 @@ function checkDates(startDate, endDate) {
 }
 
 class EditEvent extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
+      email: localStorage.getItem('email'),
+      isAdmin: localStorage.getItem('isAdmin'),
       name: '',
       org: '',
       category: [],
@@ -117,6 +119,7 @@ class EditEvent extends Component {
       openServerErrorDialog: false,
       openInvalidWebsiteDialog: false,
       openInvalidTimesDialog: false,
+      openDuplicateEventDialog: false,
     }
   }
 
@@ -187,6 +190,10 @@ class EditEvent extends Component {
     this.setState({ openInvalidTimesDialog: false })
   }
 
+  handleCloseDuplicateEventDialog = () => {
+    this.setState({ openDuplicateEventDialog: false })
+  }
+
   submitEvent = () => {
     var url_event = url + 'createEvent'
     console.log('Name: ' + this.state.name)
@@ -248,7 +255,6 @@ class EditEvent extends Component {
         openInvalidTimesDialog: true
       })
     } else {
-      console.log('Start time: ' + this.state.startTime.toLocaleString())
       axios.post(url_event, {
         params: {
           name: this.state.name,
@@ -259,12 +265,17 @@ class EditEvent extends Component {
           location: this.state.location,
           website: this.state.website,
           description: this.state.description,
-          is_free: this.state.isFree
+          is_free: this.state.isFree,
+          email: this.state.email,
         }
       }).then((response) => {
         if (response.data === 'Created event') {
           this.setState({
             openSuccessDialog: true
+          })
+        } else if (response.data === 'Duplicate event') {
+          this.setState({
+            openDuplicateEventDialog: true
           })
         } else {
           this.setState({
@@ -375,15 +386,188 @@ class EditEvent extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Dialog
+          open={this.state.openDuplicateEventDialog}
+          onClose={this.handleCloseDuplicateEventDialog}
+        >
+          <DialogTitle>
+            {'Duplicate Event'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              An event with this name and time already exists.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleCloseDuplicateEventDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }
 
   render() {
+    console.log(this.props)
     const { classes } = this.props
 
+    var name = this.props.title
+    console.log(name)
+
+    if (this.state.email === null) {
+      this.props.history.push('/')
+    }
+    if (this.state.isAdmin === 'false') {
+      console.log('Going to calendar')
+      this.props.history.push('/calendar')
+    }
+
     return (
-      <CreateEvent/>
+      <div className='page'>
+        <Header />
+        <HomeButton />
+        <MuiThemeProvider theme={Theme}>
+          {this.renderDialogs()}
+          <div className='main'>
+            <Paper className='paper'>
+              <div className='title'>
+                <Typography variant="h3" color="primary">
+                  Edit Event
+                </Typography>
+              </div>
+              <div className='form'>
+                <FormControl>
+                  <TextField
+                    required
+                    id='event-name'
+                    label='Event Name'
+                    className={classes.textField}
+                    value={name}
+                    onChange={this.handleChange('name')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    required
+                    id='event-description'
+                    label='Description'
+                    className={classes.textField}
+                    value={this.state.description}
+                    onChange={this.handleChange('description')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    required
+                    id='event-location'
+                    label='Location'
+                    className={classes.textField}
+                    value={this.state.location}
+                    onChange={this.handleChange('location')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    id='event-website'
+                    label='Website'
+                    className={classes.textField}
+                    value={this.state.website}
+                    onChange={this.handleChange('website')}
+                    margin='normal'
+                    variant='outlined'
+                  />
+
+                  <TextField
+                    required
+                    id="datetime-local"
+                    label="Start Date & Time"
+                    type="datetime-local"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={this.handleDateChange('startTime')}
+                  />
+
+                  <TextField
+                    required
+                    id="datetime-local"
+                    label="End Date & Time"
+                    type="datetime-local"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={this.handleDateChange('endTime')}
+                  />
+                </FormControl>
+              </div>
+              <div className='form'>
+                <FormControl>
+                  <InputLabel htmlFor="outlined-org-simple">
+                    Organization *
+                  </InputLabel>
+                  <Select
+                    value={this.state.org}
+                    onChange={this.handleChange('org')}
+                    className={classes.select}
+                  >
+                    {this.state.organizations.map(organization => (
+                      <MenuItem key={organization} value={organization}>
+                        {organization}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl>
+                  <InputLabel htmlFor="select-multiple-checkbox">Category *</InputLabel>
+                  <Select
+                    multiple
+                    value={this.state.category}
+                    onChange={this.handleChange('category')}
+                    input={<Input id="select-multiple-checkbox" />}
+                    renderValue={selected => selected.join(', ')}
+                    className={classes.select}
+                    MenuProps={MenuProps}
+                  >
+                    {this.state.categories.map(category => (
+                      <MenuItem key={category} value={category}>
+                        <Checkbox checked={this.state.category.indexOf(category) > -1} color='primary'/>
+                        <ListItemText primary={category} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl>
+                  <InputLabel htmlFor="outlined-isfree-simple">
+                    Free? *
+                  </InputLabel>
+                  <Select
+                    value={this.state.isFree}
+                    onChange={this.handleChange('isFree')}
+                    className={classes.select}
+                  >
+                    <MenuItem value={true}>Yes</MenuItem>
+                    <MenuItem value={false}>No</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className='button'>
+                <Button variant="contained" color="primary" onClick={this.submitEvent} size="large">
+                  Submit Edits
+                </Button>
+              </div>
+            </Paper>
+          </div>
+        </MuiThemeProvider>
+      </div>
     )
   }
 }
