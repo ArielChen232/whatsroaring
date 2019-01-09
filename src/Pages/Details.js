@@ -38,12 +38,13 @@ class Details extends Component {
 
   goToCalendar = () => {
     this.props.changeToCalendar(
-      this.props.month,
+      this.props.display_date,
       this.props.organizations_selected,
       this.props.categories_selected,
       this.props.locations_selected,
       this.props.checked_free,
       this.props.checked_fav,
+      this.props.view
     )
     this.props.history.push('/calendar')
   }
@@ -256,27 +257,29 @@ const mapStateToProps = state => {
     org: state.eventReducer.org,
     is_free: state.eventReducer.is_free,
     cat: state.eventReducer.cat,
-    month: state.calReducer.month,
+    display_date: state.calReducer.display_date,
     organizations: state.calReducer.organizations_selected,
     categories: state.calReducer.categories_selected,
     locations: state.calReducer.locations_selected,
     checked_free: state.calReducer.checked_free,
-    checked_fav: state.calReducer.checked_fav
+    checked_fav: state.calReducer.checked_fav,
+    view: state.calReducer.view
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToCalendar: (month, organizations, categories, locations, checked_free, checked_fav) => dispatch({
+    changeToCalendar: (display_date, organizations, categories, locations, checked_free, checked_fav, view) => dispatch({
       type: 'changeToCalendar',
       payload: {
-        month: month,
+        display_date: display_date,
         organizations_selected: organizations,
         categories_selected: categories,
         locations_selected: locations,
         changed_view: true,
         checked_free: checked_free,
         checked_fav: checked_fav,
+        view: view
       }
     })
   }
