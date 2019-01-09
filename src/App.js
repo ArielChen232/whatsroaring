@@ -10,6 +10,7 @@ import Register from './Pages/Register'
 import UnderConstruction from './Pages/UnderConstruction'
 import EditEvent from './Pages/EditEvent'
 import MyEvents from './Pages/MyEvents'
+import About from './Pages/About'
 
 import Footer from './Pages/Components/Footer'
 
@@ -93,7 +94,14 @@ class App extends Component {
                 <Footer />
               </div>
             </div>
-
+          )} />
+          <Route exact={true} path='/about' render={() => (
+            <div className="App">
+              <About />
+              <div className='Footer'>
+                <Footer />
+              </div>
+            </div>
           )} />
         </Switch>
       </Router>

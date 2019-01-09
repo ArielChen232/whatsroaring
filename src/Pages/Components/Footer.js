@@ -11,10 +11,15 @@ class Footer extends Component {
   constructor() {
     super()
     this.handleClick = this.handleClick.bind(this)
+    this.handleAbout = this.handleAbout.bind(this)
   }
 
   handleClick() {
     this.props.history.push('/underConstruction')
+  }
+
+  handleAbout() {
+    this.props.history.push('/about')
   }
 
   render () {
@@ -22,7 +27,7 @@ class Footer extends Component {
       <MuiThemeProvider theme={Theme}>
         <div className='Footer'>
           <div className='Links'>
-            <Button color='secondary' onClick={this.handleClick} size='small'>
+            <Button color='secondary' onClick={this.handleAbout} size='small'>
               About
             </Button>
             <Button color='secondary' onClick={this.handleClick} size='small'>

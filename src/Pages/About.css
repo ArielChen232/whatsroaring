@@ -1,0 +1,19 @@
+:root {
+  --mainorange: #fb8c00;
+  --lightorange: #F4E4CA;
+  --lightblue: #f4f9f9;
+}
+
+.description {
+  font-size: 15px;
+  text-align: left;
+}
+
+.icons {
+  padding-top: 5px;
+  padding-bottom: 20px;
+}
+
+.main {
+  background-color: white;
+}
