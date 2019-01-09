@@ -295,12 +295,12 @@ class Calendar extends Component {
       }
       if (newView === 'week') {
         this.setState({ 
-          displayDate: getStartOfWeek() 
+          displayDate: new Date()
         }, () => toolbar.onView(newView, this.state.displayDate))
       }
       if (newView === 'month') {
         this.setState({ 
-          displayDate: getStartOfMonth() 
+          displayDate: new Date()
         }, () => toolbar.onView(newView, this.state.displayDate))
       }
       
