@@ -275,12 +275,12 @@ class Calendar extends Component {
       }
       if (this.state.view === 'week') {
         this.setState({
-          displayDate: getStartOfWeek()
+          displayDate: new Date()
         }, () => console.log('New display date: ' + this.state.displayDate.toLocaleString()))
       }
       if (this.state.view === 'month') {
         this.setState({
-          displayDate: getStartOfMonth()
+          displayDate: new Date()
         }, () => console.log('New display date: ' + this.state.displayDate.toLocaleString()))
       }
       toolbar.onNavigate('today', day)
