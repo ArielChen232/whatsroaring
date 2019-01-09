@@ -89,7 +89,7 @@ class Details extends Component {
 
     url = url + '&sf=true&output=xml'
 
-    axios.get(url)
+    window.location = url
     // const proxyurl = "https://cors-anywhere.herokuapp.com/";
     // fetch(proxyurl + url)
     // .then(contents => console.log(contents))
