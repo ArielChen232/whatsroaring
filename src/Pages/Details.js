@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Grade from '@material-ui/icons/Grade'
 import Share from '@material-ui/icons/Share'
+import Event from '@material-ui/icons/Event'
 import Edit from '@material-ui/icons/Edit'
 import Delete from '@material-ui/icons/Delete'
 
@@ -354,7 +355,7 @@ class Details extends Component {
                     <Grade />
                   </IconButton>
                   <IconButton color="primary" onClick={this.export}>
-                    <Share />
+                    <Event />
                   </IconButton>
                   {this.renderEditButtons()}
                 </div>
