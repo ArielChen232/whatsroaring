@@ -8,6 +8,15 @@ import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Grade from '@material-ui/icons/Grade'
 import Share from '@material-ui/icons/Share'
+import Edit from '@material-ui/icons/Edit'
+import Delete from '@material-ui/icons/Delete'
+
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Button from '@material-ui/core/Button'
 
 import Paper from '@material-ui/core/Paper'
 import Divider from '@material-ui/core/Divider'
@@ -18,6 +27,9 @@ import './Details.css'
 import axios from 'axios'
 
 import Header from './Components/Header'
+
+const url = 'http://whatsroaring-api.herokuapp.com/'
+// const url = 'http://localhost:8000/'
 
 class Details extends Component {
   constructor(props) {
@@ -32,45 +44,64 @@ class Details extends Component {
       org: 'Princeton Nassoons',
       cat: 'Music',
       is_free: true,
-      email: localStorage.getItem('email')
+      email: localStorage.getItem('email'),
+      openErrorDialog: false,
+      openSuccessDialog: false,
+      errorInDelete: false,
+      canEdit: null
     }
   }
 
   goToCalendar = () => {
     this.props.changeToCalendar(
-      this.props.display_date,
+      this.props.month,
       this.props.organizations_selected,
       this.props.categories_selected,
       this.props.locations_selected,
       this.props.checked_free,
       this.props.checked_fav,
-      this.props.view
     )
     this.props.history.push('/calendar')
   }
 
+
   favorite = () => {
-    var url = 'http://whatsroaring-api.herokuapp.com/addFavorite'
-    // var url = 'http://127.0.0.1:8000/addFavorite'
+    var url_favorite = url + 'addFavorite'
     var dtform = "ddd, DD MMM YYYY HH:mm:ss"
     var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
     console.log(start)
-    url = url + "?user=" + this.state.email + "&name=" + this.props.title + '&start_datetime=' + start
-    axios.get(url)
+    url_favorite = url_favorite + "?user=" + this.state.email + "&name=" + this.props.title + '&start_datetime=' + start
+    axios.get(url_favorite)
 
   }
 
-  // export = () => {
-  //   var url = 'http://127.0.0.1:8000/export'
-  //   var dtform = "ddd, DD MMM YYYY HH:mm:ss"
-  //   var summary = this.props.title
-  //   var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
-  //   var end = moment.tz(this.props.end, 'GMT').format(dtform) + ' GMT'
-  //   console.log(summary)
-  //   console.log(start)
-  //   console.log(end)
-  //   axios.get(url)
-  // }
+  edit = () => {
+    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+    this.props.history.push('/editEvent?name=' + this.props.title + '&start_datetime=' + start)
+  }
+
+  delete = () => {
+    console.log('delete')
+    var url_delete = url + 'deleteEvent'
+    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+    axios.post(url_delete, {params: {
+          name: this.props.title,
+          start_datetime: start
+        }
+      }).then((response) => {
+          if (response.data === 'Success') 
+            this.setState({openSuccessDialog: true})
+          else {
+            this.setState({openErrorDialog: true})
+            this.setState({errorInDelete: true}) 
+          }
+      }).catch((error) => {
+          this.setState({openErrorDialog: true})
+          this.setState({errorInDelete: true})
+      })
+  }
 
   export = () => {
     var url = 'http://www.google.com/calendar/render?action=TEMPLATE'
@@ -100,6 +131,95 @@ class Details extends Component {
 
     window.open(url);
 
+  }
+
+  handleCloseErrorDialog = () => {
+    this.setState({ openErrorDialog: false })
+  }
+
+  handleCloseSuccessDialog = () => {
+    this.props.history.push('/calendar')
+  }
+
+  renderDialog() {
+    var message
+    if (this.state.errorInDelete) 
+      message = 'There was an error deleting your event.'
+    else message = 'There was an error loading this page. '
+    return (
+      <div className='dialogs'>
+        <Dialog
+          open={this.state.openErrorDialog}
+          onClose={this.handleCloseErrorDialog}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Error'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {message} 
+              Please contact someone on the administrative team for help.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseErrorDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openSuccessDialog}
+          onClose={this.handleCloseSuccessDialog}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Success'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              This event has successfully been deleted.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseErrorDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    )
+  }
+
+  renderEditButtons() {
+    if (this.state.canEdit === null) {
+      var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+      var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+      var url_canEdit = url + 'checkAdminEvent'
+      axios.post(url_canEdit, {params: {
+          email: this.state.email,
+          name: this.props.title,
+          start_datetime: start
+        }
+      }).then((response) => {
+          if (response.data === 'True') this.setState({canEdit: true})
+          else this.setState({canEdit: false})
+      }).catch((error) => {
+          this.setState({openErrorDialog: true})
+          this.setState({canEdit: false})
+      })
+    }
+    if (this.state.canEdit === true) {
+      return(
+        <div>
+          <IconButton color="primary" onClick={this.edit}>
+            <Edit />
+          </IconButton>
+          <IconButton color="primary" onClick={this.delete}>
+            <Delete />
+          </IconButton>
+        </div>
+      )
+    }
+    else return(<div></div>)
   }
 
   render() {
@@ -175,6 +295,7 @@ class Details extends Component {
       <div className='page'>
         <Header />
         <MuiThemeProvider theme={Theme}>
+          {this.renderDialog()}
           <div className='buttons'>
             <Grid
               container
@@ -196,6 +317,7 @@ class Details extends Component {
                   <IconButton color="primary" onClick={this.export}>
                     <Share />
                   </IconButton>
+                  {this.renderEditButtons()}
                 </div>
               </Grid>
             </Grid>
@@ -287,35 +409,30 @@ const mapStateToProps = state => {
     org: state.eventReducer.org,
     is_free: state.eventReducer.is_free,
     cat: state.eventReducer.cat,
-    display_date: state.calReducer.display_date,
+    month: state.calReducer.month,
     organizations: state.calReducer.organizations_selected,
     categories: state.calReducer.categories_selected,
     locations: state.calReducer.locations_selected,
     checked_free: state.calReducer.checked_free,
-    checked_fav: state.calReducer.checked_fav,
-    view: state.calReducer.view
+    checked_fav: state.calReducer.checked_fav
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToCalendar: (display_date, organizations, categories, locations, checked_free, checked_fav, view) => dispatch({
+    changeToCalendar: (month, organizations, categories, locations, checked_free, checked_fav) => dispatch({
       type: 'changeToCalendar',
       payload: {
-        display_date: display_date,
+        month: month,
         organizations_selected: organizations,
         categories_selected: categories,
         locations_selected: locations,
         changed_view: true,
         checked_free: checked_free,
         checked_fav: checked_fav,
-        view: view
       }
     })
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Details))
-
-
-
