@@ -101,15 +101,15 @@ class EditEvent extends Component {
     this.state = {
       email: localStorage.getItem('email'),
       isAdmin: localStorage.getItem('isAdmin'),
-      name: '',
-      org: '',
-      category: [],
-      description: '',
-      location: '',
-      isFree: '',
-      website:'',
-      startTime: '',
-      endTime: '',
+      name: this.props.title,
+      org: this.props.org,
+      category: [this.props.cat],
+      description: this.props.desc,
+      location: this.props.loc,
+      isFree: this.props.is_free,
+      website: this.props.website,
+      startTime: this.props.start,
+      endTime: this.props.end,
       categories: [],
       organizations: [],
       missingFields: [],
@@ -195,6 +195,26 @@ class EditEvent extends Component {
   }
 
   submitEvent = () => {
+    console.log('delete')
+    var url_delete = url + 'deleteEvent'
+    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+    axios.post(url_delete, {params: {
+          name: this.props.title,
+          start_datetime: start
+        }
+      }).then((response) => {
+          if (response.data === 'Success')
+            this.setState({openDeletedDialog: true})
+          else {
+            this.setState({openErrorDialog: true})
+            this.setState({errorType: 'delete'})
+          }
+      }).catch((error) => {
+          this.setState({openErrorDialog: true})
+          this.setState({errorType: 'delete'})
+      })
+
     var url_event = url + 'createEvent'
     console.log('Name: ' + this.state.name)
     console.log('Org: ' + this.state.org)
@@ -320,7 +340,7 @@ class EditEvent extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Your event has been submitted. Please refresh the calendar to see your event.
+              Your event has been updated. Please refresh the calendar to see your event.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -413,17 +433,6 @@ class EditEvent extends Component {
     console.log(this.props)
     const { classes } = this.props
 
-    var name = this.props.title
-    console.log(name)
-
-    if (this.state.email === null) {
-      this.props.history.push('/')
-    }
-    if (this.state.isAdmin === 'false') {
-      console.log('Going to calendar')
-      this.props.history.push('/calendar')
-    }
-
     return (
       <div className='page'>
         <Header />
@@ -444,7 +453,7 @@ class EditEvent extends Component {
                     id='event-name'
                     label='Event Name'
                     className={classes.textField}
-                    value={name}
+                    value={this.state.name}
                     onChange={this.handleChange('name')}
                     margin='normal'
                     variant='outlined'
@@ -507,6 +516,7 @@ class EditEvent extends Component {
                   />
                 </FormControl>
               </div>
+
               <div className='form'>
                 <FormControl>
                   <InputLabel htmlFor="outlined-org-simple">
@@ -572,30 +582,35 @@ class EditEvent extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    title: state.eventReducer.title,
+    start: state.eventReducer.start,
+    end: state.eventReducer.end,
+    desc: state.eventReducer.desc,
+    loc: state.eventReducer.loc,
+    website: state.eventReducer.website,
+    org: state.eventReducer.org,
+    is_free: state.eventReducer.is_free,
+    cat: state.eventReducer.cat
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
-    changeToDetails: (event, month, organizations, categories, locations, checked_free, checked_fav) => dispatch({
-      type: 'changeToDetails',
+    changeToCalendar: (month, organizations, categories, locations, checked_free, checked_fav) => dispatch({
+      type: 'changeToCalendar',
       payload: {
-        title: event.title,
-        start: event.start,
-        end: event.end,
-        desc: event.desc,
-        loc: event.loc,
-        website: event.website,
-        org: event.org,
-        is_free: event.is_free,
-        cat: event.cat,
         month: month,
-        categories_selected: categories,
         organizations_selected: organizations,
+        categories_selected: categories,
         locations_selected: locations,
         changed_view: true,
         checked_free: checked_free,
-        checked_fav: checked_fav
+        checked_fav: checked_fav,
       }
     })
   }
 }
 
-export default withStyles(styles)(withRouter(EditEvent))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(EditEvent)))

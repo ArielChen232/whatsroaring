@@ -93,15 +93,15 @@ class Details extends Component {
 
   edit = () => {
     this.props.changeToEditEvent(
-      this.state.title,
-      this.state.desc,
-      this.state.loc,
-      this.state.website,
-      this.state.start,
-      this.state.end,
-      this.state.org,
-      this.state.cat,
-      this.state.is_free
+      this.props.title,
+      this.props.desc,
+      this.props.loc,
+      this.props.website,
+      this.props.start,
+      this.props.end,
+      this.props.org,
+      this.props.cat,
+      this.props.is_free
     )
     this.props.history.push('/editEvent')
   }
@@ -482,7 +482,7 @@ const mapDispatchToProps = dispatch => {
       }
     }),
     changeToEditEvent: (title, desc, loc, website, start, end, org, cat, is_free) => dispatch({
-      type: 'changeToDetails',
+      type: 'changeToEditEvent',
       payload: {
         title: title,
         desc: desc,
