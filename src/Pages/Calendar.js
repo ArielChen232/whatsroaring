@@ -37,6 +37,7 @@ import BigCalendar from 'react-big-calendar'
 import DropdownMultiple from './Components/DropdownMultiple'
 import AddEventButton from './Components/AddEventButton'
 import AddOrgButton from './Components/AddOrgButton'
+import MyEventsButton from './Components/MyEventsButton'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
 import LogOutButton from './Components/LogOutButton'
@@ -226,8 +227,8 @@ class Calendar extends Component {
     if (this.state.view === 'month') {
       day.setMonth(day.getMonth() + 1)
     }
-    this.setState({ 
-      displayDate: new Date(day.toLocaleString()) 
+    this.setState({
+      displayDate: new Date(day.toLocaleString())
     })
     return day
   }
@@ -243,8 +244,8 @@ class Calendar extends Component {
     if (this.state.view === 'month') {
       day.setMonth(day.getMonth() - 1)
     }
-    this.setState({ 
-      displayDate: new Date(day.toLocaleString()) 
+    this.setState({
+      displayDate: new Date(day.toLocaleString())
     })
     return day
   }
@@ -294,17 +295,17 @@ class Calendar extends Component {
       var newView = event.target.value.toLowerCase()
       this.setState({ view: newView })
       if (newView === 'day') {
-        this.setState({ 
-          displayDate: new Date() 
+        this.setState({
+          displayDate: new Date()
         }, () => toolbar.onView(newView, this.state.displayDate))
       }
       if (newView === 'week') {
-        this.setState({ 
+        this.setState({
           displayDate: new Date()
         }, () => toolbar.onView(newView, this.state.displayDate))
       }
       if (newView === 'month') {
-        this.setState({ 
+        this.setState({
           displayDate: new Date()
         }, () => toolbar.onView(newView, this.state.displayDate))
       }
@@ -485,7 +486,7 @@ class Calendar extends Component {
 
   seeDetails = (event) => {
     this.props.changeToDetails(
-      event, 
+      event,
       this.state.displayDate,
       this.state.organizations_selected,
       this.state.categories_selected,
@@ -544,7 +545,7 @@ class Calendar extends Component {
   }
 
   render() {
-    if (this.state.email === null) this.props.history.push('/') 
+    if (this.state.email === null) this.props.history.push('/')
     var addEvent
     var addOrg
     if (this.state.isAdmin === 'true') {
@@ -623,7 +624,10 @@ class Calendar extends Component {
                       label="Favorites"
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={1}>
+                    {myEvents}
+                  </Grid>
+                  <Grid item xs={1}>
                     {addEvent}
                   </Grid>
                   <Grid item xs={2}>
@@ -645,7 +649,7 @@ class Calendar extends Component {
       return (
         <div className='page'>
           <header className='calendarhead'></header>
-          <div>Loading...</div> 
+          <div>Loading...</div>
         </div>
       )
     }

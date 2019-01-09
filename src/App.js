@@ -8,6 +8,8 @@ import CreateEvent from './Pages/CreateEvent'
 import AddOrg from './Pages/AddOrg'
 import Register from './Pages/Register'
 import UnderConstruction from './Pages/UnderConstruction'
+import EditEvent from './Pages/EditEvent'
+import MyEvents from './Pages/MyEvents'
 
 import Footer from './Pages/Components/Footer'
 
@@ -52,6 +54,22 @@ class App extends Component {
               </div>
             </div>
           )} />
+          <Route exact={true} path='/editEvent' render={() => (
+            <div className="App">
+              <EditEvent />
+              <div className='Footer'>
+                <Footer />
+              </div>
+            </div>
+          )} />
+          <Route exact={true} path='/myEvents' render={() => (
+            <div className="App">
+              <MyEvents />
+              <div className='Footer'>
+                <Footer />
+              </div>
+            </div>
+          )} />
           <Route exact={true} path='/addOrg' render={() => (
             <div className="App">
               <AddOrg />
@@ -75,7 +93,7 @@ class App extends Component {
                 <Footer />
               </div>
             </div>
-          
+
           )} />
         </Switch>
       </Router>
