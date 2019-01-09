@@ -535,9 +535,11 @@ class Calendar extends Component {
     var addEvent
     var addOrg
     var myEvents = <div></div>
+    var spacing = 'flex-start'
     if (this.state.isAdmin === 'true') {
       addEvent = <AddEventButton/>
       addOrg = <AddOrgButton/>
+      spacing = 'space-between'
     }
     else {
       addEvent = <div></div>
@@ -558,7 +560,7 @@ class Calendar extends Component {
           
           <Grid 
             container
-            justify='space-between'
+            justify={spacing}
             alignItems='center'
           >
             <Grid item xs={12}>

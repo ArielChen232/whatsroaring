@@ -27,6 +27,11 @@ const axios = require('axios')
 const url = 'https://whatsroaring-api.herokuapp.com/'
 //const url ='http://127.0.0.1:8000/'
 
+function isValidEmail(email) {
+  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase())
+}
+
 class Register extends Component {
   constructor(props) {
     super(props)
@@ -41,6 +46,8 @@ class Register extends Component {
       openMissingFieldsDialog: false,
       openConfirmPasswordErrorDialog: false,
       openServerErrorDialog: false,
+      openDuplicateUserDialog: false,
+      openInvalidEmailDialog: false,
     }
   }
 
@@ -69,6 +76,14 @@ class Register extends Component {
 
   handleCloseServerErrorDialog = () => {
     this.setState({ openServerErrorDialog: false })
+  }
+
+  handleCloseDuplicateUserDialog = () => {
+    this.setState({ openDuplicateUserDialog: false })
+  }
+
+  handleCloseInvalidEmailDialog = () => {
+    this.setState({ openInvalidEmailDialog: false })
   }
 
   submit = () => {
@@ -103,6 +118,10 @@ class Register extends Component {
         missingFields: errors,
         openMissingFieldsDialog: true
       })
+    } else if (!isValidEmail(this.state.email)) {
+      this.setState({
+        openInvalidEmailDialog: true
+      })
     } else if (this.state.password.localeCompare(this.state.confirmPassword) != 0) {
       // Confirm password does not match password
       this.setState({
@@ -120,6 +139,10 @@ class Register extends Component {
         if (response.data === 'Created user') {
           this.setState({
             openSuccessDialog: true
+          })
+        } else if (response.data === 'Duplicate user') {
+          this.setState({
+            openDuplicateUserDialog: true
           })
         } else {
           this.setState({
@@ -206,6 +229,42 @@ class Register extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleCloseServerErrorDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openDuplicateUserDialog}
+          onClose={this.handleCloseDuplicateUserDialog}
+        >
+          <DialogTitle>
+            {'Account Already Exists'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              A user with this email address already exists.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseDuplicateUserDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openInvalidEmailDialog}
+          onClose={this.handleCloseInvalidEmailDialog}
+        >
+          <DialogTitle>
+            {'Invalid Email'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please enter a valid email address (e.g., "janedoe@email.com")
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseInvalidEmailDialog} color="primary">
               OK
             </Button>
           </DialogActions>
