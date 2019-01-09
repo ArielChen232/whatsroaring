@@ -59,16 +59,37 @@ class Details extends Component {
 
   }
 
+  // export = () => {
+  //   var url = 'http://127.0.0.1:8000/export'
+  //   var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+  //   var summary = this.props.title
+  //   var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+  //   var end = moment.tz(this.props.end, 'GMT').format(dtform) + ' GMT'
+  //   console.log(summary)
+  //   console.log(start)
+  //   console.log(end)
+  //   axios.get(url)
+  // }
+
   export = () => {
-    var url = 'http://127.0.0.1:8000/export'
-    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
-    var summary = this.props.title
-    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
-    var end = moment.tz(this.props.end, 'GMT').format(dtform) + ' GMT'
-    console.log(summary)
-    console.log(start)
-    console.log(end)
+    var url = 'http://www.google.com/calendar/render?action=TEMPLATE'
+    var dtform = "YYYYMMDD\THHmmss"
+
+    var title = this.props.title
+    title = title.replace(/ /g,"+");
+
+    var start = moment.tz(this.props.start, 'EST').format(dtform)
+    var end = moment.tz(this.props.end, 'EST').format(dtform)
+    // var details = this.props.desc
+    // var location = this.props.location
+
+    url = url + '&text=' + title + '&dates=' + start + 'Z/' + end + 'Z' 
+    // + '&details=' + details + '&location' + location
+
+    url = url + '&sf=true&output=xml'
+
     axios.get(url)
+
   }
 
   render() {
