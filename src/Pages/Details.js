@@ -28,8 +28,8 @@ import axios from 'axios'
 
 import Header from './Components/Header'
 
-const url = 'http://whatsroaring-api.herokuapp.com/'
-// const url = 'http://localhost:8000/'
+// const url = 'http://whatsroaring-api.herokuapp.com/'
+const url = 'http://localhost:8000/'
 
 class Details extends Component {
   constructor(props) {
@@ -46,8 +46,9 @@ class Details extends Component {
       is_free: true,
       email: localStorage.getItem('email'),
       openErrorDialog: false,
-      openSuccessDialog: false,
-      errorInDelete: false,
+      openDeletedDialog: false,
+      openFavoritedDialog: false,
+      errorType: null,
       canEdit: null
     }
   }
@@ -69,9 +70,23 @@ class Details extends Component {
     var url_favorite = url + 'addFavorite'
     var dtform = "ddd, DD MMM YYYY HH:mm:ss"
     var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
-    console.log(start)
-    url_favorite = url_favorite + "?user=" + this.state.email + "&name=" + this.props.title + '&start_datetime=' + start
-    axios.get(url_favorite)
+    axios.post(url_favorite, {params: {
+        email: this.state.email,
+        name: this.props.title,
+        start_datetime: start
+      }
+    }).then((response) => {
+        if (response.data === 'Success') 
+          this.setState({openFavoritedDialog: true})
+        else {
+          this.setState({openErrorDialog: true})
+          this.setState({errorType: 'favorite'}) 
+        }
+    }).catch((error) => {
+        this.setState({openErrorDialog: true})
+        this.setState({errorType: 'favorite'})
+    })
+    
 
   }
 
@@ -92,14 +107,14 @@ class Details extends Component {
         }
       }).then((response) => {
           if (response.data === 'Success') 
-            this.setState({openSuccessDialog: true})
+            this.setState({openDeletedDialog: true})
           else {
             this.setState({openErrorDialog: true})
-            this.setState({errorInDelete: true}) 
+            this.setState({errorType: 'delete'}) 
           }
       }).catch((error) => {
           this.setState({openErrorDialog: true})
-          this.setState({errorInDelete: true})
+          this.setState({errorType: 'delete'})
       })
   }
 
@@ -137,14 +152,20 @@ class Details extends Component {
     this.setState({ openErrorDialog: false })
   }
 
-  handleCloseSuccessDialog = () => {
+  handleCloseDeletedDialog = () => {
     this.props.history.push('/calendar')
+  }
+
+  handleCloseFavoritedDialog = () => {
+    this.setState({ openFavoritedDialog: false })
   }
 
   renderDialog() {
     var message
-    if (this.state.errorInDelete) 
+    if (this.state.errorType === 'delete') 
       message = 'There was an error deleting your event.'
+    else if (this.state.errorType === 'favorite')
+      message = 'There was an error favoriting your event.'
     else message = 'There was an error loading this page. '
     return (
       <div className='dialogs'>
@@ -168,8 +189,8 @@ class Details extends Component {
           </DialogActions>
         </Dialog>
         <Dialog
-          open={this.state.openSuccessDialog}
-          onClose={this.handleCloseSuccessDialog}
+          open={this.state.openDeletedDialog}
+          onClose={this.handleCloseDeletedDialog}
         >
           <DialogTitle id="alert-dialog-title">
             {'Success'}
@@ -180,7 +201,25 @@ class Details extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleCloseErrorDialog} color="primary">
+            <Button onClick={this.handleCloseDeletedDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openFavoritedDialog}
+          onClose={this.handleCloseFavoritedDialog}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Success'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              This event has successfully been favorited.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseFavoritedDialog} color="primary">
               OK
             </Button>
           </DialogActions>
