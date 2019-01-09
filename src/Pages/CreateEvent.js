@@ -109,6 +109,7 @@ class CreateEvent extends Component {
       openServerErrorDialog: false,
       openInvalidWebsiteDialog: false,
       openInvalidTimesDialog: false,
+      openDuplicateEventDialog: false,
     }
   }
 
@@ -179,6 +180,10 @@ class CreateEvent extends Component {
     this.setState({ openInvalidTimesDialog: false })
   }
 
+  handleCloseDuplicateEventDialog = () => {
+    this.setState({ openDuplicateEventDialog: false })
+  }
+
   submitEvent = () => {
     var url_event = url + 'createEvent'
     console.log('Name: ' + this.state.name)
@@ -240,7 +245,6 @@ class CreateEvent extends Component {
         openInvalidTimesDialog: true
       })
     } else {
-      console.log('Start time: ' + this.state.startTime.toLocaleString())
       axios.post(url_event, {
         params: {
           name: this.state.name,
@@ -251,12 +255,17 @@ class CreateEvent extends Component {
           location: this.state.location,
           website: this.state.website,
           description: this.state.description,
-          is_free: this.state.isFree
+          is_free: this.state.isFree,
+          email: this.state.email,
         }
       }).then((response) => {
         if (response.data === 'Created event') {
           this.setState({
             openSuccessDialog: true
+          })
+        } else if (response.data === 'Duplicate event') {
+          this.setState({
+            openDuplicateEventDialog: true
           })
         } else {
           this.setState({
@@ -363,6 +372,25 @@ class CreateEvent extends Component {
           <DialogActions>
             <Button 
               onClick={this.handleCloseInvalidTimesDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openDuplicateEventDialog}
+          onClose={this.handleCloseDuplicateEventDialog}
+        >
+          <DialogTitle>
+            {'Duplicate Event'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              An event with this name and time already exists.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button 
+              onClick={this.handleCloseDuplicateEventDialog} color="primary">
               OK
             </Button>
           </DialogActions>

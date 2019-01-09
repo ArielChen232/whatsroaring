@@ -15,4 +15,6 @@
 
 .textFields {
   padding-bottom: 3vh;
+  display: flex;
+  margin: auto;
 }

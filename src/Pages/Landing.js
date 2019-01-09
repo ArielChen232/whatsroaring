@@ -26,6 +26,10 @@ const url = 'https://whatsroaring-api.herokuapp.com/'
 //const url ='http://127.0.0.1:8000/'
 
 const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
@@ -41,7 +45,7 @@ const styles = theme => ({
   },
   continueButton: {
     marginBottom: theme.spacing.unit * 2,
-  }
+  },
 })
 
 class Landing extends React.Component {
@@ -77,9 +81,6 @@ class Landing extends React.Component {
 
   handleLogin() {
     var url_auth = url + 'authenticateUser'
-
-    console.log('Email: ' + this.state.email)
-    console.log('Password: ' + this.state.password)
     
     // Check fields
     var errors = []
@@ -248,28 +249,25 @@ class Landing extends React.Component {
               alignItems='center'
               alignContent='center'>
               <Grid item xs={6}>
-                <div className='textFields'>
                 {this.renderContinueButton()}
-                  <FormControl>
-                    <TextField
-                      label='Email'
-                      className={classes.textField}
-                      value={this.state.email}
-                      onChange={this.handleChange('email')}
-                      margin='normal'
-                      variant='filled'
-                    />
-                    <TextField
-                      label='Password'
-                      className={classes.textField}
-                      value={this.state.password}
-                      onChange={this.handleChange('password')}
-                      margin='normal'
-                      variant='filled'
-                      type='password'
-                    />
-                  </FormControl>
-                </div>
+                <br></br>
+                <TextField
+                  label='Email'
+                  className={classes.textField}
+                  value={this.state.email}
+                  onChange={this.handleChange('email')}
+                  margin='normal'
+                  variant='filled'
+                />
+                <TextField
+                  label='Password'
+                  className={classes.textField}
+                  value={this.state.password}
+                  onChange={this.handleChange('password')}
+                  margin='normal'
+                  variant='filled'
+                  type='password'
+                />
               </Grid>
               <Grid item xs={6}>
                 <div className='buttons'>
