@@ -548,6 +548,7 @@ class Calendar extends Component {
     if (this.state.email === null) this.props.history.push('/')
     var addEvent
     var addOrg
+    var myEvents = <div></div>
     if (this.state.isAdmin === 'true') {
       addEvent = <AddEventButton/>
       addOrg = <AddOrgButton/>
