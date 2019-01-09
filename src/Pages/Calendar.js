@@ -47,7 +47,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-const url = 'https://whatsroaring-api.herokuapp.com/'
+// const url = 'https://whatsroaring-api.herokuapp.com/'
+const url ='http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -557,8 +558,8 @@ class Calendar extends Component {
               <LogOutButton />
             </Grid>
           </Grid>
-          
-          <Grid 
+
+          <Grid
             container
             justify={spacing}
             alignItems='center'
@@ -644,7 +645,7 @@ class Calendar extends Component {
 
   render() {
     if (this.state.email === null) this.props.history.push('/')
-    
+
     if (this._isMounted === true) {
       return (
         <div className='CalendarPage'>
@@ -652,7 +653,7 @@ class Calendar extends Component {
           </header>
           {this.renderToolbar()}
           <MuiThemeProvider theme={Theme}>
-              
+
               {/*<Paper elevation={1}>
                 <Grid container direction='row' alignItems='baseline'>
                   <Grid item xs={2}>

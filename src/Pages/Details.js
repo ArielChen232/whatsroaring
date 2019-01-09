@@ -77,24 +77,33 @@ class Details extends Component {
         start_datetime: start
       }
     }).then((response) => {
-        if (response.data === 'Success') 
+        if (response.data === 'Success')
           this.setState({openFavoritedDialog: true})
         else {
           this.setState({openErrorDialog: true})
-          this.setState({errorType: 'favorite'}) 
+          this.setState({errorType: 'favorite'})
         }
     }).catch((error) => {
         this.setState({openErrorDialog: true})
         this.setState({errorType: 'favorite'})
     })
-    
+
 
   }
 
   edit = () => {
-    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
-    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
-    this.props.history.push('/editEvent?name=' + this.props.title + '&start_datetime=' + start)
+    this.props.changeToEditEvent(
+      this.state.title,
+      this.state.desc,
+      this.state.loc,
+      this.state.website,
+      this.state.start,
+      this.state.end,
+      this.state.org,
+      this.state.cat,
+      this.state.is_free
+    )
+    this.props.history.push('/editEvent')
   }
 
   delete = () => {
@@ -107,11 +116,11 @@ class Details extends Component {
           start_datetime: start
         }
       }).then((response) => {
-          if (response.data === 'Success') 
+          if (response.data === 'Success')
             this.setState({openDeletedDialog: true})
           else {
             this.setState({openErrorDialog: true})
-            this.setState({errorType: 'delete'}) 
+            this.setState({errorType: 'delete'})
           }
       }).catch((error) => {
           this.setState({openErrorDialog: true})
@@ -131,7 +140,7 @@ class Details extends Component {
     var details = this.props.desc
     var location = this.props.loc
 
-    url = url + '&text=' + title + '&dates=' + start + 'Z/' + end + 'Z' 
+    url = url + '&text=' + title + '&dates=' + start + 'Z/' + end + 'Z'
 
     if (location != null && location != '') {
       location = location.replace(/ /g,"+");
@@ -163,7 +172,7 @@ class Details extends Component {
 
   renderDialog() {
     var message
-    if (this.state.errorType === 'delete') 
+    if (this.state.errorType === 'delete')
       message = 'There was an error deleting your event.'
     else if (this.state.errorType === 'favorite')
       message = 'There was an error favoriting your event.'
@@ -179,7 +188,7 @@ class Details extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              {message} 
+              {message}
               Please contact someone on the administrative team for help.
             </DialogContentText>
           </DialogContent>
@@ -265,7 +274,7 @@ class Details extends Component {
   render() {
 
     if (this.state.email === null) this.props.history.push('/')
-    
+
     console.log(this.props)
 
     // Get event title.
@@ -291,8 +300,8 @@ class Details extends Component {
     var website = this.props.website
     var websiteTitle = ''
     if (website !== null && website !== '') {
-      if (!(website.includes('http://www.') 
-            || website.includes('https://www.') 
+      if (!(website.includes('http://www.')
+            || website.includes('https://www.')
             || website.includes('www.')
             || website.includes('https://'))) {
         website = 'http://' + website
@@ -384,7 +393,7 @@ class Details extends Component {
                   <div className='paperLower'>
                     <div className='text'>
                       <Typography variant="h5" color="primary">
-                        Time: 
+                        Time:
                       </Typography>
                       <Typography variant="h5" color="default">
                         {timeString}
@@ -470,6 +479,20 @@ const mapDispatchToProps = dispatch => {
         changed_view: true,
         checked_free: checked_free,
         checked_fav: checked_fav,
+      }
+    }),
+    changeToEditEvent: (title, desc, loc, website, start, end, org, cat, is_free) => dispatch({
+      type: 'changeToDetails',
+      payload: {
+        title: title,
+        desc: desc,
+        loc: loc,
+        website: website,
+        start: start,
+        end: end,
+        org: org,
+        cat: cat,
+        is_free: is_free
       }
     })
   }
