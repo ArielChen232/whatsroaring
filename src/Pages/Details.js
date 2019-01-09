@@ -79,21 +79,26 @@ class Details extends Component {
     var title = this.props.title
     title = title.replace(/ /g,"+");
 
-    var start = moment.tz(this.props.start, 'EST').format(dtform)
-    var end = moment.tz(this.props.end, 'EST').format(dtform)
-    // var details = this.props.desc
-    // var location = this.props.location
+    var start = moment.tz(this.props.start, 'GMT').format(dtform)
+    var end = moment.tz(this.props.end, 'GMT').format(dtform)
+    var details = this.props.desc
+    var location = this.props.loc
 
     url = url + '&text=' + title + '&dates=' + start + 'Z/' + end + 'Z' 
-    // + '&details=' + details + '&location' + location
+
+    if (location != null && location != '') {
+      location = location.replace(/ /g,"+");
+      url = url + '&location=' + location
+    }
+
+    if (details != null && details != '') {
+      details = details.replace(/ /g,"+");
+      url = url + '&details=' + details
+    }
 
     url = url + '&sf=true&output=xml'
 
-    window.location = url
-    // const proxyurl = "https://cors-anywhere.herokuapp.com/";
-    // fetch(proxyurl + url)
-    // .then(contents => console.log(contents))
-    // .then(axios.get(url))
+    window.open(url);
 
   }
 
