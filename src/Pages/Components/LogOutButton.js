@@ -20,11 +20,9 @@ class LogOutButton extends Component {
   render () {
     return (
       <MuiThemeProvider theme={Theme}>
-        <div className='Button'>
-          <Button variant="contained" color="primary" onClick={this.handleClick} size="large">
+        <Button variant="outlined" color="primary" onClick={this.handleClick} size="medium">
             Log Out
-          </Button>
-        </div>
+        </Button>
       </MuiThemeProvider>
     )
   }

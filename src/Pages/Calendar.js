@@ -12,6 +12,7 @@ import Theme from '../Assets/Theme'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import FormControl from '@material-ui/core/FormControl'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -25,7 +26,6 @@ import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
 import ListItemText from '@material-ui/core/ListItemText'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
-import FormControl from '@material-ui/core/FormControl'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -82,8 +82,12 @@ function compareDropdown(a, b) {
 
 const styles = theme => ({
   formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
+    minWidth: 150,
+    display: 'flex'
+  },
+  formGroup: {
+    justifyContent: 'space-evenly',
+    padding: theme.spacing.unit
   },
   select: {
     '&:before': {
@@ -96,6 +100,16 @@ const styles = theme => ({
   icon: {
     fill: orange,
   },
+  gridItem: {
+    display: 'flex'
+  },
+  paper: {
+    margin: theme.spacing.unit * 2,
+    whiteSpace: 'nowrap',
+    backgroundColor: '#f4f9f9',
+    borderRadius: 3,
+    alignItems: 'center'
+  }
 })
 
 class Calendar extends Component {
@@ -516,36 +530,8 @@ class Calendar extends Component {
     })
   }
 
-  renderCalendar = () => {
-    if (this._isMounted === true) {
-      var view
-      if (this.state.view === 'day') {
-        view = BigCalendar.Views.DAY
-      }
-      if (this.state.view === 'week') {
-        view = BigCalendar.Views.WEEK
-      }
-      if (this.state.view === 'month') {
-        view = BigCalendar.Views.MONTH
-      }
-      return (
-        <BigCalendar
-          localizer={localizer}
-          events={this.state.events}
-          defaultView={view}
-          onSelectEvent={this.seeDetails}
-          popup
-          views={['month', 'week', 'day']}
-          eventPropGetter={(this.eventStyleGetter)}
-          defaultDate={this.state.displayDate}
-          components={{toolbar: this.getCustomToolbar}}
-        />
-      )
-    }
-  }
-
-  render() {
-    if (this.state.email === null) this.props.history.push('/')
+  renderToolbar = () => {
+    const { classes } = this.props
     var addEvent
     var addOrg
     var myEvents = <div></div>
@@ -557,16 +543,117 @@ class Calendar extends Component {
       addEvent = <div></div>
       addOrg = <div></div>
     }
+    return (
+      <div className='toolbar'>
+        <MuiThemeProvider theme={Theme}>
+          <Grid
+            container
+            justify='flex-end'
+            alignItems='center'
+          >
+            <Grid item xs={3}>
+              <LogOutButton />
+            </Grid>
+          </Grid>
+          
+          <Grid 
+            container
+            justify='space-between'
+            alignItems='center'
+          >
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <FormGroup row className={classes.formGroup}>
+                  <FormControl className={classes.formControl}>
+                    <DropdownMultiple
+                      titleHelper="event type"
+                      title="Categories"
+                      list={this.state.categories}
+                      updateFilter={this.updateFilter}
+                      selectedList={this.state.categories_selected}
+                    />
+                  </FormControl>
+                  <FormControl className={classes.formControl}>
+                    <DropdownMultiple
+                      titleHelper="organization"
+                      title="Organizations"
+                      list={this.state.organizations}
+                      updateFilter={this.updateFilter}
+                      selectedList={this.state.organizations_selected}
+                    />
+                  </FormControl>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.checkedFree}
+                        onChange={this.handleCheckFree}
+                        color='primary'
+                      />
+                    }
+                    label="Free Events"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.checkedFav}
+                        onChange={this.handleCheckFav}
+                        color='primary'
+                      />
+                    }
+                    label="Favorites"
+                  />
+                  {addEvent}
+                  {addOrg}
+                </FormGroup>
+
+              </Paper>
+            </Grid>
+          </Grid>
+        </MuiThemeProvider>
+      </div>
+    )
+  }
+
+  renderCalendar = () => {
+    var view
+    if (this.state.view === 'day') {
+      view = BigCalendar.Views.DAY
+    }
+    if (this.state.view === 'week') {
+      view = BigCalendar.Views.WEEK
+    }
+    if (this.state.view === 'month') {
+      view = BigCalendar.Views.MONTH
+    }
+    return (
+      <BigCalendar
+        localizer={localizer}
+        events={this.state.events}
+        defaultView={view}
+        onSelectEvent={this.seeDetails}
+        popup
+        views={['month', 'week', 'day']}
+        eventPropGetter={(this.eventStyleGetter)}
+        defaultDate={this.state.displayDate}
+        components={{toolbar: this.getCustomToolbar}}
+      />
+    )
+  }
+
+  render() {
+    if (this.state.email === null) this.props.history.push('/')
+    
     if (this._isMounted === true) {
       return (
-        <MuiThemeProvider theme={Theme}>
-          <div className='CalendarPage'>
-            <header className='calendarhead'>
-            </header>
-            <div className='Toolbar'>
-              <Paper elevation={1}>
+        <div className='CalendarPage'>
+          <header className='calendarhead'>
+          </header>
+          {this.renderToolbar()}
+          <MuiThemeProvider theme={Theme}>
+              
+              {/*<Paper elevation={1}>
                 <Grid container direction='row' alignItems='baseline'>
-                  {/*<Grid item xs={2}>
+                  <Grid item xs={2}>
                     <div className='Menu'>
                       <DropdownMultiple
                         titleHelper="location"
@@ -576,7 +663,7 @@ class Calendar extends Component {
                         selectedList={this.state.locations_selected}
                       />
                     </div>
-                  </Grid>*/}
+                  </Grid>
                   <Grid item xs={2}>
                     <div className='Menu'>
                       <DropdownMultiple
@@ -638,13 +725,12 @@ class Calendar extends Component {
                     <LogOutButton/>
                   </Grid>
                 </Grid>
-              </Paper>
-            </div>
+              </Paper>*/}
             <div className='Calendar'>
               {this.renderCalendar()}
             </div>
-          </div>
-        </MuiThemeProvider>
+          </MuiThemeProvider>
+        </div>
       )
     } else {
       return (

@@ -10,7 +10,6 @@ import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
 import ListItemText from '@material-ui/core/ListItemText'
 import Checkbox from '@material-ui/core/Checkbox'
-import FormControl from '@material-ui/core/FormControl'
 
 
 import './DropdownMultiple.css'
@@ -73,26 +72,24 @@ class DropdownMultiple extends Component {
     const{listOpen, headerTitle} = this.state
     return (
       <MuiThemeProvider theme={Theme}>
-        <FormControl className='formControl' variant='outlined'>
-          <InputLabel htmlFor="select-multiple-checkbox">{headerTitle}</InputLabel>
-          <Select
-            multiple
-            value={this.state.selectedList}
-            onChange={this.handleChange(updateFilter, headerTitle)}
-            input={<Input id="select-multiple-checkbox" />}
-            renderValue={selected => selected.length + ' selected'}
-            MenuProps={MenuProps}
-            autoWidth={true}
-            variant="filled"
-          >
-            {list.map(item => (
-              <MenuItem key={item.title} value={item.title}>
-                <Checkbox checked={this.state.selectedList.indexOf(item.title) > -1} color='primary'/>
-                <ListItemText primary={item.title} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <InputLabel htmlFor="select-multiple-checkbox">{headerTitle}</InputLabel>
+        <Select
+          multiple
+          value={this.state.selectedList}
+          onChange={this.handleChange(updateFilter, headerTitle)}
+          input={<Input id="select-multiple-checkbox" />}
+          renderValue={selected => selected.length + ' selected'}
+          MenuProps={MenuProps}
+          autoWidth={true}
+          variant="filled"
+        >
+          {list.map(item => (
+            <MenuItem key={item.title} value={item.title}>
+              <Checkbox checked={this.state.selectedList.indexOf(item.title) > -1} color='primary'/>
+              <ListItemText primary={item.title} />
+            </MenuItem>
+          ))}
+        </Select>
       </MuiThemeProvider>
     )
   }

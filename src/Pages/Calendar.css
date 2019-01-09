@@ -1,10 +1,18 @@
 :root {
   --blue: #3174ad;
   --pink: #ad3173;
-  --orange: #fb8c00;
+  --mainorange: #fb8c00;
   --lightorange: #F4E4CA;
   --toolbarorange: #f9efe0;
   --lightblue: #f4f9f9;
+}
+
+.toolbar {
+
+}
+
+.toolbarItem {
+  display: flex;
 }
 
 .CalendarPage {
@@ -82,14 +90,6 @@ header.calendarhead {
   display: flex;
   flex-direction: row;
   flex: 1;
-}
-
-.Menu {
-  padding-left: 1vw;
-  padding-right: 1vw;
-  padding-top: 2vh;
-  padding-bottom: 2vh;
-  display: flex;
 }
 
 .month {

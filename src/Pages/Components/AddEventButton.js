@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import Theme from '../../Assets/Theme'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
@@ -8,6 +9,12 @@ import AddIcon from '@material-ui/icons/Add'
 import './Button.css'
 
 const url = 'http://whatsroaring.herokuapp.com/submitEvent'
+const styles = theme => ({
+  button: {
+    width: 100,
+    margin: 10,
+  }
+})
 
 class AddEventButton extends Component {
   constructor() {
@@ -22,16 +29,19 @@ class AddEventButton extends Component {
   }
 
   render () {
+    const { classes } = this.props
     return (
       <MuiThemeProvider theme={Theme}>
-        <div className='Button'>
-          <Button variant="contained" color="primary" onClick={this.handleClick} size="medium">
-            Add Event
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={this.handleClick} 
+            className={classes.button}>
+            <AddIcon></AddIcon> Event
           </Button>
-        </div>
       </MuiThemeProvider>
     )
   }
 }
 
-export default withRouter(AddEventButton)
+export default withStyles(styles)(withRouter(AddEventButton))
