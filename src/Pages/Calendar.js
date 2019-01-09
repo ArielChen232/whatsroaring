@@ -29,6 +29,7 @@ import BigCalendar from 'react-big-calendar'
 import DropdownMultiple from './Components/DropdownMultiple'
 import AddEventButton from './Components/AddEventButton'
 import AddOrgButton from './Components/AddOrgButton'
+import MyEventsButton from './Components/MyEventsButton'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
 
@@ -119,7 +120,7 @@ class Calendar extends Component {
         locations: locs_arr
       }, () => this.setCategories())
     })
-    
+
     // var cas = new CASClient()
     // cas.authenticate(() => this.setState({loading: false}))
   }
@@ -417,7 +418,7 @@ class Calendar extends Component {
 
   seeDetails = (event) => {
     this.props.changeToDetails(
-      event, 
+      event,
       this.state.month,
       this.state.organizations_selected,
       this.state.categories_selected,
@@ -472,6 +473,7 @@ class Calendar extends Component {
     //     </div>
     //   )
     // }
+    var myEvents = <MyEventsButton/>
     var addEvent = <AddEventButton/>
     var addOrg = <AddOrgButton/>
     // const adminList = ['rachelsc', 'clairedu']
@@ -552,7 +554,10 @@ class Calendar extends Component {
                       label="Favorites"
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={1}>
+                    {myEvents}
+                  </Grid>
+                  <Grid item xs={1}>
                     {addEvent}
                   </Grid>
                   <Grid item xs={2}>
@@ -646,7 +651,7 @@ class Calendar extends Component {
                 {addEvent}
                 {addOrg}
               </div>
-              
+
             </div>
 
             <div className='Calendar'>
@@ -660,7 +665,7 @@ class Calendar extends Component {
       return (
         <div className='page'>
           <header className='calendarhead'></header>
-          <div>Loading...</div> 
+          <div>Loading...</div>
         </div>
       )
     }
@@ -704,6 +709,5 @@ const mapDispatchToProps = dispatch => {
     })
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Calendar))
