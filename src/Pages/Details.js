@@ -90,6 +90,10 @@ class Details extends Component {
     url = url + '&sf=true&output=xml'
 
     axios.get(url)
+    // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    // fetch(proxyurl + url)
+    // .then(contents => console.log(contents))
+    // .then(axios.get(url))
 
   }
 
@@ -307,3 +311,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Details))
+
+
+
