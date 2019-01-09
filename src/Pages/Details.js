@@ -32,18 +32,19 @@ class Details extends Component {
       org: 'Princeton Nassoons',
       cat: 'Music',
       is_free: true,
-      netid: ''
+      email: localStorage.getItem('email')
     }
   }
 
   goToCalendar = () => {
     this.props.changeToCalendar(
-      this.props.month,
+      this.props.display_date,
       this.props.organizations_selected,
       this.props.categories_selected,
       this.props.locations_selected,
       this.props.checked_free,
       this.props.checked_fav,
+      this.props.view
     )
     this.props.history.push('/calendar')
   }
@@ -54,24 +55,52 @@ class Details extends Component {
     var dtform = "ddd, DD MMM YYYY HH:mm:ss"
     var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
     console.log(start)
-    url = url + "?user=" + sessionStorage.getItem('netid') + "&name=" + this.props.title + '&start_datetime=' + start
+    url = url + "?user=" + this.state.email + "&name=" + this.props.title + '&start_datetime=' + start
     axios.get(url)
 
   }
 
+  // export = () => {
+  //   var url = 'http://127.0.0.1:8000/export'
+  //   var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+  //   var summary = this.props.title
+  //   var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+  //   var end = moment.tz(this.props.end, 'GMT').format(dtform) + ' GMT'
+  //   console.log(summary)
+  //   console.log(start)
+  //   console.log(end)
+  //   axios.get(url)
+  // }
+
   export = () => {
-    var url = 'http://127.0.0.1:8000/export'
-    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
-    var summary = this.props.title
-    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
-    var end = moment.tz(this.props.end, 'GMT').format(dtform) + ' GMT'
-    console.log(summary)
-    console.log(start)
-    console.log(end)
+    var url = 'http://www.google.com/calendar/render?action=TEMPLATE'
+    var dtform = "YYYYMMDD\THHmmss"
+
+    var title = this.props.title
+    title = title.replace(/ /g,"+");
+
+    var start = moment.tz(this.props.start, 'EST').format(dtform)
+    var end = moment.tz(this.props.end, 'EST').format(dtform)
+    // var details = this.props.desc
+    // var location = this.props.location
+
+    url = url + '&text=' + title + '&dates=' + start + 'Z/' + end + 'Z' 
+    // + '&details=' + details + '&location' + location
+
+    url = url + '&sf=true&output=xml'
+
     axios.get(url)
+    // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    // fetch(proxyurl + url)
+    // .then(contents => console.log(contents))
+    // .then(axios.get(url))
+
   }
 
   render() {
+
+    if (this.state.email === null) this.props.history.push('/')
+    
     console.log(this.props)
 
     // Get event title.
@@ -253,30 +282,35 @@ const mapStateToProps = state => {
     org: state.eventReducer.org,
     is_free: state.eventReducer.is_free,
     cat: state.eventReducer.cat,
-    month: state.calReducer.month,
+    display_date: state.calReducer.display_date,
     organizations: state.calReducer.organizations_selected,
     categories: state.calReducer.categories_selected,
     locations: state.calReducer.locations_selected,
     checked_free: state.calReducer.checked_free,
-    checked_fav: state.calReducer.checked_fav
+    checked_fav: state.calReducer.checked_fav,
+    view: state.calReducer.view
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToCalendar: (month, organizations, categories, locations, checked_free, checked_fav) => dispatch({
+    changeToCalendar: (display_date, organizations, categories, locations, checked_free, checked_fav, view) => dispatch({
       type: 'changeToCalendar',
       payload: {
-        month: month,
+        display_date: display_date,
         organizations_selected: organizations,
         categories_selected: categories,
         locations_selected: locations,
         changed_view: true,
         checked_free: checked_free,
         checked_fav: checked_fav,
+        view: view
       }
     })
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Details))
+
+
+

@@ -89,6 +89,8 @@ class CreateEvent extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      email: localStorage.getItem('email'),
+      isAdmin: localStorage.getItem('isAdmin'),
       name: '',
       org: '',
       category: [],
@@ -371,6 +373,14 @@ class CreateEvent extends Component {
 
   render() {
     const { classes } = this.props
+
+    if (this.state.email === null) {
+      this.props.history.push('/')
+    } 
+    if (this.state.isAdmin === 'false') {
+      console.log('Going to calendar')
+      this.props.history.push('/calendar')
+    }
 
     return (
       <div className='page'>

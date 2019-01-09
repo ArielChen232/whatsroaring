@@ -20,50 +20,12 @@ class LogInButton extends Component {
     return (
       <MuiThemeProvider theme={Theme}>
         <div className='Button'>
-          <Button variant="contained" color="primary" onClick={this.handleClick} size="large">
+          <Button variant="contained" color="primary" onClick={this.handleClick} size="medium">
             Log In
           </Button>
         </div>
       </MuiThemeProvider>
     )
-    /*return (
-      <button class='LogInButton' onClick={this.handleClick}>
-         Log In
-      </button>
-    )*/
   }
 }
 export default withRouter(LogInButton);
-
-
-//   constructor() {
-//     super()
-//     this.netid = null
-//     this.casURL = 'https://fed.princeton.edu/cas/'
-//     this.buttonClicked = false
-//     // this.url = 'http://whatsroaring-api.herokuapp.com/'
-//     this.url = 'http://localhost:8000/'
-//     this.handleClick = this.handleClick.bind(this)
-//   }
-//
-//
-//   handleClick() {
-//     if (true) {
-//       const url_login = this.url + "login"
-//       window.location.href = url_login
-//     }
-//     this.buttonClicked = true
-//   }
-//
-//   render () {
-//     return (
-//       <MuiThemeProvider theme={theme}>
-//         <div className='Button'>
-//           <Button variant="contained" color="primary" onClick={this.handleClick}>
-//             Log In
-//           </Button>
-//         </div>
-//       </MuiThemeProvider>
-//     );
-//   }
-// }

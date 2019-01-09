@@ -1,60 +1,18 @@
 :root {
-  --blue: #3174ad;
-  --pink: #ad3173;
-  --orange: #fb8c00;
-  --dark-orange: #e0762f;
-  --light-orange: #ef9628;
-  --light-blue: #61dafb;
   --lightorange: #F4E4CA;
+  --lightblue: #f4f9f9;
 }
 
-.landing {
-  background-color: #ffd480;
-}
-
-.landing_top {
-  /*background-image: url("../Assets/nassau_hall.png");*/
+.page {
   background-color: var(--lightorange);
-  height:90vh;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
 }
 
-.landing_bottom {
-  background-color: #ffd480;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
+.logo {
+  margin: auto;
+  width: 30%;
+  padding: 10px;
 }
 
-.navbar-default {
-  background-color: #ffd480;
-  background-image: none;
-  background-repeat: no-repeat;
- }
-
- .Card {
-   background-color: #ffd480;
- }
-
-header.landinghead {
-    text-align: center;
-    height:20vh;
-    background-image: url("../Assets/wr_header.png");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
+.textFields {
+  padding-bottom: 3vh;
 }

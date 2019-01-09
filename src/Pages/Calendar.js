@@ -6,6 +6,7 @@ import moment from 'moment'
 import CASClient from './CASClient'
 
 // Material-UI
+import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Theme from '../Assets/Theme'
 import Grid from '@material-ui/core/Grid'
@@ -23,6 +24,13 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
 import ListItemText from '@material-ui/core/ListItemText'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
+import FormControl from '@material-ui/core/FormControl'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 // Components
 import BigCalendar from 'react-big-calendar'
@@ -32,22 +40,9 @@ import AddOrgButton from './Components/AddOrgButton'
 import MyEventsButton from './Components/MyEventsButton'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
+import LogOutButton from './Components/LogOutButton'
 
 // Styling
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    Container,
-    Row,
-    Col,
-    Jumbotron,
-    //Button
-} from 'reactstrap'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
 
@@ -58,10 +53,22 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ]
 
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 function getStartOfMonth() {
   var today = new Date()
   today.setDate(1)
   return today
+}
+
+function getStartOfWeek() {
+  var today = new Date()
+  var day = today.getDay()
+  var diff = today.getDate() - day - 1 + (day === 0 ? -6:1)
+  var newDate = new Date(today.setDate(diff))
+  return newDate
 }
 
 // function to sort dropdown components
@@ -73,13 +80,31 @@ function compareDropdown(a, b) {
   return 0;
 }
 
+const styles = theme => ({
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
+  select: {
+    '&:before': {
+      borderColor: orange,
+    },
+    '&:after': {
+      borderColor: orange,
+    },
+  },
+  icon: {
+    fill: orange,
+  },
+})
 
 class Calendar extends Component {
 
-  constructor(...args) {
-    super(...args)
+  constructor(props) {
+    super(props)
     this.state = {
-      // loading: true,
+      email: localStorage.getItem('email'),
+      isAdmin: localStorage.getItem('isAdmin'),
       events: [],
       locations: [],
       categories: [],
@@ -91,10 +116,12 @@ class Calendar extends Component {
       checkedFav: false,
       start_datetime: new Date(),
       end_datetime: new Date(),
-      display_date: new Date(),
-      month: getStartOfMonth(),
+      displayDate: new Date(),
+      view: 'month',
       changed_view: false, // if user has changed calendar settings
     }
+    console.log('Email: ' + this.state.email)
+    console.log('isAdmin: ' + this.state.isAdmin)
     this._isMounted = false
     this.eventStyleGetter = this.eventStyleGetter.bind(this)
     this.getCustomToolbar = this.getCustomToolbar.bind(this)
@@ -120,9 +147,6 @@ class Calendar extends Component {
         locations: locs_arr
       }, () => this.setCategories())
     })
-
-    // var cas = new CASClient()
-    // cas.authenticate(() => this.setState({loading: false}))
   }
 
   setCategories() {
@@ -185,66 +209,130 @@ class Calendar extends Component {
         favorites: this.props.checked_fav,
         checkedFree: this.props.checked_free,
         checkedFav: this.props.checked_fav,
-        month: this.props.month,
+        displayDate: this.props.display_date,
+        view: this.props.view,
      }, () => this.filterEvents())
     }
     this._isMounted = true
   }
 
-  nextMonth() {
-    var day = new Date(this.state.month)
-    if (day.getMonth() === 11) {
-      day.setMonth(0)
-      day.setFullYear(day.getFullYear() + 1)
-    } else {
+  next() {
+    var day = new Date(this.state.displayDate)
+    if (this.state.view === 'day') {
+      day.setDate(day.getDate() + 1)
+    }
+    if (this.state.view === 'week') {
+      day.setDate(day.getDate() + 7)
+    }
+    if (this.state.view === 'month') {
       day.setMonth(day.getMonth() + 1)
     }
     this.setState({
-      month: new Date(day.toLocaleString())
+      displayDate: new Date(day.toLocaleString())
     })
     return day
   }
 
-  prevMonth() {
-    var day = new Date(this.state.month)
-    if (day.getMonth() === 0) {
-      day.setMonth(11)
-      day.setFullYear(day.getFullYear() - 1)
-    } else {
+  prev() {
+    var day = new Date(this.state.displayDate)
+    if (this.state.view === 'day') {
+      day.setDate(day.getDate() - 1)
+    }
+    if (this.state.view === 'week') {
+      day.setDate(day.getDate() - 7)
+    }
+    if (this.state.view === 'month') {
       day.setMonth(day.getMonth() - 1)
     }
     this.setState({
-      month: new Date(day.toLocaleString())
+      displayDate: new Date(day.toLocaleString())
     })
     return day
   }
 
+  getDisplayString() {
+    var day = new Date(this.state.displayDate)
+    if (this.state.view === 'day') {
+      return monthNames[day.getMonth()] + ' ' + day.getDate() + ' ' + day.getFullYear()
+    }
+    if (this.state.view === 'week') {
+      return 'Week of ' + monthNames[day.getMonth()] + ' ' + day.getDate() + ' ' + day.getFullYear()
+    }
+    if (this.state.view === 'day') {
+      return monthNames[day.getMonth()] + ' ' + day.getDate() + ', ' + day.getFullYear()
+    }
+  }
+
   getCustomToolbar = (toolbar) => {
+    const { classes } = this.props
     this.toolbarDate = toolbar.date
     const goToBack = () => {
-      toolbar.onNavigate('back', this.prevMonth())
+      toolbar.onNavigate('back', this.prev())
     }
     const goToNext = () => {
-      toolbar.onNavigate('next', this.nextMonth())
+      toolbar.onNavigate('next', this.next())
     }
-    const goToToday =() => {
+    const goToToday = () => {
       var day = new Date()
-      this.setState({
-        month: getStartOfMonth()
-      })
+      if (this.state.view === 'day') {
+        this.setState({
+          displayDate: new Date()
+        }, () => console.log('New display date: ' + this.state.displayDate.toLocaleString()))
+      }
+      if (this.state.view === 'week') {
+        this.setState({
+          displayDate: new Date()
+        }, () => console.log('New display date: ' + this.state.displayDate.toLocaleString()))
+      }
+      if (this.state.view === 'month') {
+        this.setState({
+          displayDate: new Date()
+        }, () => console.log('New display date: ' + this.state.displayDate.toLocaleString()))
+      }
       toolbar.onNavigate('today', day)
     }
+    const handleViewChange = event => {
+      var newView = event.target.value.toLowerCase()
+      this.setState({ view: newView })
+      if (newView === 'day') {
+        this.setState({
+          displayDate: new Date()
+        }, () => toolbar.onView(newView, this.state.displayDate))
+      }
+      if (newView === 'week') {
+        this.setState({
+          displayDate: new Date()
+        }, () => toolbar.onView(newView, this.state.displayDate))
+      }
+      if (newView === 'month') {
+        this.setState({
+          displayDate: new Date()
+        }, () => toolbar.onView(newView, this.state.displayDate))
+      }
+    }
+    var dispStr = ''
+    var day = new Date(this.state.displayDate)
+    if (this.state.view === 'day') {
+      dispStr = monthNames[day.getMonth()] + ' ' + day.getDate() + ', ' + day.getFullYear()
+    }
+    if (this.state.view === 'week') {
+      dispStr = 'Week of ' + monthNames[day.getMonth()] + ' ' + day.getDate() + ', ' + day.getFullYear()
+    }
+    if (this.state.view === 'month') {
+      dispStr = monthNames[day.getMonth()] + ' ' + day.getFullYear()
+    }
+
 
     return (
       <div className='ToolbarCalendar'>
         <MuiThemeProvider theme={Theme}>
-          <Grid container alignItems='stretch'>
-            <Grid item xs={7}>
+          <Grid container alignItems='baseline'>
+            <Grid item xs={5}>
               <Typography className="month" variant="h3" component="h3" color="primary">
-                {monthNames[this.state.month.getMonth()] + ' ' +  this.state.month.getFullYear()}
+                {dispStr}
               </Typography>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={7}>
               <div className='ToolbarButtons'>
                 <div className='ToolbarItem'>
                   <IconButton color="primary" onClick={goToBack} variant="contained" size="small">
@@ -260,6 +348,25 @@ class Calendar extends Component {
                   <Button color="primary" onClick={goToToday} size="medium" variant="outlined">
                     Today
                   </Button>
+                </div>
+                <div className='ToolbarItem'>
+                  <FormControl className={classes.formControl}>
+                    <Select
+                      value={capitalizeFirstLetter(this.state.view)}
+                      onChange={handleViewChange}
+                      input={
+                        <OutlinedInput
+                          labelWidth={0}
+                          name='view'
+                          className={classes.select}
+                        />
+                      }
+                    >
+                      <MenuItem value={'Month'}>Month</MenuItem>
+                      <MenuItem value={'Week'}>Week</MenuItem>
+                      <MenuItem value={'Day'}>Day</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
               </div>
             </Grid>
@@ -283,56 +390,18 @@ class Calendar extends Component {
 
   onStartChange = date => {
     this.setState({
-      start_datetime: date })}
+      start_datetime: date })
+  }
 
   onEndChange = date => {
     this.setState({
-      end_datetime: date })}
-
-  /*toggleSelected = (id, key) => {
-    let temp = JSON.parse(JSON.stringify(this.state[key]))
-    temp[id].selected = !temp[id].selected
-    this.setState({
-      [key]: temp
-    }, () => this.filterEvents())
-  }*/
+      end_datetime: date })
+  }
 
   updateFilter = (listName, selectedList) => {
     this.setState({
       [listName + '_selected']: selectedList,
     }, () => this.filterEvents())
-  }
-
-  getStateFromStorage(callback) {
-    var state = {}
-    for (let key in this.state) {
-      console.log(key)
-      // if the key exists in sessionStorage
-      if (sessionStorage.hasOwnProperty(key)) {
-        // get the key's value from sessionStorage
-        let value = sessionStorage.getItem(key);
-        console.log(value)
-        // parse the sessionStorage string and setState
-        try {
-          value = JSON.parse(value);
-          state[key] = value;
-        } catch (e) {
-          // handle empty string
-        }
-      }
-    }
-    console.log(state)
-    return state
-  }
-
-  saveStateToStorage() {
-    // save state to local storage so it can be loaded
-    console.log('state saved')
-    for (let key in this.state) {
-      if (key !== 'events') {
-        sessionStorage.setItem(key, JSON.stringify(this.state[key]));
-      }
-    }
   }
 
   updateCalendar(locations="", categories="", organizations="", is_free="",
@@ -351,7 +420,6 @@ class Calendar extends Component {
     }})
     .then(res => {
       const posts = JSON.parse(res.data.Events_JSON)
-
       posts.forEach((post) => {
         events.push({
           title: post.fields.name,
@@ -419,12 +487,13 @@ class Calendar extends Component {
   seeDetails = (event) => {
     this.props.changeToDetails(
       event,
-      this.state.month,
+      this.state.displayDate,
       this.state.organizations_selected,
       this.state.categories_selected,
       this.state.locations_selected,
       this.state.checkedFree,
-      this.state.checkedFav)
+      this.state.checkedFav,
+      this.state.view,)
     this.props.history.push('/details')
   }
 
@@ -449,15 +518,26 @@ class Calendar extends Component {
 
   renderCalendar = () => {
     if (this._isMounted === true) {
+      var view
+      if (this.state.view === 'day') {
+        view = BigCalendar.Views.DAY
+      }
+      if (this.state.view === 'week') {
+        view = BigCalendar.Views.WEEK
+      }
+      if (this.state.view === 'month') {
+        view = BigCalendar.Views.MONTH
+      }
       return (
         <BigCalendar
           localizer={localizer}
           events={this.state.events}
-          defaultView={BigCalendar.Views.MONTH}
+          defaultView={view}
           onSelectEvent={this.seeDetails}
-          views={['month', 'week']}
+          popup
+          views={['month', 'week', 'day']}
           eventPropGetter={(this.eventStyleGetter)}
-          defaultDate={this.state.month}
+          defaultDate={this.state.displayDate}
           components={{toolbar: this.getCustomToolbar}}
         />
       )
@@ -465,27 +545,17 @@ class Calendar extends Component {
   }
 
   render() {
-    // if authentication is not complete, display a loading page
-    // if (this.state.loading == true) {
-    //   return (
-    //     <div className="container">
-    //       <h4>Loading...</h4>
-    //     </div>
-    //   )
-    // }
-    var myEvents = <MyEventsButton/>
-    var addEvent = <AddEventButton/>
-    var addOrg = <AddOrgButton/>
-    // const adminList = ['rachelsc', 'clairedu']
-    // const isAdmin = adminList.includes(localStorage.getItem('netid'))
-    // if (isAdmin) {
-    //   addEvent = <AddEventButton/>
-    //   addOrg = <AddOrgButton/>
-    // }
-    // else {
-    //   addEvent = <div></div>
-    //   addOrg = <div></div>
-    // }
+    if (this.state.email === null) this.props.history.push('/')
+    var addEvent
+    var addOrg
+    if (this.state.isAdmin === 'true') {
+      addEvent = <AddEventButton/>
+      addOrg = <AddOrgButton/>
+    }
+    else {
+      addEvent = <div></div>
+      addOrg = <div></div>
+    }
     if (this._isMounted === true) {
       return (
         <MuiThemeProvider theme={Theme}>
@@ -563,6 +633,9 @@ class Calendar extends Component {
                   <Grid item xs={2}>
                     {addOrg}
                   </Grid>
+                  <Grid item xs={2}>
+                    <LogOutButton/>
+                  </Grid>
                 </Grid>
               </Paper>
             </div>
@@ -572,95 +645,6 @@ class Calendar extends Component {
           </div>
         </MuiThemeProvider>
       )
-      /*return (
-        <MuiThemeProvider theme={Theme}>
-          <div className='CalendarPage'>
-
-            <div className = "full-width">
-              <header className="calendarhead">
-              </header>
-              <br></br>
-
-              <div className='CalendarOptions'>
-                <div className='FilterItemsTitle'>
-                  <Typography className="month" variant="subtitle1" color="primary">
-                    Filter Events
-                  </Typography>
-                </div>
-                <div className='FilterItems'>
-                  <div className='Menu'>
-                    <DropdownMultiple
-                      titleHelper="location"
-                      title="Locations"
-                      list={this.state.locations}
-                      updateFilter={this.updateFilter}
-                      selectedList={this.state.locations_selected}
-                    />
-                  </div>
-
-                  <div className='Menu'>
-                    <DropdownMultiple
-                      titleHelper="event type"
-                      title="Categories"
-                      list={this.state.categories}
-                      updateFilter={this.updateFilter}
-                      selectedList={this.state.categories_selected}
-                    />
-                  </div>
-
-                  <div className='Menu'>
-                    <DropdownMultiple
-                      titleHelper="organization"
-                      title="Organizations"
-                      list={this.state.organizations}
-                      updateFilter={this.updateFilter}
-                      selectedList={this.state.organizations_selected}
-                    />
-                  </div>
-
-                  <FormGroup row>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={this.state.checkedFree}
-                          onChange={this.handleCheckFree}
-                          value="checkedA"
-                          color="primary"
-                        />
-                      }
-                      label="Free Events"
-                    />
-
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={this.state.checkedFav}
-                          onChange={this.handleCheckFav}
-                          value="checkedA"
-                          color="primary"
-                        />
-                      }
-                      label="Favorites"
-                    />
-
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className = "AddButtons">
-                {addEvent}
-                {addOrg}
-              </div>
-
-            </div>
-
-            <div className='Calendar'>
-              {this.renderCalendar()}
-            </div>
-          </div>
-
-        </MuiThemeProvider>
-      )*/
     } else {
       return (
         <div className='page'>
@@ -678,15 +662,16 @@ const mapStateToProps = state => {
     organizations_selected: state.calReducer.organizations_selected,
     categories_selected: state.calReducer.categories_selected,
     locations_selected: state.calReducer.locations_selected,
-    month: state.calReducer.month,
+    display_date: state.calReducer.display_date,
     checked_free: state.calReducer.checked_free,
     checked_fav: state.calReducer.checked_fav,
+    view: state.calReducer.view,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToDetails: (event, month, organizations, categories, locations, checked_free, checked_fav) => dispatch({
+    changeToDetails: (event, display_date, organizations, categories, locations, checked_free, checked_fav, view) => dispatch({
       type: 'changeToDetails',
       payload: {
         title: event.title,
@@ -698,16 +683,18 @@ const mapDispatchToProps = dispatch => {
         org: event.org,
         is_free: event.is_free,
         cat: event.cat,
-        month: month,
+        display_date: display_date,
         categories_selected: categories,
         organizations_selected: organizations,
         locations_selected: locations,
         changed_view: true,
         checked_free: checked_free,
-        checked_fav: checked_fav
+        checked_fav: checked_fav,
+        view: view,
       }
     })
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Calendar))
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(Calendar)))
