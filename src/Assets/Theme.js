@@ -16,6 +16,13 @@ const Theme = createMuiTheme({
       main: '#f4f9f9',
     },
   },
+  overrides: {
+    MuiButton: {
+      raisedPrimary: {
+        color: '#f7f1ed',
+      }
+    }
+  }
 });
 
 export default Theme;
