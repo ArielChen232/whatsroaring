@@ -26,6 +26,11 @@ import Input from '@material-ui/core/Input'
 import ListItemText from '@material-ui/core/ListItemText'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import FormControl from '@material-ui/core/FormControl'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 // Components
 import BigCalendar from 'react-big-calendar'
@@ -303,7 +308,6 @@ class Calendar extends Component {
           displayDate: new Date()
         }, () => toolbar.onView(newView, this.state.displayDate))
       }
-      
     }
     var dispStr = ''
     var day = new Date(this.state.displayDate)
@@ -524,12 +528,12 @@ class Calendar extends Component {
         view = BigCalendar.Views.MONTH
       }
       return (
-
         <BigCalendar
           localizer={localizer}
           events={this.state.events}
           defaultView={view}
           onSelectEvent={this.seeDetails}
+          popup
           views={['month', 'week', 'day']}
           eventPropGetter={(this.eventStyleGetter)}
           defaultDate={this.state.displayDate}
