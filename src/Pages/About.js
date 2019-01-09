@@ -1,0 +1,111 @@
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+
+// Material-UI
+import { withStyles } from '@material-ui/core/styles'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import Explore from '@material-ui/icons/Explore' // Discover
+import FindReplace from '@material-ui/icons/FindReplace' // Filter
+import PlaylistAdd from '@material-ui/icons/PlaylistAdd' // Integrate
+
+// Local
+import Header from './Components/Header'
+import HomeButton from './Components/HomeButton'
+import theme from '../Assets/Theme'
+import './About.css'
+
+const axios = require('axios')
+const url = 'http://whatsroaring-api.herokuapp.com/'
+
+const styles = {
+  largeIcon: {
+    width: 60,
+    height: 60,
+  },
+  font: {
+    fontSize: 1.5,
+  }
+}
+
+class About extends Component {
+
+  render() {
+    const { classes } = this.props
+    return (
+      <div className='page'>
+        <Header />
+        
+        <MuiThemeProvider theme={theme}>
+          <div className='main'>
+            <HomeButton />
+            <div className='title'>
+              <Typography variant="h3" color="primary">
+                About WhatsRoaring
+              </Typography>
+            </div>
+          
+            <div className='about'>
+              <Typography variant='body2'>
+                WhatsRoaring is your one-stop-shop for events in Princeton.
+              </Typography>
+              <div className='icons'>
+                <Grid container>
+                  <Grid item xs={4}>
+                    <Explore className={classes.largeIcon} color='primary' />
+                    <Typography variant='h4' color='primary'>
+                      Discover
+                    </Typography>
+                    <br></br>
+                    <Typography variant='subtitle1'>
+                      Discover events happening around campus and around town.
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <FindReplace className={classes.largeIcon} color='primary' />
+                    <Typography variant='h4' color='primary'>
+                      Filter
+                    </Typography>
+                    <br></br>
+                    <Typography variant='subtitle1'>
+                      Filter events based on your interests and availability.
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <PlaylistAdd className={classes.largeIcon} color='primary' />
+                    <Typography variant='h4' color='primary'>
+                      Integrate
+                    </Typography>
+                    <br></br>
+                    <Typography variant='subtitle1'>
+                      Integrate events into your personal calendar and add events to the community calendar.
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </div>
+              <br></br>
+              <div className='description'>
+                WhatsRoaring was designed by five Princeton students who wanted to streamline
+                the process of finding and saving events for Princeton students. 
+                Once you create a free account, you can browse events happening around Princeton 
+                campus and Princeton town and filter events based on your interests, such as 
+                Arts or Athletics. You can also favorite events and export them to your
+                Google Calendar. 
+
+                If you're a member of an approved Princeton organization, you may register
+                for administrative access. As an event administrator, you can add your 
+                organization's events to our community calendar. 
+              </div>
+            </div>
+          </div>
+        </MuiThemeProvider>
+      </div>
+    )
+  }
+}
+
+
+export default withStyles(styles)(withRouter(About))
