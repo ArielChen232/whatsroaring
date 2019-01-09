@@ -94,23 +94,6 @@ class DropdownMultiple extends Component {
           </Select>
         </FormControl>
       </MuiThemeProvider>
-
-      /*<div className="dd-wrapper">
-        <div className="dd-header" onClick={() => this.toggleList()}>
-            <div className="dd-header-title">{headerTitle}</div>
-            {listOpen
-              ? <FontAwesome name="angle-up" size="2x"/>
-              : <FontAwesome name="angle-down" size="2x"/>
-            }
-        </div>
-       {listOpen && <ul className="dd-list">
-         {list.map((item) => (
-           <li className="dd-list-item" key={item.title} onClick={() => toggleItem(item.id, item.key)}>
-            {item.selected && "*"} {item.title}
-           </li>
-          ))}
-        </ul>}
-      </div>*/
     )
   }
 

@@ -564,7 +564,7 @@ class Calendar extends Component {
             <div className='Toolbar'>
               <Paper elevation={1}>
                 <Grid container direction='row' alignItems='baseline'>
-                  <Grid item xs={2}>
+                  {/*<Grid item xs={2}>
                     <div className='Menu'>
                       <DropdownMultiple
                         titleHelper="location"
@@ -574,7 +574,7 @@ class Calendar extends Component {
                         selectedList={this.state.locations_selected}
                       />
                     </div>
-                  </Grid>
+                  </Grid>*/}
                   <Grid item xs={2}>
                     <div className='Menu'>
                       <DropdownMultiple
