@@ -8,15 +8,16 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
+import Home from '@material-ui/icons/Home'
 import Explore from '@material-ui/icons/Explore' // Discover
 import FindReplace from '@material-ui/icons/FindReplace' // Filter
 import PlaylistAdd from '@material-ui/icons/PlaylistAdd' // Integrate
 
 // Local
 import Header from './Components/Header'
-import HomeButton from './Components/HomeButton'
 import theme from '../Assets/Theme'
 import './About.css'
+import './Components/Button.css'
 
 const axios = require('axios')
 const url = 'http://whatsroaring-api.herokuapp.com/'
@@ -32,6 +33,9 @@ const styles = {
 }
 
 class About extends Component {
+  goToLanding = () => {
+    this.props.history.push('/')
+  }
 
   render() {
     const { classes } = this.props
@@ -41,7 +45,11 @@ class About extends Component {
         
         <MuiThemeProvider theme={theme}>
           <div className='main'>
-            <HomeButton />
+            <div className='Button'>
+              <IconButton color='primary' onClick={this.goToLanding}>
+                <Home />
+              </IconButton>
+            </div>
             <div className='title'>
               <Typography variant="h3" color="primary">
                 About WhatsRoaring

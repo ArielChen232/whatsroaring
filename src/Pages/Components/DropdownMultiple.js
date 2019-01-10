@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
 import ListItemText from '@material-ui/core/ListItemText'
 import Checkbox from '@material-ui/core/Checkbox'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
 
 
 import './DropdownMultiple.css'
