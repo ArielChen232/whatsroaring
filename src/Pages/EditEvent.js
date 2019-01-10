@@ -153,68 +153,7 @@ class EditEvent extends Component {
 
   }
 
-  goBack = () => {
-    this.props.history.goBack()
-  }
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    })
-  }
-
-  handleDateChange = name => date => {
-    this.setState({
-      [name]: date.target.value
-    })
-  }
-
-  handleCloseDialog = () => {
-    this.setState({ openErrorDialog: false })
-  }
-
-  handleCloseServerErrorDialog = () => {
-    this.setState({ openServerErrorDialog: false })
-  }
-
-  handleCloseSuccessDialog = () => {
-    this.setState({ openSuccessDialog: false })
-    this.props.history.push('/calendar')
-  }
-
-  handleCloseInvalidWebsiteDialog = () => {
-    this.setState({ openInvalidWebsiteDialog: false })
-  }
-
-  handleCloseInvalidTimesDialog = () => {
-    this.setState({ openInvalidTimesDialog: false })
-  }
-
-  handleCloseDuplicateEventDialog = () => {
-    this.setState({ openDuplicateEventDialog: false })
-  }
-
-  submitEvent = () => {
-    console.log('delete')
-    var url_delete = url + 'deleteEvent'
-    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
-    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
-    axios.post(url_delete, {params: {
-          name: this.props.title,
-          start_datetime: start
-        }
-      }).then((response) => {
-          if (response.data === 'Success')
-            this.setState({openDeletedDialog: true})
-          else {
-            this.setState({openErrorDialog: true})
-            this.setState({errorType: 'delete'})
-          }
-      }).catch((error) => {
-          this.setState({openErrorDialog: true})
-          this.setState({errorType: 'delete'})
-      })
-
+  add_again() {
     var url_event = url + 'createEvent'
     console.log('Name: ' + this.state.name)
     console.log('Org: ' + this.state.org)
@@ -295,7 +234,7 @@ class EditEvent extends Component {
           })
         } else if (response.data === 'Duplicate event') {
           this.setState({
-            openDuplicateEventDialog: true
+            openDuplicateEventDialog: false
           })
         } else {
           this.setState({
@@ -308,6 +247,69 @@ class EditEvent extends Component {
         })
       })
     }
+  }
+
+  goBack = () => {
+    this.props.history.goBack()
+  }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    })
+  }
+
+  handleDateChange = name => date => {
+    this.setState({
+      [name]: date.target.value
+    })
+  }
+
+  handleCloseDialog = () => {
+    this.setState({ openErrorDialog: false })
+  }
+
+  handleCloseServerErrorDialog = () => {
+    this.setState({ openServerErrorDialog: false })
+  }
+
+  handleCloseSuccessDialog = () => {
+    this.setState({ openSuccessDialog: false })
+    this.props.history.push('/calendar')
+  }
+
+  handleCloseInvalidWebsiteDialog = () => {
+    this.setState({ openInvalidWebsiteDialog: false })
+  }
+
+  handleCloseInvalidTimesDialog = () => {
+    this.setState({ openInvalidTimesDialog: false })
+  }
+
+  handleCloseDuplicateEventDialog = () => {
+    this.setState({ openDuplicateEventDialog: false })
+  }
+
+  editEvent = () => {
+    console.log('delete')
+    var url_delete = url + 'deleteEvent'
+    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+    axios.post(url_delete, {params: {
+          name: this.props.title,
+          start_datetime: start
+        }
+      }).then((response) => {
+          if (response.data === 'Success')
+            this.setState({openDeletedDialog: true}, () => this.add_again())
+          else {
+            this.setState({openErrorDialog: true})
+            this.setState({errorType: 'delete'})
+          }
+      }).catch((error) => {
+          this.setState({openErrorDialog: true})
+          this.setState({errorType: 'delete'})
+      })
   }
 
   renderDialogs() {
@@ -570,7 +572,7 @@ class EditEvent extends Component {
                 </FormControl>
               </div>
               <div className='button'>
-                <Button variant="contained" color="primary" onClick={this.submitEvent} size="large">
+                <Button variant="contained" color="primary" onClick={this.editEvent} size="large">
                   Submit Edits
                 </Button>
               </div>
