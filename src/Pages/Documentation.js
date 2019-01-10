@@ -9,8 +9,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Explore from '@material-ui/icons/Explore' // Discover
-import FindReplace from '@material-ui/icons/FindReplace' // Filter
-import PlaylistAdd from '@material-ui/icons/PlaylistAdd' // Integrate
+import PlayCircleOutline from '@material-ui/icons/PlayCircleOutline'
 
 import { Timeline } from 'react-material-timeline';
 import { Avatar, Icon } from '@material-ui/core';
