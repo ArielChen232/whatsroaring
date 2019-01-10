@@ -306,6 +306,8 @@ class EditEvent extends Component {
     } else {
       axios.post(url_event, {
         params: {
+          old_name: this.props.title,
+          old_starttime: this.props.start,
           name: this.state.name,
           org: this.state.org,
           cat: this.state.category,
