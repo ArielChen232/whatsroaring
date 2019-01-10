@@ -11,6 +11,8 @@ import UnderConstruction from './Pages/UnderConstruction'
 import EditEvent from './Pages/EditEvent'
 import MyEvents from './Pages/MyEvents'
 import About from './Pages/About'
+import Team from './Pages/Team'
+import Documentation from './Pages/Documentation'
 
 import Footer from './Pages/Components/Footer'
 
@@ -98,6 +100,22 @@ class App extends Component {
           <Route exact={true} path='/about' render={() => (
             <div className="App">
               <About />
+              <div className='Footer'>
+                <Footer />
+              </div>
+            </div>
+          )} />
+          <Route exact={true} path='/team' render={() => (
+            <div className="App">
+              <Team />
+              <div className='Footer'>
+                <Footer />
+              </div>
+            </div>
+          )} />
+          <Route exact={true} path='/docs' render={() => (
+            <div className="App">
+              <Documentation />
               <div className='Footer'>
                 <Footer />
               </div>
