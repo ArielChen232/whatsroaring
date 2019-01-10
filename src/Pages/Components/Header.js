@@ -10,8 +10,10 @@ class Header extends Component {
   render () {
     return (
       <MuiThemeProvider theme={Theme}>
-        <div className='Header'>
-        </div>
+        <a href="https://whatsroaring.herokuapp.com">
+          <div className='Header'>
+          </div>
+        </a>
       </MuiThemeProvider>
     )
   }

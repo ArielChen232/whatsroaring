@@ -7,6 +7,7 @@
 .Header {
   text-align: center;
   height:20vh;
+  margin: auto;
   background-image: url("../../Assets/wr_header.png");
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -15,4 +16,5 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: scroll;
+  display: box;
 }

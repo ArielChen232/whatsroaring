@@ -48,8 +48,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-// const url = 'https://whatsroaring-api.herokuapp.com/'
-const url ='http://127.0.0.1:8000/'
+const url = 'https://whatsroaring-api.herokuapp.com/'
+//const url ='http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -658,8 +658,7 @@ class Calendar extends Component {
     if (this._isMounted === true) {
       return (
         <div className='CalendarPage'>
-          <header className='calendarhead'>
-          </header>
+          <Header />
           {this.renderToolbar()}
           <MuiThemeProvider theme={Theme}>
 
