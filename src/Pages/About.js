@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
-// Material-UI
+// Material UI
 import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Home from '@material-ui/icons/Home'
@@ -18,9 +17,6 @@ import Header from './Components/Header'
 import theme from '../Assets/Theme'
 import './About.css'
 import './Components/Button.css'
-
-const axios = require('axios')
-const url = 'http://whatsroaring-api.herokuapp.com/'
 
 const styles = {
   largeIcon: {

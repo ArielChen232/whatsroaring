@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 // Material-UI
 import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
@@ -181,17 +180,17 @@ class EditEvent extends Component {
     if (this.props.start === null || this.props.start === undefined) {
       this.setState({ startTime: '' })
     } else {
-      var d = new Date(this.props.start)
-      var str = d.toISOString()
-      this.setState({ startTime: str.substring(0, str.length-1) })
+      var startDate = new Date(this.props.start)
+      var startStr = startDate.toISOString()
+      this.setState({ startTime: startStr.substring(0, startStr.length-1) })
     }
 
     if (this.props.end === null || this.props.end === undefined) {
       this.setState({ endTime: '' })
     } else {
-      var d = new Date(this.props.end)
-      var str = d.toISOString()
-      this.setState({ endTime: str.substring(0, str.length-1) })
+      var endDate = new Date(this.props.end)
+      var endStr = endDate.toISOString()
+      this.setState({ endTime: endStr.substring(0, endStr.length-1) })
     }
 
     console.log('Name: ' + this.props.title)

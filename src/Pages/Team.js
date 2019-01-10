@@ -5,21 +5,13 @@ import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import Explore from '@material-ui/icons/Explore' // Discover
-import FindReplace from '@material-ui/icons/FindReplace' // Filter
-import PlaylistAdd from '@material-ui/icons/PlaylistAdd' // Integrate
 
 // Local
 import Header from './Components/Header'
 import HomeButton from './Components/HomeButton'
 import theme from '../Assets/Theme'
 import './About.css'
-
-const axios = require('axios')
-const url = 'http://whatsroaring-api.herokuapp.com/'
 
 const styles = {
   largeIcon: {
@@ -34,7 +26,6 @@ const styles = {
 class Team extends Component {
 
   render() {
-    const { classes } = this.props
     return (
       <div className='page'>
         <Header />

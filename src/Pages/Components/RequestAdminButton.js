@@ -4,7 +4,6 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import { withStyles } from '@material-ui/core/styles'
 import Theme from '../../Assets/Theme'
 import Button from '@material-ui/core/Button'
-import AddIcon from '@material-ui/icons/Add'
 
 import './Button.css'
 
