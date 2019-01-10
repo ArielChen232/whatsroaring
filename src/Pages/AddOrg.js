@@ -88,6 +88,7 @@ class AddOrg extends Component {
       axios.post(url_event, {
         params: {
           name: this.state.name,
+          email: this.state.email
         }
       }).then((response) => {
         if (response.data === 'Created organization') {
