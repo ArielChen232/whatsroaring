@@ -54,7 +54,7 @@ class Team extends Component {
                     <Typography variant='h4' color='primary'>
                       Ariel Chen '20
                     </Typography>
-                    <Typography variant='subtitle1'>
+                    <Typography variant='h6'>
                       Front-end
                     </Typography>
                   </Grid>
@@ -64,7 +64,7 @@ class Team extends Component {
                     <Typography variant='h4' color='primary'>
                       Becky Barber '20
                     </Typography>
-                    <Typography variant='subtitle1'>
+                    <Typography variant='h6'>
                       PM and Back-end
                     </Typography>
                   </Grid>
@@ -74,7 +74,7 @@ class Team extends Component {
                     <Typography variant='h4' color='primary'>
                       Berthy Feng '19
                     </Typography>
-                    <Typography variant='subtitle1'>
+                    <Typography variant='h6'>
                       Front-end
                     </Typography>
                   </Grid>
@@ -84,7 +84,7 @@ class Team extends Component {
                     <Typography variant='h4' color='primary'>
                       Claire Du '20
                     </Typography>
-                    <Typography variant='subtitle1'>
+                    <Typography variant='h6'>
                       Back-end
                     </Typography>
                   </Grid>
@@ -94,7 +94,7 @@ class Team extends Component {
                     <Typography variant='h4' color='primary'>
                       Rachel Coe-Scharf '19
                     </Typography>
-                    <Typography variant='subtitle1'>
+                    <Typography variant='h6'>
                       Front-end
                     </Typography>
                   </Grid>
