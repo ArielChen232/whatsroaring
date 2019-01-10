@@ -1,6 +1,3 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-
 export default class CASClient {
   casURL = 'https://fed.princeton.edu/cas/'
 
@@ -15,7 +12,7 @@ export default class CASClient {
         var netid = null
         resp.text().then(function (text) {
           text = text.split("\n")
-          if (text[0] == 'yes') {
+          if (text[0] === 'yes') {
             netid = text[1]
             console.log('validated netid: ' + netid)
           }

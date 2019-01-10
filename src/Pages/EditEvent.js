@@ -244,10 +244,6 @@ class EditEvent extends Component {
     this.setState({ openInvalidTimesDialog: false })
   }
 
-  handleCloseDuplicateEventDialog = () => {
-    this.setState({ openDuplicateEventDialog: false })
-  }
-
   submitEvent = () => {
     var url_event = url + 'submitEvent'
     console.log('Name: ' + this.state.name)
@@ -323,13 +319,9 @@ class EditEvent extends Component {
           email: this.state.email,
         }
       }).then((response) => {
-        if (response.data === 'Created event') {
+        if (response.data === 'Success') {
           this.setState({
             openSuccessDialog: true
-          })
-        } else if (response.data === 'Duplicate event') {
-          this.setState({
-            openDuplicateEventDialog: true
           })
         } else {
           this.setState({
@@ -436,25 +428,6 @@ class EditEvent extends Component {
           <DialogActions>
             <Button
               onClick={this.handleCloseInvalidTimesDialog} color="primary">
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Dialog
-          open={this.state.openDuplicateEventDialog}
-          onClose={this.handleCloseDuplicateEventDialog}
-        >
-          <DialogTitle>
-            {'Duplicate Event'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              An event with this name and time already exists.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={this.handleCloseDuplicateEventDialog} color="primary">
               OK
             </Button>
           </DialogActions>
@@ -613,7 +586,7 @@ class EditEvent extends Component {
               </div>
               <div className='button'>
                 <Button variant="contained" color="primary" onClick={this.submitEvent} size="large">
-                  Submit Event
+                  Submit Edits
                 </Button>
               </div>
             </Paper>

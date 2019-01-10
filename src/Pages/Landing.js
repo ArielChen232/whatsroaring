@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
-// Material-UI
+// Material UI
 import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Theme from '../Assets/Theme'
-import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
@@ -19,7 +18,6 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 // Local
 import Jumbotron from './Components/Jumbotron'
 import './Landing.css'
-import imageName from '../Assets/just_logo.png'
 
 const axios = require('axios')
 const url = 'https://whatsroaring-api.herokuapp.com/'
@@ -49,7 +47,7 @@ const styles = theme => ({
   },
 })
 
-class Landing extends React.Component {
+class Landing extends Component {
 
   constructor(props) {
     super(props)

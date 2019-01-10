@@ -1,38 +1,7 @@
-.Page {
-  background-image: url('../Assets/sideways_background.png');
-  height: 100vh;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+:root {
+  --lightorange: #F4E4CA;
 }
 
-.Header {
-  padding-left: 2vw;
-  padding-right: 2vw;
-  padding-bottom: 2vh;
-  padding-top: 3vh;
-}
-
-.ReturnButton {
-  align-items: baseline;
-}
-
-.EventPaper {
-  padding-left: 20vw;
-  padding-right: 20vw;
-  padding-bottom: 5vh;
-  padding-top: 2vh;
-}
-
-.EventPaperInner {
-  padding-left: 2vw;
-  padding-right: 2vw;
-  padding-bottom: 2vh;
-  padding-top: 2vh;
-}
-
-.Button {
-  align-items: baseline;
-  padding-top: 2vw;
-  padding-bottom: 2vw;
+.underConstructionPage {
+  background-color: var(--lightorange);
 }
