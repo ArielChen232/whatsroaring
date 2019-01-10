@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
+import GradeOutlined from '@material-ui/icons/GradeOutlined'
 import Grade from '@material-ui/icons/Grade'
 import Event from '@material-ui/icons/Event'
 import Edit from '@material-ui/icons/Edit'
@@ -30,7 +31,7 @@ import './Details.css'
 import Header from './Components/Header'
 
 const url = 'http://whatsroaring-api.herokuapp.com/'
-//const url = 'http://localhost:8000/'
+// const url = 'http://localhost:8000/'
 
 class Details extends Component {
   constructor(props) {
@@ -49,8 +50,10 @@ class Details extends Component {
       openErrorDialog: false,
       openDeletedDialog: false,
       openFavoritedDialog: false,
+      openUnfavoritedDialog: false,
       errorType: null,
-      canEdit: null
+      canEdit: null,
+      favorite: null
     }
   }
 
@@ -77,8 +80,9 @@ class Details extends Component {
         start_datetime: start
       }
     }).then((response) => {
-        if (response.data === 'Success')
+        if (response.data === 'Success') {
           this.setState({openFavoritedDialog: true})
+        }
         else {
           this.setState({openErrorDialog: true})
           this.setState({errorType: 'favorite'})
@@ -87,8 +91,29 @@ class Details extends Component {
         this.setState({openErrorDialog: true})
         this.setState({errorType: 'favorite'})
     })
+  }
 
-
+  unfavorite = () => {
+    var url_favorite = url + 'removeFavorite'
+    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+    axios.post(url_favorite, {params: {
+        email: this.state.email,
+        name: this.props.title,
+        start_datetime: start
+      }
+    }).then((response) => {
+        if (response.data === 'Success') {
+          this.setState({openUnfavoritedDialog: true})
+        }
+        else {
+          this.setState({openErrorDialog: true})
+          this.setState({errorType: 'favorite'})
+        }
+    }).catch((error) => {
+        this.setState({openErrorDialog: true})
+        this.setState({errorType: 'unfavorite'})
+    })
   }
 
   edit = () => {
@@ -159,6 +184,8 @@ class Details extends Component {
   }
 
   handleCloseErrorDialog = () => {
+    if (this.state.errorType === null) 
+      this.props.history.push('/calendar')
     this.setState({ openErrorDialog: false })
   }
 
@@ -167,15 +194,23 @@ class Details extends Component {
   }
 
   handleCloseFavoritedDialog = () => {
+    this.setState({favorite: true})
     this.setState({ openFavoritedDialog: false })
+  }
+
+  handleCloseUnfavoritedDialog = () => {
+    this.setState({favorite: false})
+    this.setState({ openUnfavoritedDialog: false })  
   }
 
   renderDialog() {
     var message
     if (this.state.errorType === 'delete')
-      message = 'There was an error deleting your event.'
+      message = 'There was an error deleting your event. '
     else if (this.state.errorType === 'favorite')
-      message = 'There was an error favoriting your event.'
+      message = 'There was an error favoriting this event. '
+    else if (this.state.errorType === 'unfavorite')
+      message = 'There was an error removing this event from your favorites. '
     else message = 'There was an error loading this page. '
     return (
       <div className='dialogs'>
@@ -234,8 +269,70 @@ class Details extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Dialog
+          open={this.state.openUnfavoritedDialog}
+          onClose={this.handleCloseUnfavoritedDialog}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Success'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              This event has successfully been removed from your favorites.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseUnfavoritedDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
+  }
+
+  renderFavoriteButton() {
+    if (this.state.favorite === null) {
+      var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+      var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
+      var url_checkFavorite = url + 'checkFavorite'
+      axios.post(url_checkFavorite, {params: {
+          email: this.state.email,
+          name: this.props.title,
+          start_datetime: start
+        }
+      }).then((response) => {
+          if (response.data === 'True') this.setState({favorite: true})
+          else this.setState({favorite: false})
+      }).catch((error) => {
+          this.setState({openErrorDialog: true})
+          this.setState({favorite: false})
+      })
+    }
+    if (this.state.favorite === true) {
+      return(
+        <div>
+          <IconButton color="primary" onClick={this.unfavorite}>
+            <Grade />
+          </IconButton>
+          <IconButton color="primary" onClick={this.export}>
+            <Event />
+          </IconButton>
+        </div>
+      )
+    }
+    else {
+      return(
+        <div>
+          <IconButton color="primary" onClick={this.favorite}>
+            <GradeOutlined />
+          </IconButton>
+          <IconButton color="primary" onClick={this.export}>
+            <Event />
+          </IconButton>
+        </div>
+      )
+    }
   }
 
   renderEditButtons() {
@@ -360,12 +457,7 @@ class Details extends Component {
               </Grid>
               <Grid item xs={6}>
                 <div className="favButtons">
-                  <IconButton color="primary" onClick={this.favorite}>
-                    <Grade />
-                  </IconButton>
-                  <IconButton color="primary" onClick={this.export}>
-                    <Event />
-                  </IconButton>
+                  {this.renderFavoriteButton()}
                   {this.renderEditButtons()}
                 </div>
               </Grid>
