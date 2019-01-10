@@ -7,30 +7,30 @@ import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Grade from '@material-ui/icons/Grade'
-import Share from '@material-ui/icons/Share'
 import Event from '@material-ui/icons/Event'
 import Edit from '@material-ui/icons/Edit'
 import Delete from '@material-ui/icons/Delete'
+import axios from 'axios'
 
+// Material UI
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import Theme from '../Assets/Theme'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Button from '@material-ui/core/Button'
-
 import Paper from '@material-ui/core/Paper'
 import Divider from '@material-ui/core/Divider'
-import Theme from '../Assets/Theme'
-import { MuiThemeProvider } from '@material-ui/core/styles'
+
+// Local
 import './Details.css'
 // import Favorite from './Components/Favorite'
-import axios from 'axios'
-
 import Header from './Components/Header'
 
-// const url = 'http://whatsroaring-api.herokuapp.com/'
-const url = 'http://localhost:8000/'
+const url = 'http://whatsroaring-api.herokuapp.com/'
+//const url = 'http://localhost:8000/'
 
 class Details extends Component {
   constructor(props) {
@@ -142,12 +142,12 @@ class Details extends Component {
 
     url = url + '&text=' + title + '&dates=' + start + 'Z/' + end + 'Z'
 
-    if (location != null && location != '') {
+    if (location !== null && location !== '') {
       location = location.replace(/ /g,"+");
       url = url + '&location=' + location
     }
 
-    if (details != null && details != '') {
+    if (details !== null && details !== '') {
       details = details.replace(/ /g,"+");
       url = url + '&details=' + details
     }

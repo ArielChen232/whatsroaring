@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom'
 // Material-UI
 import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
@@ -88,6 +87,7 @@ class AddOrg extends Component {
       axios.post(url_event, {
         params: {
           name: this.state.name,
+          email: this.state.email
         }
       }).then((response) => {
         if (response.data === 'Created organization') {

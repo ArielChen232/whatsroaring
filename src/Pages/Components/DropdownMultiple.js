@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import FontAwesome from 'react-fontawesome'
-import onClickOutside from "react-onclickoutside"
 
+// Material UI
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Theme from '../../Assets/Theme'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -10,9 +9,8 @@ import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
 import ListItemText from '@material-ui/core/ListItemText'
 import Checkbox from '@material-ui/core/Checkbox'
-import OutlinedInput from '@material-ui/core/OutlinedInput'
 
-
+// Local
 import './DropdownMultiple.css'
 
 const ITEM_HEIGHT = 48
@@ -29,7 +27,6 @@ class DropdownMultiple extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      listOpen: false,
       headerTitle: this.props.title,
       selectedList: this.props.selectedList
     }
@@ -48,18 +45,6 @@ class DropdownMultiple extends Component {
     }
   }
 
-  handleClickOutside() {
-    this.setState({
-      listOpen: false
-    })
-  }
-
-  toggleList() {
-    this.setState(prevState => ({
-      listOpen: !prevState.listOpen
-    }))
-  }
-
   handleChange = (updateFilterFn, headerTitle) => event => {
     console.log(event.target.value)
     this.setState({
@@ -70,7 +55,7 @@ class DropdownMultiple extends Component {
 
   render() {
     const{list, updateFilter} = this.props
-    const{listOpen, headerTitle} = this.state
+    const{headerTitle} = this.state
     return (
       <MuiThemeProvider theme={Theme}>
         <InputLabel htmlFor="select-multiple-checkbox">{headerTitle}</InputLabel>
@@ -97,4 +82,4 @@ class DropdownMultiple extends Component {
 
 }
 
-export default onClickOutside(DropdownMultiple);
+export default DropdownMultiple

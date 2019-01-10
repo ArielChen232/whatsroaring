@@ -16,5 +16,5 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: scroll;
-  display: box;
+  display: flex;
 }

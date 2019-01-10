@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
-import moment from 'moment-timezone'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import IconButton from '@material-ui/core/IconButton'
-import ArrowBack from '@material-ui/icons/ArrowBack'
-import Grade from '@material-ui/icons/Grade'
-import Share from '@material-ui/icons/Share'
 
 // Material-UI
 import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
@@ -27,10 +21,6 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import Divider from '@material-ui/core/Divider'
-
-import './Form.css'
-// import Favorite from './Components/Favorite'
 
 // Local
 import Theme from '../Assets/Theme'
@@ -39,8 +29,8 @@ import HomeButton from './Components/HomeButton'
 import './Form.css'
 
 const axios = require('axios')
-//const url = 'http://whatsroaring-api.herokuapp.com/'
-const url = 'http://127.0.0.1:8000/'
+const url = 'http://whatsroaring-api.herokuapp.com/'
+//const url ='http://127.0.0.1:8000/'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -101,15 +91,15 @@ class EditEvent extends Component {
     this.state = {
       email: localStorage.getItem('email'),
       isAdmin: localStorage.getItem('isAdmin'),
-      name: this.props.title,
-      org: this.props.org,
-      category: [this.props.cat],
-      description: this.props.desc,
-      location: this.props.loc,
-      isFree: this.props.is_free,
-      website: this.props.website,
-      startTime: this.props.start,
-      endTime: this.props.end,
+      name: '',
+      org: '',
+      category: [],
+      description: '',
+      location: '',
+      isFree: '',
+      website:'',
+      startTime: '',
+      endTime: '',
       categories: [],
       organizations: [],
       missingFields: [],
@@ -151,10 +141,114 @@ class EditEvent extends Component {
       console.log(err)
     })
 
+    if (this.props.cat === null || this.props.cat === undefined) {
+      this.setState({ category: [] })
+    } else {
+      this.setState({ category: this.props.cat })
+    }
+
+    if (this.props.desc === null || this.props.desc === undefined) {
+      this.setState({ description: '' })
+    } else {
+      this.setState({ description: this.props.desc })
+    }
+
+    if (this.props.loc === null || this.props.loc === undefined) {
+      this.setState({ location: '' })
+    } else {
+      this.setState({ location: this.props.loc })
+    }
+
+    if (this.props.website === null || this.props.website === undefined) {
+      this.setState({ website: '' })
+    } else {
+      this.setState({ website: this.props.website })
+    }
+
+    if (this.props.is_free === null || this.props.desc === undefined) {
+      this.setState({ isFree: '' })
+    } else {
+      this.setState({ isFree: this.props.is_free })
+    }
+
+    if (this.props.org === null || this.props.org === undefined) {
+      this.setState({ org: '' })
+    } else {
+      this.setState({ org: this.props.org })
+    }
+
+    if (this.props.start === null || this.props.start === undefined) {
+      this.setState({ startTime: '' })
+    } else {
+      var startDate = new Date(this.props.start)
+      var startStr = startDate.toISOString()
+      this.setState({ startTime: startStr.substring(0, startStr.length-1) })
+    }
+
+    if (this.props.end === null || this.props.end === undefined) {
+      this.setState({ endTime: '' })
+    } else {
+      var endDate = new Date(this.props.end)
+      var endStr = endDate.toISOString()
+      this.setState({ endTime: endStr.substring(0, endStr.length-1) })
+    }
+
+    console.log('Name: ' + this.props.title)
+    console.log('Description: ' + this.props.desc)
+    console.log('Location: ' + this.props.loc)
+    console.log('Website: ' + this.props.website)
+    console.log('Start Time: ' + this.props.start)
+    console.log('End Time: ' + this.props.end)
+    console.log('Organization: ' + this.props.org)
+    console.log('Categories: ' + this.props.cat)
+    console.log('Is Free: ' + this.props.is_free)
+
+    this.setState({ name: this.props.title })
   }
 
-  add_again() {
-    var url_event = url + 'createEvent'
+  goBack = () => {
+    this.props.history.goBack()
+  }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    })
+  }
+
+  handleDateChange = name => date => {
+    this.setState({
+      [name]: date.target.value
+    })
+  }
+
+  handleCloseDialog = () => {
+    this.setState({ openErrorDialog: false })
+  }
+
+  handleCloseServerErrorDialog = () => {
+    this.setState({ openServerErrorDialog: false })
+  }
+
+  handleCloseSuccessDialog = () => {
+    this.setState({ openSuccessDialog: false })
+    this.props.history.push('/calendar')
+  }
+
+  handleCloseInvalidWebsiteDialog = () => {
+    this.setState({ openInvalidWebsiteDialog: false })
+  }
+
+  handleCloseInvalidTimesDialog = () => {
+    this.setState({ openInvalidTimesDialog: false })
+  }
+
+  handleCloseDuplicateEventDialog = () => {
+    this.setState({ openDuplicateEventDialog: false })
+  }
+
+  submitEvent = () => {
+    var url_event = url + 'submitEvent'
     console.log('Name: ' + this.state.name)
     console.log('Org: ' + this.state.org)
     console.log('Category: ' + this.state.category)
@@ -216,6 +310,8 @@ class EditEvent extends Component {
     } else {
       axios.post(url_event, {
         params: {
+          old_name: this.props.title,
+          old_starttime: this.props.start,
           name: this.state.name,
           org: this.state.org,
           cat: this.state.category,
@@ -228,88 +324,17 @@ class EditEvent extends Component {
           email: this.state.email,
         }
       }).then((response) => {
-        if (response.data === 'Created event') {
-          this.setState({
-            openSuccessDialog: true
-          })
+        if (response.data === 'Edited event') {
+          this.setState({ openSuccessDialog: true })
         } else if (response.data === 'Duplicate event') {
-          this.setState({
-            openDuplicateEventDialog: false
-          })
+          this.setState({ openDuplicateEventDialog: true })
         } else {
-          this.setState({
-            openServerErrorDialog: true
-          })
+          this.setState({ openServerErrorDialog: true })
         }
       }).catch((error) => {
-        this.setState({
-          openServerErrorDialog: true
-        })
+        this.setState({ openServerErrorDialog: true })
       })
     }
-  }
-
-  goBack = () => {
-    this.props.history.goBack()
-  }
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    })
-  }
-
-  handleDateChange = name => date => {
-    this.setState({
-      [name]: date.target.value
-    })
-  }
-
-  handleCloseDialog = () => {
-    this.setState({ openErrorDialog: false })
-  }
-
-  handleCloseServerErrorDialog = () => {
-    this.setState({ openServerErrorDialog: false })
-  }
-
-  handleCloseSuccessDialog = () => {
-    this.setState({ openSuccessDialog: false })
-    this.props.history.push('/calendar')
-  }
-
-  handleCloseInvalidWebsiteDialog = () => {
-    this.setState({ openInvalidWebsiteDialog: false })
-  }
-
-  handleCloseInvalidTimesDialog = () => {
-    this.setState({ openInvalidTimesDialog: false })
-  }
-
-  handleCloseDuplicateEventDialog = () => {
-    this.setState({ openDuplicateEventDialog: false })
-  }
-
-  editEvent = () => {
-    console.log('delete')
-    var url_delete = url + 'deleteEvent'
-    var dtform = "ddd, DD MMM YYYY HH:mm:ss"
-    var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
-    axios.post(url_delete, {params: {
-          name: this.props.title,
-          start_datetime: start
-        }
-      }).then((response) => {
-          if (response.data === 'Success')
-            this.setState({openDeletedDialog: true}, () => this.add_again())
-          else {
-            this.setState({openErrorDialog: true})
-            this.setState({errorType: 'delete'})
-          }
-      }).catch((error) => {
-          this.setState({openErrorDialog: true})
-          this.setState({errorType: 'delete'})
-      })
   }
 
   renderDialogs() {
@@ -342,7 +367,7 @@ class EditEvent extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Your event has been updated. Please refresh the calendar to see your event.
+              Your event has been submitted. Please refresh the calendar to see your event.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -417,7 +442,7 @@ class EditEvent extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              An event with this name and time already exists.
+              An event with this name and start time already exists.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -432,8 +457,15 @@ class EditEvent extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { classes } = this.props
+
+    if (this.state.email === null) {
+      this.props.history.push('/')
+    }
+    if (this.state.isAdmin === 'false') {
+      console.log('Going to calendar')
+      this.props.history.push('/calendar')
+    }
 
     return (
       <div className='page'>
@@ -502,6 +534,7 @@ class EditEvent extends Component {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    value={this.state.startTime}
                     onChange={this.handleDateChange('startTime')}
                   />
 
@@ -514,11 +547,11 @@ class EditEvent extends Component {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    value={this.state.endTime}
                     onChange={this.handleDateChange('endTime')}
                   />
                 </FormControl>
               </div>
-
               <div className='form'>
                 <FormControl>
                   <InputLabel htmlFor="outlined-org-simple">
@@ -572,7 +605,7 @@ class EditEvent extends Component {
                 </FormControl>
               </div>
               <div className='button'>
-                <Button variant="contained" color="primary" onClick={this.editEvent} size="large">
+                <Button variant="contained" color="primary" onClick={this.submitEvent} size="large">
                   Submit Edits
                 </Button>
               </div>
@@ -600,19 +633,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeToCalendar: (month, organizations, categories, locations, checked_free, checked_fav) => dispatch({
-      type: 'changeToCalendar',
-      payload: {
-        month: month,
-        organizations_selected: organizations,
-        categories_selected: categories,
-        locations_selected: locations,
-        changed_view: true,
-        checked_free: checked_free,
-        checked_fav: checked_fav,
-      }
-    })
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(EditEvent)))
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withRouter(EditEvent)))

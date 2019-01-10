@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
-// Material-UI
+// Material UI
 import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Explore from '@material-ui/icons/Explore' // Discover
