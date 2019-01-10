@@ -324,7 +324,7 @@ class EditEvent extends Component {
           email: this.state.email,
         }
       }).then((response) => {
-        if (response.data === 'Success') {
+        if (response.data === 'Edited event') {
           this.setState({ openSuccessDialog: true })
         } else if (response.data === 'Duplicate event') {
           this.setState({ openDuplicateEventDialog: true })
