@@ -37,6 +37,7 @@ import BigCalendar from 'react-big-calendar'
 import DropdownMultiple from './Components/DropdownMultiple'
 import AddEventButton from './Components/AddEventButton'
 import AddOrgButton from './Components/AddOrgButton'
+import RequestAdminButton from './Components/RequestAdminButton'
 import MyEventsButton from './Components/MyEventsButton'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
@@ -47,8 +48,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
 
 const localizer = BigCalendar.momentLocalizer(moment)
-const url = 'https://whatsroaring-api.herokuapp.com/'
-// const url ='http://127.0.0.1:8000/'
+// const url = 'https://whatsroaring-api.herokuapp.com/'
+const url ='http://127.0.0.1:8000/'
 const orange = '#fb8c00'
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -420,18 +421,20 @@ class Calendar extends Component {
   }
 
   updateCalendar(locations="", categories="", organizations="", is_free="",
-    start_date = "", end_date = "", favorites = "") {
+    favorites = "", email = "") {
     // empty string for parameters indicates select all of them
     // Repopulate calendar
     const url_getEvents = url + 'getEvents'
     const events = [];
+    console.log('favorites: ', favorites)
     axios.get(url_getEvents, {
       params: {
         locations: locations,
         categories: categories,
         organizations: organizations,
         is_free: is_free,
-        favorites: favorites
+        favorites: favorites,
+        email: email
     }})
     .then(res => {
       const posts = JSON.parse(res.data.Events_JSON)
@@ -464,7 +467,8 @@ class Calendar extends Component {
     var categories = "";
     var organizations = "";
     var is_free = "";
-    var netid = localStorage.getItem('netid')
+    // var netid = localStorage.getItem('netid')
+    var email = this.state.email
     var favorites = "";
     for (i = 0; i < this.state.locations.length; i++) {
       if (this.state.locations_selected.includes(this.state.locations[i].title)) {
@@ -491,12 +495,14 @@ class Calendar extends Component {
     if (this.state.checkedFav === true) {
       favorites = "true"
     }
+    console.log('favorites: ', favorites)
     this.updateCalendar(
       locations,
       categories,
       organizations,
       is_free,
-      favorites)
+      favorites,
+      email)
   }
 
   seeDetails = (event) => {
@@ -534,6 +540,7 @@ class Calendar extends Component {
   renderToolbar = () => {
     const { classes } = this.props
     var addEvent
+    var requestAdmin
     var addOrg
     var myEvents = <div></div>
     var spacing = 'flex-start'
@@ -543,6 +550,7 @@ class Calendar extends Component {
       spacing = 'space-between'
     }
     else {
+      requestAdmin = <RequestAdminButton/>
       addEvent = <div></div>
       addOrg = <div></div>
     }
@@ -607,6 +615,7 @@ class Calendar extends Component {
                   />
                   {addEvent}
                   {addOrg}
+                  {requestAdmin}
                 </FormGroup>
 
               </Paper>
@@ -723,6 +732,9 @@ class Calendar extends Component {
                   </Grid>
                   <Grid item xs={2}>
                     {addOrg}
+                  </Grid>
+                  <Grid item xs={2}>
+                    {requestAdmin}
                   </Grid>
                   <Grid item xs={2}>
                     <LogOutButton/>
