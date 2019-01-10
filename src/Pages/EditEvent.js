@@ -243,6 +243,10 @@ class EditEvent extends Component {
     this.setState({ openInvalidTimesDialog: false })
   }
 
+  handleCloseDuplicateEventDialog = () => {
+    this.setState({ openDuplicateEventDialog: false })
+  }
+
   submitEvent = () => {
     var url_event = url + 'submitEvent'
     console.log('Name: ' + this.state.name)
@@ -321,18 +325,14 @@ class EditEvent extends Component {
         }
       }).then((response) => {
         if (response.data === 'Success') {
-          this.setState({
-            openSuccessDialog: true
-          })
+          this.setState({ openSuccessDialog: true })
+        } else if (response.data === 'Duplicate event') {
+          this.setState({ openDuplicateEventDialog: true })
         } else {
-          this.setState({
-            openServerErrorDialog: true
-          })
+          this.setState({ openServerErrorDialog: true })
         }
       }).catch((error) => {
-        this.setState({
-          openServerErrorDialog: true
-        })
+        this.setState({ openServerErrorDialog: true })
       })
     }
   }
@@ -429,6 +429,25 @@ class EditEvent extends Component {
           <DialogActions>
             <Button
               onClick={this.handleCloseInvalidTimesDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openDuplicateEventDialog}
+          onClose={this.handleCloseDuplicateEventDialog}
+        >
+          <DialogTitle>
+            {'Duplicate Event'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              An event with this name and start time already exists.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleCloseDuplicateEventDialog} color="primary">
               OK
             </Button>
           </DialogActions>
