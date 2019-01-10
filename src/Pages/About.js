@@ -38,7 +38,7 @@ class About extends Component {
     return (
       <div className='page'>
         <Header />
-        
+
         <MuiThemeProvider theme={theme}>
           <div className='main'>
             <div className='Button'>
@@ -51,7 +51,7 @@ class About extends Component {
                 About WhatsRoaring
               </Typography>
             </div>
-          
+
             <div className='about'>
               <Typography variant='body2'>
                 WhatsRoaring is your one-stop-shop for events in Princeton.
@@ -93,15 +93,17 @@ class About extends Component {
               <br></br>
               <div className='description'>
                 WhatsRoaring was designed by five Princeton students who wanted to streamline
-                the process of finding and saving events for Princeton students. 
-                Once you create a free account, you can browse events happening around Princeton 
-                campus and Princeton town and filter events based on your interests, such as 
+                the process of finding and saving events for Princeton students.
+                Once you create a free account, you can browse events happening around Princeton
+                campus and Princeton town and filter events based on your interests, such as
                 Arts or Athletics. You can also favorite events and export them to your
-                Google Calendar. 
+                Google Calendar.
 
                 If you're a member of an approved Princeton organization, you may register
-                for administrative access. As an event administrator, you can add your 
-                organization's events to our community calendar. 
+                for administrative access. As an event administrator, you can add your
+                organization's events to our community calendar.
+
+                Shoutout to Leora Huebner '19 for coming up with our project name.
               </div>
             </div>
           </div>
