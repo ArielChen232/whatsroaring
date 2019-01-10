@@ -29,8 +29,8 @@ import axios from 'axios'
 
 import Header from './Components/Header'
 
-// const url = 'http://whatsroaring-api.herokuapp.com/'
-const url = 'http://localhost:8000/'
+const url = 'http://whatsroaring-api.herokuapp.com/'
+//const url = 'http://localhost:8000/'
 
 class Details extends Component {
   constructor(props) {
