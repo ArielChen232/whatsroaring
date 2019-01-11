@@ -12,7 +12,7 @@ import EditEvent from './Pages/EditEvent'
 import MyEvents from './Pages/MyEvents'
 import About from './Pages/About'
 import Team from './Pages/Team'
-import Documentation from './Pages/Documentation'
+// import Documentation from './Pages/Documentation'
 
 import Footer from './Pages/Components/Footer'
 
@@ -115,7 +115,7 @@ class App extends Component {
           )} />
           <Route exact={true} path='/docs' render={() => (
             <div className="App">
-              <Documentation />
+              <UnderConstruction />
               <div className='Footer'>
                 <Footer />
               </div>
