@@ -67,6 +67,7 @@ class Landing extends Component {
   }
 
   goToCal = () => {
+    localStorage.clear()
     localStorage.setItem('email', this.state.email)
     localStorage.setItem('isAdmin', this.state.isAdmin)
     this.props.history.push('/calendar')
