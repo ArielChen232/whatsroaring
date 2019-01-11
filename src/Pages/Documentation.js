@@ -19,7 +19,6 @@ import FindInPage from '@material-ui/icons/FindInPage'
 import Create from '@material-ui/icons/Create'
 import Feedback from '@material-ui/icons/Feedback'
 import Edit from '@material-ui/icons/Edit'
-import { Timeline } from 'react-material-timeline';
 import { Avatar, Icon } from '@material-ui/core';
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
