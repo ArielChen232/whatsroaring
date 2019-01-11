@@ -30,7 +30,7 @@ import './Details.css'
 // import Favorite from './Components/Favorite'
 import Header from './Components/Header'
 
-const url = 'http://whatsroaring-api.herokuapp.com/'
+const url = 'https://whatsroaring-api.herokuapp.com/'
 // const url = 'http://localhost:8000/'
 
 class Details extends Component {
