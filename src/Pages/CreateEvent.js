@@ -110,6 +110,8 @@ class CreateEvent extends Component {
       openInvalidTimesDialog: false,
       openDuplicateEventDialog: false,
     }
+    console.log(this.state.email)
+    console.log(this.state.isAdmin)
   }
 
   componentDidMount() {
