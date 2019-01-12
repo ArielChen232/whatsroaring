@@ -30,8 +30,8 @@ import HomeButton from './Components/HomeButton'
 import './Form.css'
 
 const axios = require('axios')
-const url = 'http://whatsroaring-api.herokuapp.com/'
-//const url ='http://127.0.0.1:8000/'
+//const url = 'http://whatsroaring-api.herokuapp.com/'
+const url ='http://127.0.0.1:8000/'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -188,6 +188,7 @@ class EditEvent extends Component {
       this.setState({ startTime: '' })
     } else {
       var startDate = new Date(this.props.start)
+      startDate.setHours(startDate.getHours() - 5)
       var startStr = startDate.toISOString()
       this.setState({ startTime: startStr.substring(0, startStr.length-1) })
     }
@@ -196,6 +197,7 @@ class EditEvent extends Component {
       this.setState({ endTime: '' })
     } else {
       var endDate = new Date(this.props.end)
+      endDate.setHours(endDate.getHours() - 5)
       var endStr = endDate.toISOString()
       this.setState({ endTime: endStr.substring(0, endStr.length-1) })
     }
