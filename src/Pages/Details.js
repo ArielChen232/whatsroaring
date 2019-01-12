@@ -472,7 +472,7 @@ class Details extends Component {
       categoriesTitle = ''
       categories = ''
     } else {
-      categories = categories.toString().replace(',', ', ')
+      categories = categories.join(', ')
     }
 
     return (
