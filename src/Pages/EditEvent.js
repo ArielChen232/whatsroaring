@@ -21,6 +21,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import moment from 'moment-timezone'
 
 // Local
 import Theme from '../Assets/Theme'
@@ -346,21 +347,7 @@ class EditEvent extends Component {
           is_free: this.state.isFree,
           email: this.state.email,
         }
-      axios.post(url_event, {
-        params: {
-          old_name: this.props.title,
-          old_starttime: this.props.start,
-          name: this.state.name,
-          org: this.state.org,
-          cat: this.state.category,
-          start_datetime: this.state.startTime,
-          end_datetime: this.state.endTime,
-          location: this.state.location,
-          website: this.state.website,
-          description: this.state.description,
-          is_free: this.state.isFree,
-          email: this.state.email,
-        }
+
       }).then((response) => {
         if (response.data === 'Edited event') {
           this.setState({ openSuccessDialog: true })
