@@ -165,8 +165,11 @@ class Details extends Component {
     var title = this.props.title
     title = title.replace(/ /g,"+");
 
-    var start = moment.tz(this.props.start, 'GMT').format(dtform)
-    var end = moment.tz(this.props.end, 'GMT').format(dtform)
+    var tz = moment.tz.guess();
+    var offset = 5
+
+    var start = moment(this.props.start).add(offset,'h').tz(tz).format(dtform)
+    var end = moment(this.props.end).add(offset,'h').tz(tz).format(dtform)
     var details = this.props.desc
     var location = this.props.loc
 
