@@ -20,7 +20,8 @@ import 'react-vertical-timeline-component/style.min.css';
 
 import About from './About'
 import Team from './Team'
-import Docs from './Docs'
+import Timeline from './Timeline'
+import Documentation from './Documentation'
 import {
   Collapse,
   Navbar,
@@ -278,18 +279,20 @@ class Landing extends Component {
     return (
       <div className='page'>
       <Navbar fixed="top" style={{backgroundColor: '#fb8c00'}} light expand="md">
-        <NavbarBrand href="/">whatsRoaring</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="#about"><h5>About</h5></NavLink>
+              <NavLink href="#about"><h3>ABOUT</h3></NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="#team"><h5>Team</h5></NavLink>
+              <NavLink href="#team"><h3>TEAM</h3></NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="#docs"><h5>Documentation</h5></NavLink>
+              <NavLink href="#timeline"><h3>TIMELINE</h3></NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="#docs"><h3>DOCUMENTATION</h3></NavLink>
             </NavItem>
             </Nav>
         </Collapse>
@@ -353,30 +356,55 @@ class Landing extends Component {
             </Grid>
           </div>
 
+          <section id='about'>
+
+          <br/>
+
           <ColoredLine color="#fb8c00" />
 
-          <section id='about'>
+          <br/>
+
+
           <About />
           </section>
 
+          <section id='team'>
+
+          <br/>
+
           <ColoredLine color="#fb8c00" />
 
-          <section id='team'>
+          <br/>
+
+
           <Team />
           </section>
 
+          <section id='timeline'>
+
+          <br/>
+
           <ColoredLine color="#fb8c00" />
 
-          <section id='docs'>
-          <Docs />
+          <br/>
+
+
+          <Timeline />
           </section>
 
-          <br/>
-          User's guide [coming soon!]
+          <section id='docs'>
 
           <br/>
 
-          Programmer's guide [coming soon!]
+          <ColoredLine color="#fb8c00" />
+
+          <br/>
+
+
+          <Documentation />
+          </section>
+
+
 
           <br/>
 

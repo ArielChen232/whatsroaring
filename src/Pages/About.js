@@ -40,15 +40,20 @@ class About extends Component {
         <MuiThemeProvider theme={theme}>
           <div className='main'>
             <div className='title'>
-              <Typography variant="h3" color="primary">
+              <Typography variant="h2" style={{fontWeight: 'bold'}} color="primary">
                 About WhatsRoaring
               </Typography>
             </div>
 
             <div className='about'>
-              <Typography variant='body2'>
+              <Typography variant='h4'>
                 WhatsRoaring is your one-stop-shop for events in Princeton.
               </Typography>
+
+              <br/>
+
+              <br/>
+
               <div className='icons'>
                 <Grid container>
                   <Grid item xs={4}>
@@ -57,7 +62,7 @@ class About extends Component {
                       Discover
                     </Typography>
                     <br></br>
-                    <Typography variant='subtitle1'>
+                    <Typography variant='h5'>
                       Discover events happening around campus and around town.
                     </Typography>
                   </Grid>
@@ -67,7 +72,7 @@ class About extends Component {
                       Filter
                     </Typography>
                     <br></br>
-                    <Typography variant='subtitle1'>
+                    <Typography variant='h5'>
                       Filter events based on your interests and availability.
                     </Typography>
                   </Grid>
@@ -77,7 +82,7 @@ class About extends Component {
                       Integrate
                     </Typography>
                     <br></br>
-                    <Typography variant='subtitle1'>
+                    <Typography variant='h5'>
                       Integrate events into your personal calendar and add events to the community calendar.
                     </Typography>
                   </Grid>
@@ -85,6 +90,7 @@ class About extends Component {
               </div>
               <br></br>
               <div className='description'>
+              <Typography variant='h6'>
                 WhatsRoaring was designed by five Princeton students who wanted to streamline
                 the process of finding and saving events for Princeton students.
                 Once you create a free account, you can browse events happening around Princeton
@@ -97,6 +103,7 @@ class About extends Component {
                 organization's events to our community calendar.
 
                 Shoutout to Leora Huebner '19 for coming up with our project name.
+              </Typography>
               </div>
             </div>
           </div>

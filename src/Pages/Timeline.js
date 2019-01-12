@@ -43,7 +43,7 @@ const styles = {
 }
 
 
-class Documentation extends Component {
+class Timeline extends Component {
 
   render() {
     const { classes } = this.props
@@ -52,7 +52,7 @@ class Documentation extends Component {
         <MuiThemeProvider theme={theme}>
           <div className='main'>
             <div className='title'>
-              <Typography variant="h3" color="primary">
+              <Typography variant="h2" style={{fontWeight: 'bold'}} color="primary">
                 Team Documentation
               </Typography>
             </div>
@@ -178,4 +178,4 @@ class Documentation extends Component {
 }
 
 
-export default withStyles(styles)(withRouter(Documentation))
+export default withStyles(styles)(withRouter(Timeline))
