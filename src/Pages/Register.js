@@ -40,12 +40,14 @@ class Register extends Component {
       password: '',
       confirmPassword: '',
       missingFields: [],
+      fieldsTooLong: [],
       openSuccessDialog: false,
       openMissingFieldsDialog: false,
       openConfirmPasswordErrorDialog: false,
       openServerErrorDialog: false,
       openDuplicateUserDialog: false,
       openInvalidEmailDialog: false,
+      openFieldTooLongDialog: false,
     }
   }
 
@@ -66,6 +68,10 @@ class Register extends Component {
 
   handleCloseMissingFieldsDialog = () => {
     this.setState({ openMissingFieldsDialog: false })
+  }
+
+  handleCloseFieldsTooLongDialog = () => {
+    this.setState({ openFieldTooLongDialog: false })
   }
 
   handleCloseConfirmPasswordErrorDialog = () => {
@@ -89,8 +95,8 @@ class Register extends Component {
     console.log('First Name: ' + this.state.firstName)
     console.log('Last Name: ' + this.state.lastName)
     console.log('Email Address: ' + this.state.email)
-    console.log('Password: ' + this.state.password)
-    console.log('Confirm Password: ' + this.state.confirmPassword)
+    //console.log('Password: ' + this.state.password)
+    //console.log('Confirm Password: ' + this.state.confirmPassword)
 
     // Check fields
     var errors = []
@@ -110,11 +116,31 @@ class Register extends Component {
       errors.push('confirm password')
     }
 
+    var tooLongErrors = []
+    console.log(this.state.firstName.length)
+    if (this.state.firstName.length > 100) {
+      tooLongErrors.push('first name')
+    }
+    if (this.state.lastName.length > 100) {
+      tooLongErrors.push('last name')
+    }
+    if (this.state.email.length > 100) {
+      tooLongErrors.push('email')
+    }
+    if (this.state.password.length > 100) {
+      tooLongErrors.push('password')
+    }
+
     if (errors.length > 0) {
       // Missing fields
       this.setState({
         missingFields: errors,
         openMissingFieldsDialog: true
+      })
+    } else if (tooLongErrors.length > 0) {
+      this.setState({
+        fieldsTooLong: tooLongErrors,
+        openFieldTooLongDialog: true
       })
     } else if (!isValidEmail(this.state.email)) {
       this.setState({
@@ -190,6 +216,24 @@ class Register extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleCloseMissingFieldsDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openFieldTooLongDialog}
+          onClose={this.handleCloseFieldsTooLongDialog}
+        >
+          <DialogTitle>
+            {'Field too Long'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please limit the following fields to 100 characters or less: {this.state.fieldsTooLong.join(', ')}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseFieldsTooLongDialog} color="primary">
               OK
             </Button>
           </DialogActions>

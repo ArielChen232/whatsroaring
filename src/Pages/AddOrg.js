@@ -23,7 +23,7 @@ import './Form.css'
 
 const axios = require('axios')
 const url = 'http://whatsroaring-api.herokuapp.com/'
-//const url = 'http://127.0.0.1:8000/'
+
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -47,6 +47,7 @@ class AddOrg extends Component {
       openServerErrorDialog: false,
       openMissingFieldDialog: false,
       openDuplicateDialog: false,
+      openCharLimitDialog: false,
     }
   }
 
@@ -77,12 +78,18 @@ class AddOrg extends Component {
     this.setState({ openDuplicateDialog: false })
   }
 
+  handleCharLimitDialog = () => {
+    this.setState({ openCharLimitDialog: false })
+  }
+
   submit = () => {
     var url_event = url + 'createOrganization'
     console.log('Name: ' + this.state.name)
 
     if (this.state.name === '') {
       this.setState({ openMissingFieldDialog: true })
+    } else if (this.state.name.length > 100) {
+      this.setState({ openCharLimitDialog: true })
     } else {
       axios.post(url_event, {
         params: {
@@ -185,6 +192,26 @@ class AddOrg extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Dialog
+          open={this.state.openCharLimitDialog}
+          onClose={this.handleCharLimitDialog}
+        >
+          <DialogTitle>
+            {'Input Error'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              The organization name must be 100 characters or fewer.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button 
+              onClick={this.handleCharLimitDialog} 
+              color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }
@@ -220,6 +247,7 @@ class AddOrg extends Component {
                     onChange={this.handleChange('name')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.name.length > 100}
                   />
                 </FormControl>
               </div>
