@@ -110,6 +110,7 @@ class EditEvent extends Component {
       openInvalidWebsiteDialog: false,
       openInvalidTimesDialog: false,
       openDuplicateEventDialog: false,
+      openCharLimitDialog: false,
     }
   }
 
@@ -247,6 +248,10 @@ class EditEvent extends Component {
     this.setState({ openDuplicateEventDialog: false })
   }
 
+  handleCloseCharLimitDialog = () => {
+    this.setState({ openCharLimitDialog: false })
+  }
+
   submitEvent = () => {
     var url_event = url + 'submitEvent'
     console.log('Name: ' + this.state.name)
@@ -307,6 +312,9 @@ class EditEvent extends Component {
         timeErrors: timeErrs,
         openInvalidTimesDialog: true
       })
+    } else if (this.state.name.length > 100 || this.state.description.length > 2000
+               || this.state.location.length > 200 || this.state.website > 200) {
+      this.setState({ openCharLimitDialog: true })
     } else {
       axios.post(url_event, {
         params: {
@@ -452,6 +460,26 @@ class EditEvent extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Dialog
+          open={this.state.openCharLimitDialog}
+          onClose={this.handleCloseCharLimitDialog}
+        >
+          <DialogTitle>
+            {'Input Error'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              The input provided has exceeded the maximum length. 
+              Please fix the fields highlighted in red.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleCloseCharLimitDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }
@@ -491,6 +519,7 @@ class EditEvent extends Component {
                     onChange={this.handleChange('name')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.name.length > 100}
                   />
 
                   <TextField
@@ -502,6 +531,7 @@ class EditEvent extends Component {
                     onChange={this.handleChange('description')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.description.length > 2000}
                   />
 
                   <TextField
@@ -513,6 +543,7 @@ class EditEvent extends Component {
                     onChange={this.handleChange('location')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.location.length > 200}
                   />
 
                   <TextField
@@ -523,6 +554,7 @@ class EditEvent extends Component {
                     onChange={this.handleChange('website')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.website.length > 200}
                   />
 
                   <TextField
