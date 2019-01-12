@@ -47,7 +47,7 @@ class AddOrg extends Component {
       openServerErrorDialog: false,
       openMissingFieldDialog: false,
       openDuplicateDialog: false,
-      openFieldTooLongDialog: false,
+      openCharLimitDialog: false,
     }
   }
 
@@ -78,8 +78,8 @@ class AddOrg extends Component {
     this.setState({ openDuplicateDialog: false })
   }
 
-  handleFieldTooLongDialog = () => {
-    this.setState({ openFieldTooLongDialog: false })
+  handleCharLimitDialog = () => {
+    this.setState({ openCharLimitDialog: false })
   }
 
   submit = () => {
@@ -89,7 +89,7 @@ class AddOrg extends Component {
     if (this.state.name === '') {
       this.setState({ openMissingFieldDialog: true })
     } else if (this.state.name.length > 100) {
-      this.setState({ openFieldTooLongDialog: true })
+      this.setState({ openCharLimitDialog: true })
     } else {
       axios.post(url_event, {
         params: {
@@ -193,20 +193,20 @@ class AddOrg extends Component {
           </DialogActions>
         </Dialog>
         <Dialog
-          open={this.state.openFieldTooLongDialog}
-          onClose={this.handleFieldTooLongDialog}
+          open={this.state.openCharLimitDialog}
+          onClose={this.handleCharLimitDialog}
         >
           <DialogTitle>
-            {'Missing Field'}
+            {'Input Error'}
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please limit the name of your organization to 100 characters or less.
+              The organization name must be 100 characters or fewer.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button 
-              onClick={this.handleFieldTooLongDialog} 
+              onClick={this.handleCharLimitDialog} 
               color="primary">
               OK
             </Button>
@@ -247,6 +247,7 @@ class AddOrg extends Component {
                     onChange={this.handleChange('name')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.name.length > 100}
                   />
                 </FormControl>
               </div>
