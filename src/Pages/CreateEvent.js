@@ -426,7 +426,7 @@ class CreateEvent extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              The input provided has exceeded the maximum length. 
+              The input provided has exceeded the maximum length.
               Please fix the fields highlighted in red.
             </DialogContentText>
           </DialogContent>
@@ -518,7 +518,7 @@ class CreateEvent extends Component {
                   <TextField
                     required
                     id="datetime-local"
-                    label="Start Date & Time"
+                    label="Start Date & Time (must use local time zone)"
                     type="datetime-local"
                     className={classes.textField}
                     InputLabelProps={{
@@ -532,7 +532,7 @@ class CreateEvent extends Component {
                   <TextField
                     required
                     id="datetime-local"
-                    label="End Date & Time"
+                    label="End Date & Time (must use local time zone)"
                     type="datetime-local"
                     className={classes.textField}
                     InputLabelProps={{
