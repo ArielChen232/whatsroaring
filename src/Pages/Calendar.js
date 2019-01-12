@@ -556,7 +556,6 @@ class Calendar extends Component {
             alignItems='center'
           >
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
                 <FormGroup row className={classes.formGroup}>
                   <FormControl className={classes.formControl}>
                     <DropdownMultiple
@@ -600,18 +599,12 @@ class Calendar extends Component {
                   {addOrg}
                   {requestAdmin}
                 </FormGroup>
-              </Paper>
-
               <Grid
                 container
                 justify='flex-end'
                 alignItems='center'
               >
-                <Grid item xs={3}>
-                  <LogOutButton />
-                </Grid>
               </Grid>
-
 
             </Grid>
           </Grid>
@@ -666,6 +659,7 @@ class Calendar extends Component {
       return (
         <div className='CalendarPage'>
           <Header />
+          <LogOutButton />
           {this.renderToolbar()}
           <MuiThemeProvider theme={Theme}>
 

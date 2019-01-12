@@ -10,7 +10,7 @@
 }
 
 .toolbar {
-  
+  background-color: var(--lightblue);
 }
 
 .sticky + .toolbar {
@@ -20,7 +20,9 @@
 .sticky {
   position: fixed;
   top: 0;
-  width: 100%
+  width: 100%;
+  background-color: var(--lightblue);
+  border-bottom: 3px solid var(--mainorange);
 }
 
 .affix {
@@ -69,7 +71,6 @@ header.calendarhead {
 .Calendar {
   background-color: var(--lightblue);
   height: 100vh;
-  margin-top: 3vh;
 }
 
 .CalendarOptions {
