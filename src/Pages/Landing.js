@@ -14,6 +14,24 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
+import 'react-vertical-timeline-component/style.min.css';
+
+import About from './About'
+import Team from './Team'
+import Docs from './Docs'
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
 
 // Local
 import Jumbotron from './Components/Jumbotron'
@@ -22,6 +40,16 @@ import './Landing.css'
 const axios = require('axios')
 const url = 'https://whatsroaring-api.herokuapp.com/'
 //const url ='http://127.0.0.1:8000/'
+
+const ColoredLine = ({ color }) => (
+    <hr
+        style={{
+            color: color,
+            backgroundColor: color,
+            height: 5
+        }}
+    />
+);
 
 const styles = theme => ({
   container: {
@@ -51,6 +79,8 @@ class Landing extends Component {
 
   constructor(props) {
     super(props)
+
+    this.toggle = this.toggle.bind(this);
     this.state = {
       email: '',
       password: '',
@@ -60,10 +90,18 @@ class Landing extends Component {
       openMissingFieldsDialog: false,
       openLoginErrorDialog: false,
       openServerErrorDialog: false,
+      isOpen: false,
     }
     this.handleRegister = this.handleRegister.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
     this.handleContinue = this.handleContinue.bind(this)
+  }
+
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
   }
 
   goToCal = () => {
@@ -81,7 +119,7 @@ class Landing extends Component {
 
   handleLogin() {
     var url_auth = url + 'authenticateUser'
-    
+
     // Check fields
     var errors = []
     if (!this.state.email.replace(/\s/g, '').length) {
@@ -198,7 +236,7 @@ class Landing extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              There was an error registering your account. 
+              There was an error registering your account.
               Please contact the administrative team for help.
             </DialogContentText>
           </DialogContent>
@@ -219,9 +257,9 @@ class Landing extends Component {
       return (
         <Button
           className={classes.continueButton}
-          variant="contained" 
-          color="primary" 
-          onClick={this.handleContinue} 
+          variant="contained"
+          color="primary"
+          onClick={this.handleContinue}
           size="large">
           Continue As {localStorage.getItem('email')}
         </Button>
@@ -238,14 +276,31 @@ class Landing extends Component {
 
     return (
       <div className='page'>
+      <Navbar fixed="top" style={{backgroundColor: '#fb8c00'}} light expand="md">
+        <NavbarBrand href="/">whatsRoaring</NavbarBrand>
+        <NavbarToggler onClick={this.toggle} />
+        <Collapse isOpen={this.state.isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink href="#about"><h5>About</h5></NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="#team"><h5>Team</h5></NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="#docs"><h5>Documentation</h5></NavLink>
+            </NavItem>
+            </Nav>
+        </Collapse>
+      </Navbar>
         <Jumbotron />
         <MuiThemeProvider theme={Theme}>
           {this.renderDialogs()}
           <div className='form'>
-            <Grid 
-              container 
+            <Grid
+              container
               justify='center'
-              direction='column' 
+              direction='column'
               alignItems='center'
               alignContent='center'>
               <Grid item xs={6}>
@@ -273,18 +328,21 @@ class Landing extends Component {
                 <div className='buttons'>
                   <FormControl>
                     <Button
-                      className={classes.button} 
-                      variant="contained" 
-                      color="primary" 
-                      onClick={this.handleLogin} 
+                      className={classes.button}
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleLogin}
                       size="large">
                       Log In
                     </Button>
-                    <Button 
-                      className={classes.button} 
-                      variant="contained" 
-                      color="primary" 
-                      onClick={this.handleRegister} 
+
+                    <br></br>
+                    <h4> Need an account? </h4>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleRegister}
                       size="large">
                       Register
                     </Button>
@@ -293,6 +351,34 @@ class Landing extends Component {
               </Grid>
             </Grid>
           </div>
+
+          <ColoredLine color="#fb8c00" />
+
+          <section id='about'>
+          <About />
+          </section>
+
+          <ColoredLine color="#fb8c00" />
+
+          <section id='team'>
+          <Team />
+          </section>
+
+          <ColoredLine color="#fb8c00" />
+
+          <section id='docs'>
+          <Docs />
+          </section>
+
+          <br/>
+          User's guide [coming soon!]
+
+          <br/>
+
+          Programmer's guide [coming soon!]
+
+          <br/>
+
         </MuiThemeProvider>
       </div>
     )

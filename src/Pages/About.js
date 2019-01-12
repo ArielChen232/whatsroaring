@@ -37,15 +37,8 @@ class About extends Component {
     const { classes } = this.props
     return (
       <div className='page'>
-        <Header />
-
         <MuiThemeProvider theme={theme}>
           <div className='main'>
-            <div className='Button'>
-              <IconButton color='primary' onClick={this.goToLanding}>
-                <Home />
-              </IconButton>
-            </div>
             <div className='title'>
               <Typography variant="h3" color="primary">
                 About WhatsRoaring

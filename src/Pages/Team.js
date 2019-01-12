@@ -7,6 +7,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
+
 // Local
 import Header from './Components/Header'
 import HomeButton from './Components/HomeButton'
@@ -33,11 +34,8 @@ class Team extends Component {
   render() {
     return (
       <div className='page'>
-        <Header />
-
         <MuiThemeProvider theme={theme}>
           <div className='main'>
-            <HomeButton />
             <div className='title'>
               <Typography variant="h3" color="primary">
                 The WhatsRoaring Team
