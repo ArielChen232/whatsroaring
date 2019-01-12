@@ -116,6 +116,11 @@ class EditEvent extends Component {
 
   componentDidMount() {
     // Fill categories menu
+
+    if (this.props.title === null || this.props.title === '') {
+      this.props.history.push('/calendar')
+    }
+
     var url_cats = url + 'getCategories'
     var cats_arr = []
     axios.get(url_cats).then(res => {
@@ -494,6 +499,7 @@ class EditEvent extends Component {
       console.log('Going to calendar')
       this.props.history.push('/calendar')
     }
+
 
     return (
       <div className='page'>
