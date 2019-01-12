@@ -225,11 +225,11 @@ class Register extends Component {
           onClose={this.handleCloseFieldsTooLongDialog}
         >
           <DialogTitle>
-            {'Field too Long'}
+            {'Input Error'}
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please limit the following fields to 100 characters or less: {this.state.fieldsTooLong.join(', ')}
+              Please limit the following fields to 100 characters or fewer: {this.state.fieldsTooLong.join(', ')}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -342,6 +342,7 @@ class Register extends Component {
                     onChange={this.handleChange('firstName')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.firstName.length > 100}
                   />
 
                   <TextField
@@ -352,6 +353,7 @@ class Register extends Component {
                     onChange={this.handleChange('lastName')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.lastName.length > 100}
                   />
 
                   <TextField
@@ -362,6 +364,7 @@ class Register extends Component {
                     onChange={this.handleChange('email')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.email.length > 100}
                   />
 
                   <TextField
@@ -373,6 +376,7 @@ class Register extends Component {
                     margin='normal'
                     variant='outlined'
                     type='password'
+                    error={this.state.password.length > 100}
                   />
 
                   <TextField
