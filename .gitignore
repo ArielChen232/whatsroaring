@@ -1,4 +1,4 @@
 *.npmignore
 *.MD
 LICENSE
-index.js
+index.jsnode_modules
