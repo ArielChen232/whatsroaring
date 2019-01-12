@@ -23,7 +23,7 @@ import './Form.css'
 
 const axios = require('axios')
 const url = 'http://whatsroaring-api.herokuapp.com/'
-//const url = 'http://127.0.0.1:8000/'
+
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -47,6 +47,7 @@ class AddOrg extends Component {
       openServerErrorDialog: false,
       openMissingFieldDialog: false,
       openDuplicateDialog: false,
+      openFieldTooLongDialog: false,
     }
   }
 
@@ -77,12 +78,18 @@ class AddOrg extends Component {
     this.setState({ openDuplicateDialog: false })
   }
 
+  handleFieldTooLongDialog = () => {
+    this.setState({ openFieldTooLongDialog: false })
+  }
+
   submit = () => {
     var url_event = url + 'createOrganization'
     console.log('Name: ' + this.state.name)
 
     if (this.state.name === '') {
       this.setState({ openMissingFieldDialog: true })
+    } else if (this.state.name.length > 100) {
+      this.setState({ openFieldTooLongDialog: true })
     } else {
       axios.post(url_event, {
         params: {
@@ -180,6 +187,26 @@ class AddOrg extends Component {
           <DialogActions>
             <Button 
               onClick={this.handleCloseDuplicateDialog} 
+              color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openFieldTooLongDialog}
+          onClose={this.handleFieldTooLongDialog}
+        >
+          <DialogTitle>
+            {'Missing Field'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please limit the name of your organization to 100 characters or less.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button 
+              onClick={this.handleFieldTooLongDialog} 
               color="primary">
               OK
             </Button>
