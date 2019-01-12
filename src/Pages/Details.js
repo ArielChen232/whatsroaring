@@ -438,8 +438,9 @@ class Details extends Component {
       if (!(website.includes('http://www.')
             || website.includes('https://www.')
             || website.includes('www.')
-            || website.includes('https://'))) {
-        website = 'http://' + website
+            || website.includes('https://')
+            || website.includes('http://'))) {
+        website = 'https://' + website
       }
       websiteTitle = 'Website:'
     }
