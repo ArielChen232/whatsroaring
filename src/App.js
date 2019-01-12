@@ -96,30 +96,6 @@ class App extends Component {
               </div>
             </div>
           )} />
-          <Route exact={true} path='/about' render={() => (
-            <div className="App">
-              <About />
-              <div className='Footer'>
-                <Footer />
-              </div>
-            </div>
-          )} />
-          <Route exact={true} path='/team' render={() => (
-            <div className="App">
-              <Team />
-              <div className='Footer'>
-                <Footer />
-              </div>
-            </div>
-          )} />
-          <Route exact={true} path='/docs' render={() => (
-            <div className="App">
-              <UnderConstruction />
-              <div className='Footer'>
-                <Footer />
-              </div>
-            </div>
-          )} />
         </Switch>
       </Router>
 
