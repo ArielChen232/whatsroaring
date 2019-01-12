@@ -101,6 +101,9 @@ const styles = theme => ({
     backgroundColor: '#f4f9f9',
     borderRadius: 3,
     alignItems: 'center'
+  },
+  button: {
+    textTransform: 'none',
   }
 })
 
@@ -351,7 +354,7 @@ class Calendar extends Component {
                   </IconButton>
                 </div>
                 <div className='ToolbarItem'>
-                  <Button color="primary" onClick={goToToday} size="medium" variant="outlined">
+                  <Button color="primary" onClick={goToToday} className={classes.button} variant="outlined">
                     Today
                   </Button>
                 </div>

@@ -188,6 +188,7 @@ class EditEvent extends Component {
       this.setState({ startTime: '' })
     } else {
       var startDate = new Date(this.props.start)
+      startDate.setTime(startDate.getTime() - startDate.getTimezoneOffset()*60*1000);
       var startStr = startDate.toISOString()
       this.setState({ startTime: startStr.substring(0, startStr.length-1) })
     }
@@ -196,6 +197,7 @@ class EditEvent extends Component {
       this.setState({ endTime: '' })
     } else {
       var endDate = new Date(this.props.end)
+      endDate.setTime(endDate.getTime() - endDate.getTimezoneOffset()*60*1000);
       var endStr = endDate.toISOString()
       this.setState({ endTime: endStr.substring(0, endStr.length-1) })
     }
