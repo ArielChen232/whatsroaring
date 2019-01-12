@@ -37,10 +37,12 @@ class Team extends Component {
         <MuiThemeProvider theme={theme}>
           <div className='main'>
             <div className='title'>
-              <Typography variant="h3" color="primary">
+              <Typography variant="h2" style={{fontWeight: 'bold'}} color="primary">
                 The WhatsRoaring Team
               </Typography>
             </div>
+
+            <br/>
 
             <div className='about'>
               <div className='icons'>
@@ -48,37 +50,37 @@ class Team extends Component {
                 justify="center">
 
                   <Grid item xs={4}>
-                    <img src={ariel} />
+                    <img src={ariel} style={{width: 200, height: 200}}/>
                     <Typography variant='h4' color='primary'>
                       Ariel Chen '20
                     </Typography>
-                    <Typography variant='h6'>
+                    <Typography variant='h5'>
                       Front-end
                     </Typography>
                   </Grid>
 
                   <Grid item xs={4}>
-                    <img src={becky} />
+                    <img src={becky} style={{width: 200, height: 200}}/>
                     <Typography variant='h4' color='primary'>
                       Becky Barber '20
                     </Typography>
-                    <Typography variant='h6'>
+                    <Typography variant='h5'>
                       PM and Back-end
                     </Typography>
                   </Grid>
 
                   <Grid item xs={4}>
-                    <img src={berthy} />
+                    <img src={berthy} style={{width: 200, height: 200}}/>
                     <Typography variant='h4' color='primary'>
                       Berthy Feng '19
                     </Typography>
-                    <Typography variant='h6'>
+                    <Typography variant='h5'>
                       Front-end
                     </Typography>
                   </Grid>
 
                   <Grid item xs={4}>
-                    <img src={claire} />
+                    <img src={claire} style={{width: 200, height: 200}}/>
                     <Typography variant='h4' color='primary'>
                       Claire Du '20
                     </Typography>
@@ -88,9 +90,9 @@ class Team extends Component {
                   </Grid>
 
                   <Grid item xs={4}>
-                    <img src={rachel} />
+                    <img src={rachel} style={{width: 200, height: 200}}/>
                     <Typography variant='h4' color='primary'>
-                      Rachel Coe-Scharf '19
+                      Rachel Coe-Scharff '19
                     </Typography>
                     <Typography variant='h6'>
                       Front-end
