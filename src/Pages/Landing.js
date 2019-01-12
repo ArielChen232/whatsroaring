@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Theme from '../Assets/Theme'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
@@ -340,7 +341,7 @@ class Landing extends Component {
                     </Button>
 
                     <br></br>
-                    <h4> Need an account? </h4>
+                    <Typography variant='h5'> Need an account? </Typography>
                     <Button
                       className={classes.button}
                       variant="contained"

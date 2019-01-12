@@ -21,6 +21,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import moment from 'moment-timezone'
 
 // Local
 import Theme from '../Assets/Theme'
@@ -258,13 +259,21 @@ class CreateEvent extends Component {
                || this.state.location.length > 200 || this.state.website > 200) {
       this.setState({ openCharLimitDialog: true })
     } else {
+
+      var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+      var tz = moment.tz.guess();
+      var offset = -5
+
+      var start_converted = moment(this.state.startTime).add(offset, 'h').tz('GMT').format(dtform)
+      var end_converted = moment(this.state.endTime).add(offset, 'h').tz('GMT').format(dtform)
+
       axios.post(url_event, {
         params: {
           name: this.state.name,
           org: this.state.org,
           cat: this.state.category,
-          start_datetime: this.state.startTime,
-          end_datetime: this.state.endTime,
+          start_datetime: start_converted,
+          end_datetime: end_converted,
           location: this.state.location,
           website: this.state.website,
           description: this.state.description,

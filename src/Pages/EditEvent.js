@@ -21,6 +21,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import moment from 'moment-timezone'
 
 // Local
 import Theme from '../Assets/Theme'
@@ -321,21 +322,32 @@ class EditEvent extends Component {
                || this.state.location.length > 200 || this.state.website > 200) {
       this.setState({ openCharLimitDialog: true })
     } else {
+
+      var dtform = "ddd, DD MMM YYYY HH:mm:ss"
+      var tz = moment.tz.guess();
+      var offset = -5
+
+      var start_old_converted = moment(this.props.start).add(offset, 'h').tz('GMT').format(dtform)
+      var start_converted = moment(this.state.startTime).add(offset, 'h').tz('GMT').format(dtform)
+      var end_converted = moment(this.state.endTime).add(offset, 'h').tz('GMT').format(dtform)
+
       axios.post(url_event, {
+
         params: {
           old_name: this.props.title,
-          old_starttime: this.props.start,
+          old_starttime: start_old_converted,
           name: this.state.name,
           org: this.state.org,
           cat: this.state.category,
-          start_datetime: this.state.startTime,
-          end_datetime: this.state.endTime,
+          start_datetime: start_converted,
+          end_datetime: end_converted,
           location: this.state.location,
           website: this.state.website,
           description: this.state.description,
           is_free: this.state.isFree,
           email: this.state.email,
         }
+
       }).then((response) => {
         if (response.data === 'Edited event') {
           this.setState({ openSuccessDialog: true })

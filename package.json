@@ -32,6 +32,7 @@
     "react-fontawesome": "^1.6.1",
     "react-material-timeline": "^3.0.1",
     "react-onclickoutside": "^6.7.1",
+    "react-password-strength": "^2.3.1",
     "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.2",
@@ -54,5 +55,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3"
+  }
 }
