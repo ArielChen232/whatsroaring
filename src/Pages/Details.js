@@ -146,8 +146,12 @@ class Details extends Component {
           start_datetime: start
         }
       }).then((response) => {
-          if (response.data === 'Success')
-            this.setState({openDeletedDialog: true})
+          if (response.data === 'Success') {
+            this.setState({
+              openDeletingDialog: false,
+              openDeletedDialog: true
+            })
+          }
           else {
             this.setState({openErrorDialog: true})
             this.setState({errorType: 'delete'})
@@ -434,8 +438,9 @@ class Details extends Component {
       if (!(website.includes('http://www.')
             || website.includes('https://www.')
             || website.includes('www.')
-            || website.includes('https://'))) {
-        website = 'http://' + website
+            || website.includes('https://')
+            || website.includes('http://'))) {
+        website = 'https://' + website
       }
       websiteTitle = 'Website:'
     }
@@ -464,11 +469,11 @@ class Details extends Component {
     // Get event category.
     var categories = this.props.cat
     var categoriesTitle = 'Event Type:'
-    if (categories === null || typeof(categories) === 'undefined') {
+    if (categories === null || typeof(categories) === 'undefined' || categories.length === 0) {
       categoriesTitle = ''
       categories = ''
     } else {
-      categories = categories.toString().replace(',', ', ')
+      categories = categories.join(', ')
     }
 
     return (
