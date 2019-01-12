@@ -48,6 +48,7 @@ class Details extends Component {
       is_free: true,
       email: localStorage.getItem('email'),
       openErrorDialog: false,
+      openDeletingDialog: false,
       openDeletedDialog: false,
       openFavoritedDialog: false,
       openUnfavoritedDialog: false,
@@ -132,6 +133,10 @@ class Details extends Component {
   }
 
   delete = () => {
+    this.setState({openDeletingDialog: true})
+  }
+
+  execDelete = () => {
     console.log('delete')
     var url_delete = url + 'deleteEvent'
     var dtform = "ddd, DD MMM YYYY HH:mm:ss"
@@ -201,6 +206,10 @@ class Details extends Component {
   handleCloseUnfavoritedDialog = () => {
     this.setState({favorite: false})
     this.setState({ openUnfavoritedDialog: false })  
+  }
+
+  handleCloseDeletingDialog = () => {
+    this.setState({openDeletingDialog: false})
   }
 
   renderDialog() {
@@ -284,6 +293,27 @@ class Details extends Component {
           <DialogActions>
             <Button onClick={this.handleCloseUnfavoritedDialog} color="primary">
               OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openDeletingDialog}
+          onClose={this.handleCloseDeletingDialog}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Delete'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to delete this event?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.execDelete} color="primary">
+              YES
+            </Button>
+            <Button onClick={this.handleCloseDeletingDialog} color="primary">
+              NO
             </Button>
           </DialogActions>
         </Dialog>
@@ -377,7 +407,8 @@ class Details extends Component {
     // Get event title.
     var title = this.props.title
     if (title === null || title === '') {
-      title = 'Untitled Event'
+      // title = 'Untitled Event'
+      this.props.history.push('/calendar')
     }
 
     // Get event description.
