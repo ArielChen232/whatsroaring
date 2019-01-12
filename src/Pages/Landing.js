@@ -70,10 +70,12 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit * 2,
     width: 150,
-    fontColor: 'white'
+    fontColor: 'white',
+    textTransform: 'none',
   },
   continueButton: {
     marginBottom: theme.spacing.unit * 2,
+    textTransform: 'none',
   },
 })
 
@@ -263,7 +265,7 @@ class Landing extends Component {
           color="primary"
           onClick={this.handleContinue}
           size="large">
-          Continue As {localStorage.getItem('email')}
+          Continue as {localStorage.getItem('email')}
         </Button>
       )
     } else {

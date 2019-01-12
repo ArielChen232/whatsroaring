@@ -15,6 +15,7 @@ const styles = theme => ({
   button: {
     width: 150,
     margin: 10,
+    textTransform: 'none',
   }
 })
 class AddOrgButton extends Component {

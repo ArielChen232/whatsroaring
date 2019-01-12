@@ -13,6 +13,7 @@ const styles = theme => ({
   button: {
     width: 100,
     margin: 10,
+    textTransform: 'none',
   }
 })
 
