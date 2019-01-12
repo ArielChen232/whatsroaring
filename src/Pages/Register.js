@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import ReactPasswordStrength from 'react-password-strength'
 
 // Material-UI
 import { MuiThemeProvider } from '@material-ui/core/styles'
@@ -369,14 +370,16 @@ class Register extends Component {
 
                   <TextField
                     required
-                    label='Password'
+                    label='Password (must be at least 10 characters)'
                     className='textField'
                     value={this.state.password}
                     onChange={this.handleChange('password')}
                     margin='normal'
                     variant='outlined'
                     type='password'
-                    error={this.state.password.length > 100}
+                    error={this.state.password.length > 100 
+                           || (this.state.password.length < 10 
+                               && this.state.password.length > 0)}
                   />
 
                   <TextField
@@ -388,6 +391,8 @@ class Register extends Component {
                     margin='normal'
                     variant='outlined'
                     type='password'
+                    error={this.state.confirmPassword.localeCompare(this.state.password) !== 0
+                           && this.state.confirmPassword.length > 0}
                   />
                 </FormControl>
               </div>
