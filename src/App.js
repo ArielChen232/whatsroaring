@@ -8,7 +8,7 @@ import CreateEvent from './Pages/CreateEvent'
 import AddOrg from './Pages/AddOrg'
 import Register from './Pages/Register'
 import UnderConstruction from './Pages/UnderConstruction'
-import EditEvent from './Pages/EditEvent'
+//import EditEvent from './Pages/EditEvent'
 import MyEvents from './Pages/MyEvents'
 import About from './Pages/About'
 import Team from './Pages/Team'
@@ -22,7 +22,6 @@ class App extends Component {
 
   render() {
     return (
-
       <Router>
         <Switch>
           <Route exact={true} path='/' render={() => (
@@ -57,14 +56,14 @@ class App extends Component {
               </div>
             </div>
           )} />
-          <Route exact={true} path='/editEvent' render={() => (
+          {/*<Route exact={true} path='/editEvent' render={() => (
             <div className="App">
               <EditEvent />
               <div className='Footer'>
                 <Footer />
               </div>
             </div>
-          )} />
+          )} />*/}
           <Route exact={true} path='/myEvents' render={() => (
             <div className="App">
               <MyEvents />
