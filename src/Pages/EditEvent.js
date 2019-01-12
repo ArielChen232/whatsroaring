@@ -30,8 +30,8 @@ import HomeButton from './Components/HomeButton'
 import './Form.css'
 
 const axios = require('axios')
-const url = 'http://whatsroaring-api.herokuapp.com/'
-//const url ='http://127.0.0.1:8000/'
+//const url = 'http://whatsroaring-api.herokuapp.com/'
+const url ='http://127.0.0.1:8000/'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -259,7 +259,7 @@ class EditEvent extends Component {
   }
 
   submitEvent = () => {
-    var url_event = url + 'submitEvent'
+    var url_event = url + 'editEvent'
     console.log('Name: ' + this.state.name)
     console.log('Org: ' + this.state.org)
     console.log('Category: ' + this.state.category)
@@ -392,7 +392,7 @@ class EditEvent extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Your event has been submitted. Please refresh the calendar to see your event.
+              Your event has been edited.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
