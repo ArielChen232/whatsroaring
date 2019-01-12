@@ -7,6 +7,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
@@ -62,6 +63,9 @@ const styles = theme => ({
   dense: {
     marginTop: 19,
   },
+  helperText: {
+
+  }
 })
 
 // https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
@@ -109,6 +113,7 @@ class CreateEvent extends Component {
       openInvalidWebsiteDialog: false,
       openInvalidTimesDialog: false,
       openDuplicateEventDialog: false,
+      openCharLimitDialog: false,
     }
     console.log(this.state.email)
     console.log(this.state.isAdmin)
@@ -185,6 +190,10 @@ class CreateEvent extends Component {
     this.setState({ openDuplicateEventDialog: false })
   }
 
+  handleCloseCharLimitDialog = () => {
+    this.setState({ openCharLimitDialog: false })
+  }
+
   submitEvent = () => {
     var url_event = url + 'submitEvent'
     console.log('Name: ' + this.state.name)
@@ -245,6 +254,9 @@ class CreateEvent extends Component {
         timeErrors: timeErrs,
         openInvalidTimesDialog: true
       })
+    } else if (this.state.name.length > 100 || this.state.description.length > 2000
+               || this.state.location.length > 200 || this.state.website > 200) {
+      this.setState({ openCharLimitDialog: true })
     } else {
       axios.post(url_event, {
         params: {
@@ -396,6 +408,26 @@ class CreateEvent extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Dialog
+          open={this.state.openCharLimitDialog}
+          onClose={this.handleCloseCharLimitDialog}
+        >
+          <DialogTitle>
+            {'Input Error'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              The input provided has exceeded the maximum length. 
+              Please fix the fields highlighted in red.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleCloseCharLimitDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }
@@ -435,6 +467,7 @@ class CreateEvent extends Component {
                     onChange={this.handleChange('name')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.name.length > 100}
                   />
 
                   <TextField
@@ -446,6 +479,7 @@ class CreateEvent extends Component {
                     onChange={this.handleChange('description')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.description.length > 2000}
                   />
 
                   <TextField
@@ -457,6 +491,7 @@ class CreateEvent extends Component {
                     onChange={this.handleChange('location')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.location.length > 200}
                   />
 
                   <TextField
@@ -467,6 +502,7 @@ class CreateEvent extends Component {
                     onChange={this.handleChange('website')}
                     margin='normal'
                     variant='outlined'
+                    error={this.state.website.length > 200}
                   />
 
                   <TextField
