@@ -10,7 +10,7 @@ const Theme = createMuiTheme({
       'sans-serif',
     ].join(','),
     useNextVariants: true,
-    fontSize: 18,
+    fontSize: 21,
   },
   palette: {
     primary: {

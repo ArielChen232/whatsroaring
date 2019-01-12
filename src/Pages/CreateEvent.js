@@ -514,6 +514,7 @@ class CreateEvent extends Component {
                     error={this.state.website.length > 200}
                   />
 
+                  <br></br>
                   <TextField
                     required
                     id="datetime-local"
@@ -522,10 +523,12 @@ class CreateEvent extends Component {
                     className={classes.textField}
                     InputLabelProps={{
                       shrink: true,
+                      fontSize: 30,
                     }}
                     onChange={this.handleDateChange('startTime')}
                   />
-
+                  <br></br>
+                  <br></br>
                   <TextField
                     required
                     id="datetime-local"
