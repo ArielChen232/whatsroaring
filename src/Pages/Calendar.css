@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Muli');
+
 :root {
   --blue: #3174ad;
   --pink: #ad3173;
@@ -64,6 +66,7 @@ header.calendarhead {
   display: flex;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 10px;
 }
 
 .ToolbarButtons {
@@ -254,4 +257,13 @@ p {
 
 .rbc-header > a {
   pointer-events: none;
+}
+
+.rbc-event-content {
+  font-family: 'Muli', sans-serif;
+  font-size: 12px;
+}
+
+.rbc-row-segment {
+  padding: 0 1px 0px 1px;
 }
