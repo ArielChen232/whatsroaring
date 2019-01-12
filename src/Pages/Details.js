@@ -138,6 +138,7 @@ class Details extends Component {
 
   execDelete = () => {
     console.log('delete')
+    this.setState({openDeletingDialog: false})
     var url_delete = url + 'deleteEvent'
     var dtform = "ddd, DD MMM YYYY HH:mm:ss"
     var start = moment.tz(this.props.start, 'GMT').format(dtform) + ' GMT'
@@ -198,7 +199,10 @@ class Details extends Component {
   handleCloseErrorDialog = () => {
     if (this.state.errorType === null) 
       this.props.history.push('/calendar')
-    this.setState({ openErrorDialog: false })
+    this.setState({ 
+      openErrorDialog: false, 
+      openDeletingDialog: false
+    })
   }
 
   handleCloseDeletedDialog = () => {
@@ -527,7 +531,7 @@ class Details extends Component {
                         Time:
                       </Typography>
                       <Typography variant="h5" color="default">
-                        {timeString}
+                        {timeString} (your local time)
                       </Typography>
                     </div>
                     <div className='text'>
