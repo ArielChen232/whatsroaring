@@ -89,6 +89,12 @@ function checkDates(startDate, endDate) {
   return errMsgs
 }
 
+function isValidDate(str) {
+  var d = Date.parse(str)
+  var date = new Date(d)
+  return (date.getFullYear() <= 9999)
+}
+
 class CreateEvent extends Component {
   constructor(props) {
     super(props)
@@ -115,6 +121,7 @@ class CreateEvent extends Component {
       openInvalidTimesDialog: false,
       openDuplicateEventDialog: false,
       openCharLimitDialog: false,
+      openInvalidDateStringDialog: false,
     }
     console.log(this.state.email)
     console.log(this.state.isAdmin)
@@ -155,12 +162,16 @@ class CreateEvent extends Component {
   }
 
   handleChange = name => event => {
+    if (name === 'start') {
+      console.log(isValidDate(event.target.value))
+    }
     this.setState({
       [name]: event.target.value,
     })
   }
 
   handleDateChange = name => date => {
+    console.log(isValidDate(date.target.value))
     this.setState({
       [name]: date.target.value
     })
@@ -193,6 +204,10 @@ class CreateEvent extends Component {
 
   handleCloseCharLimitDialog = () => {
     this.setState({ openCharLimitDialog: false })
+  }
+
+  handleCloseInvalidDateStringDialog = () => {
+    this.setState({ openInvalidDateStringDialog: false })
   }
 
   submitEvent = () => {
@@ -249,6 +264,8 @@ class CreateEvent extends Component {
       this.setState({
         openInvalidWebsiteDialog: true
       })
+    } else if (!isValidDate(this.state.startTime) || !isValidDate(this.state.endTime)) {
+      this.setState({ openInvalidDateStringDialog: true })
     } else if (timeErrs.length > 0) {
       // Invalid times
       this.setState({
@@ -437,6 +454,25 @@ class CreateEvent extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Dialog
+          open={this.state.openInvalidDateStringDialog}
+          onClose={this.handleCloseInvalidDateStringDialog}
+        >
+          <DialogTitle>
+            {'Invalid Date Input'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please input a valid date.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleCloseInvalidDateStringDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }
@@ -526,6 +562,7 @@ class CreateEvent extends Component {
                       fontSize: 30,
                     }}
                     onChange={this.handleDateChange('startTime')}
+                    error={!isValidDate(this.state.startTime) && this.state.startTime.length > 0}
                   />
                   <br></br>
                   <br></br>
@@ -539,6 +576,7 @@ class CreateEvent extends Component {
                       shrink: true,
                     }}
                     onChange={this.handleDateChange('endTime')}
+                    error={!isValidDate(this.state.endTime) && this.state.endTime.length > 0}
                   />
                 </FormControl>
               </div>
