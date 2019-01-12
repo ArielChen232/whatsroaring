@@ -545,19 +545,9 @@ class Calendar extends Component {
       addOrg = <div></div>
     }
     return (
-      <div className='toolbar'>
+      <div class="toolbar" id="myToolbar" style={{zIndex: 999}}>
         <MuiThemeProvider theme={Theme}>
-          <Grid
-            container
-            justify='flex-end'
-            alignItems='center'
-          >
-            <Grid item xs={3}>
-              <LogOutButton />
-            </Grid>
-          </Grid>
-
-          <Grid
+        <Grid
             container
             justify={spacing}
             alignItems='center'
@@ -607,8 +597,19 @@ class Calendar extends Component {
                   {addOrg}
                   {requestAdmin}
                 </FormGroup>
-
               </Paper>
+
+              <Grid
+                container
+                justify='flex-end'
+                alignItems='center'
+              >
+                <Grid item xs={3}>
+                  <LogOutButton />
+                </Grid>
+              </Grid>
+
+
             </Grid>
           </Grid>
         </MuiThemeProvider>
@@ -644,6 +645,19 @@ class Calendar extends Component {
 
   render() {
     if (this.state.email === null) this.props.history.push('/')
+
+    var toolbar = document.getElementById("myToolbar");
+    if (toolbar != null) {
+      var sticky = toolbar.offsetTop;
+      function myFunction() {
+        if (window.pageYOffset > sticky) {
+          toolbar.classList.add("sticky");
+        } else {
+          toolbar.classList.remove("sticky");
+        }
+      }
+      window.onscroll = function() {myFunction()};
+    }
 
     if (this._isMounted === true) {
       return (

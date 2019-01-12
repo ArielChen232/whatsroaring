@@ -8,7 +8,26 @@
 }
 
 .toolbar {
+  
+}
 
+.sticky + .toolbar {
+  padding-top: 102px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+.affix {
+	top: 0px;
+  width: 100%;
+	margin: 0px 20px;
+}
+.affix + .container {
+	padding: 5px;
 }
 
 .toolbarItem {
@@ -18,7 +37,7 @@
 .CalendarPage {
   /*background-image: url('../Assets/homepage_lower.png');*/
   background-color: var(--lightorange);
-  
+
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
