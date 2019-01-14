@@ -49,6 +49,7 @@ class Register extends Component {
       openDuplicateUserDialog: false,
       openInvalidEmailDialog: false,
       openFieldTooLongDialog: false,
+      openPasswordTooShortDialog: false,
     }
   }
 
@@ -89,6 +90,10 @@ class Register extends Component {
 
   handleCloseInvalidEmailDialog = () => {
     this.setState({ openInvalidEmailDialog: false })
+  }
+
+  handleClosePasswordTooShortDialog = () => {
+    this.setState({ openPasswordTooShortDialog: false })
   }
 
   submit = () => {
@@ -140,13 +145,15 @@ class Register extends Component {
       })
     } else if (tooLongErrors.length > 0) {
       this.setState({
-        fieldsTooLong: tooLongErrors,
+        fieldsTooLong:tooLongErrors,
         openFieldTooLongDialog: true
       })
     } else if (!isValidEmail(this.state.email)) {
       this.setState({
         openInvalidEmailDialog: true
       })
+    } else if (this.state.password.length < 10) {
+      this.setState({ openPasswordTooShortDialog: true })
     } else if (this.state.password.localeCompare(this.state.confirmPassword) != 0) {
       // Confirm password does not match password
       this.setState({
@@ -235,6 +242,24 @@ class Register extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleCloseFieldsTooLongDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openPasswordTooShortDialog}
+          onClose={this.handleClosePasswordTooShortDialog}
+        >
+          <DialogTitle>
+            {'Password Error'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please enter a password with 10 characters or more.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClosePasswordTooShortDialog} color="primary">
               OK
             </Button>
           </DialogActions>
