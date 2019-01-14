@@ -187,7 +187,12 @@ class CreateEvent extends Component {
 
   handleCloseSuccessDialog = () => {
     this.setState({ openSuccessDialog: false })
-    this.props.history.push('/calendar')
+    try {
+      window.close()
+    } catch(err) {
+      this.props.history.push('/calendar')
+    }
+    
   }
 
   handleCloseInvalidWebsiteDialog = () => {
