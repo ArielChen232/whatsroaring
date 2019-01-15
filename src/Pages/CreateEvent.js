@@ -92,7 +92,7 @@ function checkDates(startDate, endDate) {
 function isValidDate(str) {
   var d = Date.parse(str)
   var date = new Date(d)
-  return (date.getFullYear() <= 9999)
+  return (date.getFullYear() <= 9999 && date.getFullYear() >= 1000)
 }
 
 class CreateEvent extends Component {
