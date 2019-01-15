@@ -53,7 +53,7 @@ class Timeline extends Component {
           <div className='main'>
             <div className='title'>
               <Typography variant="h2" style={{fontWeight: 'bold'}} color="primary">
-                Team Documentation
+                Project Timeline
               </Typography>
             </div>
 
