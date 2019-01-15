@@ -60,10 +60,10 @@ class Documentation extends Component {
             <Typography variant='h6'>
             <center>
             <font size="6">
-              <a href="https://tinyurl.com/yagk8ovk" target="_blank">User's Guide</a><br></br>
-              <a href = "https://tinyurl.com/y7g6uo86" target="_blank">Programmer's Guide</a><br></br>
-              <a href = "https://tinyurl.com/y9opkjfh" target="_blank">Product Evaluation</a><br></br>
-              <a href = "https://tinyurl.com/ydbdqhqn" target="_blank">Project Evaluation</a>
+              <a href = "http://whatsroaring.herokuapp.com/UsersGuide.pdf" target="_blank">User's Guide</a><br></br>
+              <a href = "http://whatsroaring.herokuapp.com/ProgrammersGuide.pdf" target="_blank">Programmer's Guide</a><br></br>
+              <a href = "http://whatsroaring.herokuapp.com/ProductEval.pdf" target="_blank">Product Evaluation</a><br></br>
+              <a href = "http://whatsroaring.herokuapp.com/ProjectEval.pdf" target="_blank">Project Evaluation</a>
             </font>
             </center>
             </Typography>
