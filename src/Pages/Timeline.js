@@ -19,6 +19,7 @@ import FindInPage from '@material-ui/icons/FindInPage'
 import Create from '@material-ui/icons/Create'
 import Feedback from '@material-ui/icons/Feedback'
 import Edit from '@material-ui/icons/Edit'
+import Event from '@material-ui/icons/Event'
 import { Avatar, Icon } from '@material-ui/core';
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
@@ -139,7 +140,7 @@ class Timeline extends Component {
               <VerticalTimelineElement
                 className="vertical-timeline-element--work"
                 iconStyle={{ background: '#fff', color: '#fb8c00' }}
-                icon={<Edit />}
+                icon={<Event />}
               >
                 <h1 className="vertical-timeline-element-title" style={{fontWeight: 'bold', color: '#fb8c00'}}>Week 8</h1>
                 <h3>
