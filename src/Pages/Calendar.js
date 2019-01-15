@@ -548,7 +548,7 @@ class Calendar extends Component {
       addOrg = <div></div>
     }
     return (
-      <div className="toolbar" id="myToolbar" style={{zIndex: 999}}>
+      <div class="toolbar" id="myToolbar" style={{zIndex: 999}}>
         <MuiThemeProvider theme={Theme}>
         <Grid
             container
