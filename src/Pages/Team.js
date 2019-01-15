@@ -51,51 +51,51 @@ class Team extends Component {
 
                   <Grid item xs={4}>
                     <img src={ariel} style={{width: 200, height: 200}}/>
-                    <Typography variant='h4' color='primary'>
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} >
                       Ariel Chen '20
                     </Typography>
-                    <Typography variant='h5'>
-                      Front-end
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} color='primary'>
+                      Front-End
                     </Typography>
                   </Grid>
 
                   <Grid item xs={4}>
                     <img src={becky} style={{width: 200, height: 200}}/>
-                    <Typography variant='h4' color='primary'>
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} >
                       Becky Barber '20
                     </Typography>
-                    <Typography variant='h5'>
-                      PM and Back-end
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} color='primary'>
+                      PM & Back-End
                     </Typography>
                   </Grid>
 
                   <Grid item xs={4}>
                     <img src={berthy} style={{width: 200, height: 200}}/>
-                    <Typography variant='h4' color='primary'>
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} >
                       Berthy Feng '19
                     </Typography>
-                    <Typography variant='h5'>
-                      Front-end
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} color='primary'>
+                      Front-End
                     </Typography>
                   </Grid>
 
                   <Grid item xs={4}>
                     <img src={claire} style={{width: 200, height: 200}}/>
-                    <Typography variant='h4' color='primary'>
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} >
                       Claire Du '20
                     </Typography>
-                    <Typography variant='h6'>
-                      Back-end
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} color='primary' >
+                      Back-End
                     </Typography>
                   </Grid>
 
                   <Grid item xs={4}>
                     <img src={rachel} style={{width: 200, height: 200}}/>
-                    <Typography variant='h4' color='primary'>
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} >
                       Rachel Coe-Scharff '19
                     </Typography>
-                    <Typography variant='h6'>
-                      Front-end
+                    <Typography variant='h4' style={{fontWeight: 'bold'}} color='primary'>
+                      Front-End
                     </Typography>
                   </Grid>
                 </Grid>

@@ -17,3 +17,14 @@
 .main {
   background-color: var(--lightorange);
 }
+
+a:link {
+  color: black;
+  font-weight: bold;
+}
+
+/* visited link */
+a:visited {
+  color: black;
+  font-weight: bold;
+}

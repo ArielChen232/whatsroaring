@@ -38,6 +38,7 @@ import {
 // Local
 import Jumbotron from './Components/Jumbotron'
 import './Landing.css'
+import icon from '../Assets/small_logo_black.png'
 
 const axios = require('axios')
 const url = 'https://whatsroaring-api.herokuapp.com/'
@@ -281,7 +282,7 @@ class Landing extends Component {
     return (
       <div className='page'>
       <Navbar fixed="top" style={{backgroundColor: '#fb8c00'}} light expand="md">
-        <NavbarBrand href="/">whatsRoaring</NavbarBrand>
+        <NavbarBrand href="/"><img src={icon} style={{width: 40, height: 40}}/></NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>

@@ -40,8 +40,8 @@ const styles = {
   font: {
     fontSize: 1.5,
   }
-}
 
+}
 
 class Documentation extends Component {
 
@@ -56,7 +56,18 @@ class Documentation extends Component {
                 Team Documentation
               </Typography>
             </div>
-            [coming soon!]
+            <div className='description'>
+            <Typography variant='h6'>
+            <center>
+            <font size="6">
+              <a href="https://tinyurl.com/yagk8ovk" target="_blank">User's Guide</a><br></br>
+              <a href = "https://tinyurl.com/y7g6uo86" target="_blank">Programmer's Guide</a><br></br>
+              <a href = "https://tinyurl.com/y9opkjfh" target="_blank">Product Evaluation</a><br></br>
+              <a href = "https://tinyurl.com/ydbdqhqn" target="_blank">Project Evaluation</a>
+            </font>
+            </center>
+            </Typography>
+            </div>
             </div>
         </MuiThemeProvider>
       </div>
