@@ -31,7 +31,7 @@ import './Form.css'
 
 const axios = require('axios')
 const url = 'https://whatsroaring-api.herokuapp.com/'
-// const url ='http://127.0.0.1:8000/'
+//const url ='http://127.0.0.1:8000/'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -172,7 +172,7 @@ class EditEvent extends Component {
       this.setState({ website: this.props.website })
     }
 
-    if (this.props.is_free === null || this.props.desc === undefined) {
+    if (this.props.is_free === null || this.props.is_free === undefined) {
       this.setState({ isFree: '' })
     } else {
       this.setState({ isFree: this.props.is_free })

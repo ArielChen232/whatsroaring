@@ -101,9 +101,6 @@ const styles = theme => ({
     backgroundColor: '#f4f9f9',
     borderRadius: 3,
     alignItems: 'center'
-  },
-  button: {
-    textTransform: 'none',
   }
 })
 
@@ -354,7 +351,7 @@ class Calendar extends Component {
                   </IconButton>
                 </div>
                 <div className='ToolbarItem'>
-                  <Button color="primary" onClick={goToToday} className={classes.button} variant="outlined">
+                  <Button color="primary" onClick={goToToday} size="medium" variant="outlined">
                     Today
                   </Button>
                 </div>
@@ -548,14 +545,25 @@ class Calendar extends Component {
       addOrg = <div></div>
     }
     return (
-      <div className="toolbar" id="myToolbar" style={{zIndex: 999}}>
+      <div className='toolbar'>
         <MuiThemeProvider theme={Theme}>
-        <Grid
+          <Grid
+            container
+            justify='flex-end'
+            alignItems='center'
+          >
+            <Grid item xs={3}>
+              <LogOutButton />
+            </Grid>
+          </Grid>
+
+          <Grid
             container
             justify={spacing}
             alignItems='center'
           >
             <Grid item xs={12}>
+              <Paper className={classes.paper}>
                 <FormGroup row className={classes.formGroup}>
                   <FormControl className={classes.formControl}>
                     <DropdownMultiple
@@ -599,13 +607,8 @@ class Calendar extends Component {
                   {addOrg}
                   {requestAdmin}
                 </FormGroup>
-              <Grid
-                container
-                justify='flex-end'
-                alignItems='center'
-              >
-              </Grid>
 
+              </Paper>
             </Grid>
           </Grid>
         </MuiThemeProvider>
@@ -642,24 +645,10 @@ class Calendar extends Component {
   render() {
     if (this.state.email === null) this.props.history.push('/')
 
-    var toolbar = document.getElementById("myToolbar");
-    if (toolbar != null) {
-      var sticky = toolbar.offsetTop;
-      function myFunction() {
-        if (window.pageYOffset > sticky) {
-          toolbar.classList.add("sticky");
-        } else {
-          toolbar.classList.remove("sticky");
-        }
-      }
-      window.onscroll = function() {myFunction()};
-    }
-
     if (this._isMounted === true) {
       return (
         <div className='CalendarPage'>
           <Header />
-          <LogOutButton />
           {this.renderToolbar()}
           <MuiThemeProvider theme={Theme}>
 
